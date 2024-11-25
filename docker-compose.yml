@@ -1,0 +1,22 @@
+services:
+  postgres-dev:
+    image: postgres:17.2
+    container_name: kthcdb_db
+    volumes:
+      - kthcdb:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=kthcdb
+      - POSTGRES_USER=kthcdb
+      - POSTGRES_PASSWORD=local
+    networks:
+      - kthcdb_network
+
+# Define a network, which allows containers to communicate
+# with each other, by using their container name as a hostname
+networks:
+  kthcdb_network:
+
+volumes:
+  kthcdb:

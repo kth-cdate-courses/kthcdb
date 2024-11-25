@@ -1,0 +1,27 @@
+{
+  "name": "kthcdb",
+  "version": "0.0.0",
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "prettier": "^3.2.5",
+    "turbo": "^2.3.1"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=7.0.0"
+  },
+  "packageManager": "bun@1.1.33",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "clean": "turbo run clean",
+    "dev": "concurrently \"docker-compose up\" \"turbo run dev\" ",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "lint": "turbo run lint",
+    "test": "turbo run test"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
