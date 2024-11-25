@@ -4,7 +4,7 @@
     "lib": ["ES2015", "DOM"],
     "outDir": "./dist",
     "rootDir": "./src",
-    "types": ["jest", "node"]
+    "types": ["node"]
   },
   "include": ["src"],
   "exclude": ["node_modules"]
