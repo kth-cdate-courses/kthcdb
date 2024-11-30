@@ -5,15 +5,26 @@
     "build": "tsc",
     "clean": "rm -rf dist",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "dev": "bun run --watch src/index.ts",
+    "dev:email": "email dev"
   },
   "dependencies": {
+    "@elysiajs/jwt": "^1.1.1",
+    "@elysiajs/swagger": "^1.1.6",
     "@prisma/client": "5.22.0",
-    "elysia": "latest"
+    "@react-email/components": "0.0.28",
+    "elysia": "latest",
+    "luxon": "^3.5.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "resend": "^4.0.1"
   },
   "devDependencies": {
-    "bun-types": "latest",
-    "prisma": "^5.22.0"
+    "@types/bun": "^1.1.14",
+    "@types/luxon": "^3.4.2",
+    "prisma": "^5.22.0",
+    "react-email": "3.0.2",
+    "typescript": "^5.7.2"
   },
   "module": "src/index.js"
 }
