@@ -13,11 +13,11 @@ export const authRoute = new Elysia({
     async ({ body }) => {
       // Verify that the user doesn't exist
       if (
-        await prisma.user.count({
+        (await prisma.user.count({
           where: {
             email: body.email,
           },
-        })
+        })) > 0
       ) {
         return {
           status: 400,

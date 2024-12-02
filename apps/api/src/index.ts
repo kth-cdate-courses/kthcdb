@@ -1,11 +1,19 @@
 import { jwtMiddleware, JwtSession } from "@/utilities/jwt-middleware";
+import cors from "@elysiajs/cors";
 import swagger from "@elysiajs/swagger";
 import { Elysia } from "elysia";
+import { DateTime } from "luxon";
 import { authRoute } from "./routes/auth";
 
 const app = new Elysia({
   prefix: "/api",
 })
+  .use(
+    cors({
+      origin: "http://localhost:5173",
+      credentials: true,
+    }),
+  )
   .use(swagger())
   .use(jwtMiddleware)
   .use(authRoute)
@@ -23,6 +31,17 @@ const app = new Elysia({
       status: 200,
       body: {
         auth: result,
+      },
+    };
+  })
+  .get("/dummy", async () => {
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+    return {
+      data: {
+        message: "Hello World",
+        year: DateTime.now().year,
+        month: DateTime.now().month,
+        day: DateTime.now().day,
       },
     };
   })

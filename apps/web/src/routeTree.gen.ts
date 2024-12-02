@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
+import { Route as DummyIndexImport } from './routes/dummy/index'
 import { Route as CoursesIndexImport } from './routes/courses/index'
 import { Route as CoursesCourseIdIndexImport } from './routes/courses/$courseId/index'
 import { Route as AccountsAccountIdIndexImport } from './routes/accounts/$accountId/index'
@@ -21,6 +22,12 @@ import { Route as AccountsAccountIdIndexImport } from './routes/accounts/$accoun
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DummyIndexRoute = DummyIndexImport.update({
+  id: '/dummy/',
+  path: '/dummy/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -60,6 +67,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CoursesIndexImport
       parentRoute: typeof rootRoute
     }
+    '/dummy/': {
+      id: '/dummy/'
+      path: '/dummy'
+      fullPath: '/dummy'
+      preLoaderRoute: typeof DummyIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/accounts/$accountId/': {
       id: '/accounts/$accountId/'
       path: '/accounts/$accountId'
@@ -82,6 +96,7 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/courses': typeof CoursesIndexRoute
+  '/dummy': typeof DummyIndexRoute
   '/accounts/$accountId': typeof AccountsAccountIdIndexRoute
   '/courses/$courseId': typeof CoursesCourseIdIndexRoute
 }
@@ -89,6 +104,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/courses': typeof CoursesIndexRoute
+  '/dummy': typeof DummyIndexRoute
   '/accounts/$accountId': typeof AccountsAccountIdIndexRoute
   '/courses/$courseId': typeof CoursesCourseIdIndexRoute
 }
@@ -97,19 +113,31 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/courses/': typeof CoursesIndexRoute
+  '/dummy/': typeof DummyIndexRoute
   '/accounts/$accountId/': typeof AccountsAccountIdIndexRoute
   '/courses/$courseId/': typeof CoursesCourseIdIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/courses' | '/accounts/$accountId' | '/courses/$courseId'
+  fullPaths:
+    | '/'
+    | '/courses'
+    | '/dummy'
+    | '/accounts/$accountId'
+    | '/courses/$courseId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/courses' | '/accounts/$accountId' | '/courses/$courseId'
+  to:
+    | '/'
+    | '/courses'
+    | '/dummy'
+    | '/accounts/$accountId'
+    | '/courses/$courseId'
   id:
     | '__root__'
     | '/'
     | '/courses/'
+    | '/dummy/'
     | '/accounts/$accountId/'
     | '/courses/$courseId/'
   fileRoutesById: FileRoutesById
@@ -118,6 +146,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CoursesIndexRoute: typeof CoursesIndexRoute
+  DummyIndexRoute: typeof DummyIndexRoute
   AccountsAccountIdIndexRoute: typeof AccountsAccountIdIndexRoute
   CoursesCourseIdIndexRoute: typeof CoursesCourseIdIndexRoute
 }
@@ -125,6 +154,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CoursesIndexRoute: CoursesIndexRoute,
+  DummyIndexRoute: DummyIndexRoute,
   AccountsAccountIdIndexRoute: AccountsAccountIdIndexRoute,
   CoursesCourseIdIndexRoute: CoursesCourseIdIndexRoute,
 }
@@ -141,6 +171,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/courses/",
+        "/dummy/",
         "/accounts/$accountId/",
         "/courses/$courseId/"
       ]
@@ -150,6 +181,9 @@ export const routeTree = rootRoute
     },
     "/courses/": {
       "filePath": "courses/index.tsx"
+    },
+    "/dummy/": {
+      "filePath": "dummy/index.tsx"
     },
     "/accounts/$accountId/": {
       "filePath": "accounts/$accountId/index.tsx"
