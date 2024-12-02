@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Star } from "@/components/ui/star";
+import { cn } from "@/utilities/shadcn-utils";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { GraduationCapIcon, LoaderCircleIcon } from "lucide-react";
@@ -59,6 +60,8 @@ export function SearchBox() {
     },
   });
 
+  const listShowing = isLoading || (data != null && data.length > 0);
+
   return (
     <div className="flex w-full flex-col bg-zinc-50 p-4 md:rounded-lg">
       <div className="relative">
@@ -74,7 +77,6 @@ export function SearchBox() {
               }),
             })
           }
-          className="mt-2"
         />
         {isLoading && (
           <LoaderCircleIcon
@@ -83,7 +85,14 @@ export function SearchBox() {
           />
         )}
       </div>
-      <div className="mt-2 flex flex-1 flex-col gap-2">
+      <div
+        className={cn(
+          "mt-5 flex flex-1 flex-col gap-2 transition-all duration-700",
+          {
+            "mt-0": !listShowing,
+          },
+        )}
+      >
         {isLoading && (
           <div className="flex w-full flex-col gap-2">
             <Skeleton className="h-14 w-full" />
