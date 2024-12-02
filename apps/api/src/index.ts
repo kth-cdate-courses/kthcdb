@@ -5,7 +5,7 @@ import { Elysia } from "elysia";
 import { DateTime } from "luxon";
 import { authRoute } from "./routes/auth";
 
-const app = new Elysia({
+export const app = new Elysia({
   prefix: "/api",
 })
   .use(
@@ -46,6 +46,8 @@ const app = new Elysia({
     };
   })
   .listen(3000);
+
+export type App = typeof app;
 
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,
