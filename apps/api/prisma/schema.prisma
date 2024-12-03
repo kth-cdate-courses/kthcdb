@@ -41,3 +41,75 @@ model Token {
 
   @@index([token])
 }
+
+model Course {
+  id         String @id @default(cuid())
+  courseCode String @unique
+
+  rounds       CourseRound[]
+  examinations Examination[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseCode])
+}
+
+model Examination {
+  id           String       @id
+  courseId     String?
+  title        String // Hemuppgift
+  code         String // HEM1
+  credits      Float // 4.5 hp
+  gradingScale GradingScale
+
+  course Course? @relation(fields: [courseId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum GradingScale {
+  AF
+  PF
+}
+
+model CourseRound {
+  id         String @id @default(cuid())
+  courseId   String
+  examinerId String
+
+  course Course @relation(fields: [courseId], references: [id])
+
+  reviews Review[]
+
+  examiner Examiner @relation(fields: [examinerId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Review {
+  id     String @id @default(cuid())
+  rating Int // 1-5 with half-steps. TODO: Null rating? Leave review without providing rating
+
+  body String?
+
+  courseRoundId String
+
+  courseRound CourseRound @relation(fields: [courseRoundId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Examiner {
+  id String @id @default(cuid())
+
+  name String
+
+  courseRounds CourseRound[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
