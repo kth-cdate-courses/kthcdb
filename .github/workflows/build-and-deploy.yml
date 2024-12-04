@@ -33,11 +33,7 @@ jobs:
           context: .
           platforms: linux/amd64
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref == 'refs/heads/main' && 'latest' || 'staging' }},ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.sha }}${{ github.ref == 'refs/heads/main' && '' || '-staging' }}
-          build-args: |
-            NEXT_PUBLIC_APP_NAME=${{ github.ref == 'refs/heads/main' && 'KTHcdb' || 'KTHcdb*' }}
-            NEXT_PUBLIC_BASE_URL=${{ github.ref == 'refs/heads/main' && secrets.NEXT_PUBLIC_BASE_URL_PRODUCTION || secrets.NEXT_PUBLIC_BASE_URL_STAGING }}
-            BUNDLE_ANALYZER=false
+          tags: ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:latest,ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.sha }}
 
   deploy:
     needs: build
@@ -52,5 +48,5 @@ jobs:
           USER: ${{ secrets.DOKKU_USER }}
           PRIVATE_SSH_KEY: ${{ secrets.DOKKU_PRIVATE_KEY }}
           COMMAND: |
-            APP_NAME=${{ github.ref == 'refs/heads/main' && 'kthcdb' || 'kthcdb-staging' }}
-            dokku git:from-image $APP_NAME ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.sha }}${{ github.ref == 'refs/heads/main' && '' || '-staging' }}
+            APP_NAME=kthcdb
+            dokku git:from-image $APP_NAME ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.sha }}

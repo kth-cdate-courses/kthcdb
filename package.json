@@ -11,9 +11,10 @@
     "node": ">=14.0.0",
     "npm": ">=7.0.0"
   },
-  "packageManager": "bun@1.1.33",
+  "packageManager": "bun@1.1.38",
   "private": true,
   "scripts": {
+    "prod": "bun run ./apps/api/dist/src/index.js",
     "build": "turbo run build",
     "clean": "turbo run clean",
     "dev": "concurrently \"docker-compose up\" \"turbo run dev\" ",
