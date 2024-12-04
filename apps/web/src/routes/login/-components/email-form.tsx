@@ -13,83 +13,29 @@ import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-
-const formSchema = z.object({
-  email: z.string().email({ message: "Must be a valid email address." }),
-});
+import { api } from "@/utilities/http-client";
+import { useQuery } from "@tanstack/react-query";
+import { SignUpForm } from "./sign-up";
+import { SignInForm } from "./sign-in";
 
 export function EmailLoginForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-    },
-  });
+  const [submitAction, setSubmitAction] = useState<
+    "sign-in" | "sign-up" | null
+  >(null);
 
-  const [submitted, setSubmitted] = useState<"signin" | "signup" | null>(null);
-
-  function handleSignUp(values: z.infer<typeof formSchema>) {
-    console.log("signup", values);
-    setSubmitted("signup");
+  if (submitAction === "sign-in") {
+    return <SignInForm></SignInForm>;
   }
 
-  function handleSignIn(values: z.infer<typeof formSchema>) {
-    console.log("signin", values);
-    setSubmitted("signin");
-  }
-
-  if (submitted) {
-    return (
-      <div className="flex flex-col">
-        <h2 className="font-bold">
-          {
-            submitted === "signup"
-              ? "Sign-up link has been sent!"
-              : "Sign-in link has been sent!" // TODO: REPLACE WITH REDIRECT
-          }
-        </h2>
-        <p className="mt-2">Please check your email for the magic link.</p>
-      </div>
-    );
+  if (submitAction === "sign-up") {
+    return <SignUpForm></SignUpForm>;
   }
 
   return (
-    <div className="flex w-3/5 flex-col bg-zinc-50 md:rounded-lg">
-      <Form {...form}>
-        <form className="">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input {...field}></Input>
-                </FormControl>
-                <FormDescription>
-                  The email address associated with your account.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="flex justify-evenly">
-            <Button
-              type="button"
-              onClick={() => form.handleSubmit(handleSignUp)()}
-            >
-              Sign-up
-            </Button>
-
-            <Button
-              type="button"
-              onClick={() => form.handleSubmit(handleSignIn)()}
-            >
-              Sign-in
-            </Button>
-          </div>
-        </form>
-      </Form>
+    <div>
+      <SignInForm></SignInForm>
+      <h2>TEXT TEXT TEXT</h2>
+      <SignUpForm></SignUpForm>
     </div>
   );
 }
