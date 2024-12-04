@@ -20,7 +20,7 @@ const formSchema = z.object({
   email: z.string().email({ message: "Must be a valid email address." }),
 });
 
-export function SignInForm() {
+export function SignInForm({ onCancel }: { onCancel: () => void }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -76,6 +76,9 @@ export function SignInForm() {
             )}
           />
           <div className="mt-4 flex justify-evenly">
+            <Button onClick={onCancel} type="button">
+              Cancel
+            </Button>
             <Button type="submit" disabled={mutation.isPending}>
               {mutation.isPending ? "Submitting..." : "Sign-in"}
             </Button>
