@@ -1,7 +1,5 @@
-import * as React from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { EmailLoginForm } from "./-components/email-form";
-import { z } from "zod";
 
 export const Route = createFileRoute("/login/")({
   component: RouteComponent,
