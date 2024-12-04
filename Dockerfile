@@ -1,4 +1,4 @@
-FROM oven/bun:1.1.38-alpine AS builder
+FROM oven/bun:1.1.38 AS builder
 
 WORKDIR /app
 
@@ -6,15 +6,21 @@ WORKDIR /app
 COPY turbo.json ./
 COPY package.json ./
 COPY bun.lockb ./
+COPY apps/api/tsconfig.json ./apps/api/tsconfig.json
+COPY apps/api/prisma ./apps/api/prisma
 
 # Copy the api package.json
 COPY apps/api/package.json ./apps/api/package.json
 
-RUN bun install
-RUN bun install --cwd apps/api
-
-# Copy app source
 COPY . .
 
+RUN bun install
+RUN bun install --cwd apps/api
+RUN bunx prisma generate --schema apps/api/prisma/schema.prisma
 
-CMD [ "bun", "run", "apps/api/dist/index.js" ]
+
+RUN bun run build --filter=api
+
+# Copy app source
+
+CMD [ "bun", "run", "prod" ]
