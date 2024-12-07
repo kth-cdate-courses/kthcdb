@@ -19,17 +19,9 @@ export const authRoute = new Elysia({
           },
         })) > 0
       ) {
-        return Response.json(
-          {
-            status: 400,
-            body: {
-              message: "Email is taken",
-            },
-          },
-          {
-            status: 400,
-          },
-        );
+        return new Response("User already exists", {
+          status: 400,
+        });
       }
 
       const user = await prisma.user.create({
@@ -41,16 +33,9 @@ export const authRoute = new Elysia({
       });
 
       if (user == null) {
-        return Response.json(
-          {
-            body: {
-              message: "Failed to create user",
-            },
-          },
-          {
-            status: 500,
-          },
-        );
+        return new Response("Failed to create user", {
+          status: 500,
+        });
       }
 
       await createAuthEmail({
@@ -89,12 +74,9 @@ export const authRoute = new Elysia({
       });
 
       if (user == null) {
-        return {
+        return new Response("User not found", {
           status: 404,
-          body: {
-            message: "User not found",
-          },
-        };
+        });
       }
 
       await createAuthEmail({
@@ -138,29 +120,15 @@ export const authRoute = new Elysia({
       });
 
       if (token == null) {
-        return Response.json(
-          {
-            body: {
-              message: "Token not found",
-            },
-          },
-          {
-            status: 404,
-          },
-        );
+        return new Response("Token not found", {
+          status: 404,
+        });
       }
 
       if (DateTime.fromJSDate(token.expiresAt) < DateTime.now()) {
-        return Response.json(
-          {
-            body: {
-              message: "Token expired",
-            },
-          },
-          {
-            status: 401,
-          },
-        );
+        return new Response("Token expired", {
+          status: 401,
+        });
       }
 
       // Invalidate token
