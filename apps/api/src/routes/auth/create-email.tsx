@@ -32,5 +32,4 @@ export async function createAuthEmail({
     ...rest,
     react: <RaycastMagicLinkEmail magicLink={createUrl(token.token)} />,
   });
-  console.log("RESULT", result);
 }

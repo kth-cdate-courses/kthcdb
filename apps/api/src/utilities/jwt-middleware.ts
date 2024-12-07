@@ -7,6 +7,6 @@ export type JwtSession = {
 
 export const jwtMiddleware = jwt({
   name: "jwt",
-  secret: Bun.env.JWT_SECRET as string,
+  secret: process.env.JWT_SECRET as string,
   exp: DateTime.now().plus({ months: 2 }).toSeconds(),
 });

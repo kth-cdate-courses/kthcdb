@@ -5,9 +5,7 @@ import { Elysia } from "elysia";
 import { DateTime } from "luxon";
 import { authRoute } from "./routes/auth";
 
-export const app = new Elysia({
-  prefix: "/api",
-})
+const app = new Elysia()
   .use(
     cors({
       origin: "http://localhost:5173",

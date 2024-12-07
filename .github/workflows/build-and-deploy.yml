@@ -1,0 +1,57 @@
+name: Deployment
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "apps/api/**"
+      - "packages/**"
+      - "package.json"
+      - "bun.lockb"
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: deploy-${{ github.ref }} # This ensures all runs for a branch are grouped
+  cancel-in-progress: true # Cancels any in-progress runs for this group
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:latest,ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.sha }}
+
+  deploy:
+    needs: build
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Deploy application
+        uses: D3rHase/ssh-command-action@v0.2.1
+        with:
+          HOST: ${{ secrets.DOKKU_HOST }}
+          USER: ${{ secrets.DOKKU_USER }}
+          PRIVATE_SSH_KEY: ${{ secrets.DOKKU_PRIVATE_KEY }}
+          COMMAND: |
+            APP_NAME=kthcdb
+            dokku git:from-image $APP_NAME ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.sha }}

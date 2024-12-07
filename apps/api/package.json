@@ -1,8 +1,9 @@
 {
-  "name": "app",
-  "version": "1.0.50",
+  "name": "api",
+  "version": "1.0.0",
   "scripts": {
     "build": "tsc",
+    "prod": "bunx prisma migrate deploy && bun run dist/src/index.js",
     "clean": "rm -rf dist",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/index.ts",
@@ -14,7 +15,7 @@
     "@elysiajs/swagger": "^1.1.6",
     "@prisma/client": "5.22.0",
     "@react-email/components": "0.0.28",
-    "elysia": "^1.1.25",
+    "elysia": "^1.1.26",
     "luxon": "^3.5.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
