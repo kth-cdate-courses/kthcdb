@@ -20,6 +20,14 @@
     },
     "clean": {
       "cache": false
+    },
+    "prod": {
+      "passThroughEnv": [
+        "DATABASE_URL",
+        "API_URL",
+        "JWT_SECRET",
+        "RESEND_SECRET"
+      ]
     }
   }
 }

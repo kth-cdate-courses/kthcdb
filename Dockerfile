@@ -23,4 +23,4 @@ RUN bun run build --filter=api
 
 # Copy app source
 
-CMD [ "bun", "run", "prod" ]
+CMD [ "bun", "run", "prod", "--filter=api" ]
