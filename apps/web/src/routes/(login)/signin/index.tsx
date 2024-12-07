@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { api } from "@/utilities/http-client";
 import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Must be a valid email address." }),
@@ -37,13 +38,16 @@ function RouteComponent() {
   const [success, setSuccess] = useState(false);
 
   const mutation = useMutation({
-    mutationFn: async (email: string) =>
-      api.auth["sign-in"].post({ email }).then((res) => res.data),
-    onSuccess: () => {
+    mutationFn: async (email: string) => api.auth["sign-in"].post({ email }),
+    onSuccess: async (res) => {
+      if (res?.status !== 200) {
+        toast.error(res.error?.value as string);
+        return;
+      }
       setSuccess(true);
     },
     onError: (error) => {
-      console.error("Error signing in:", error);
+      toast.error(error.message);
     },
   });
 
