@@ -20,6 +20,7 @@
     },
     "clean": {
       "cache": false
-    }
+    },
+    "prod": {}
   }
 }
