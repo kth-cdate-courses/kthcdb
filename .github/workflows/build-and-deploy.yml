@@ -9,6 +9,7 @@ on:
       - "packages/**"
       - "package.json"
       - "bun.lockb"
+      - "turbo.json"
   pull_request:
     branches: [main]
 
