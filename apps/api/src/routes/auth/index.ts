@@ -19,12 +19,17 @@ export const authRoute = new Elysia({
           },
         })) > 0
       ) {
-        return {
-          status: 400,
-          body: {
-            message: "Email is taken",
+        return Response.json(
+          {
+            status: 400,
+            body: {
+              message: "Email is taken",
+            },
           },
-        };
+          {
+            status: 400,
+          },
+        );
       }
 
       const user = await prisma.user.create({
@@ -36,7 +41,16 @@ export const authRoute = new Elysia({
       });
 
       if (user == null) {
-        throw new Error("Failed to create user");
+        return Response.json(
+          {
+            body: {
+              message: "Failed to create user",
+            },
+          },
+          {
+            status: 500,
+          },
+        );
       }
 
       await createAuthEmail({
@@ -45,13 +59,17 @@ export const authRoute = new Elysia({
         subject: "KTHcdb Verify email",
       });
 
-      return {
-        status: 201,
-        body: {
-          message:
-            "User created, an email has been sent to verify your account",
+      return Response.json(
+        {
+          body: {
+            message:
+              "User created, an email has been sent to verify your account",
+          },
         },
-      };
+        {
+          status: 201,
+        },
+      );
     },
     {
       body: t.Object({
@@ -85,12 +103,16 @@ export const authRoute = new Elysia({
         subject: "KTHcdb Sign in",
       });
 
-      return {
-        status: 200,
-        body: {
-          message: "Sign in email sent!",
+      return Response.json(
+        {
+          body: {
+            message: "Sign in email sent!",
+          },
         },
-      };
+        {
+          status: 200,
+        },
+      );
     },
     {
       body: t.Object({
@@ -116,21 +138,29 @@ export const authRoute = new Elysia({
       });
 
       if (token == null) {
-        return {
-          status: 404,
-          body: {
-            message: "Token not found",
+        return Response.json(
+          {
+            body: {
+              message: "Token not found",
+            },
           },
-        };
+          {
+            status: 404,
+          },
+        );
       }
 
       if (DateTime.fromJSDate(token.expiresAt) < DateTime.now()) {
-        return {
-          status: 400,
-          body: {
-            message: "Token expired",
+        return Response.json(
+          {
+            body: {
+              message: "Token expired",
+            },
           },
-        };
+          {
+            status: 401,
+          },
+        );
       }
 
       // Invalidate token
@@ -162,12 +192,16 @@ export const authRoute = new Elysia({
         httpOnly: true,
       });
 
-      return {
-        status: 200,
-        body: {
-          message: "User verified",
+      return Response.json(
+        {
+          body: {
+            message: "User verified",
+          },
         },
-      };
+        {
+          status: 200,
+        },
+      );
     },
     {
       query: t.Object({
