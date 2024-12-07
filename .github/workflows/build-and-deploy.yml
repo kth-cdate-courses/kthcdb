@@ -4,6 +4,11 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
+    paths:
+      - "apps/api/**"
+      - "packages/**"
+      - "package.json"
+      - "bun.lockb"
   pull_request:
     branches: [main]
 
