@@ -5,7 +5,7 @@ import { Elysia } from "elysia";
 import { DateTime } from "luxon";
 import { authRoute } from "./routes/auth";
 
-export const app = new Elysia({
+const app = new Elysia({
   prefix: "/api",
 })
   .use(
