@@ -12,7 +12,6 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
-import { Route as LoginIndexImport } from './routes/login/index'
 import { Route as DummyIndexImport } from './routes/dummy/index'
 import { Route as CoursesIndexImport } from './routes/courses/index'
 import { Route as CoursesCourseIdIndexImport } from './routes/courses/$courseId/index'
@@ -25,12 +24,6 @@ import { Route as loginSigninIndexImport } from './routes/(login)/signin/index'
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const LoginIndexRoute = LoginIndexImport.update({
-  id: '/login/',
-  path: '/login/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -95,13 +88,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DummyIndexImport
       parentRoute: typeof rootRoute
     }
-    '/login/': {
-      id: '/login/'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginIndexImport
-      parentRoute: typeof rootRoute
-    }
     '/(login)/signin/': {
       id: '/(login)/signin/'
       path: '/signin'
@@ -139,7 +125,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/courses': typeof CoursesIndexRoute
   '/dummy': typeof DummyIndexRoute
-  '/login': typeof LoginIndexRoute
   '/signin': typeof loginSigninIndexRoute
   '/signup': typeof loginSignupIndexRoute
   '/accounts/$accountId': typeof AccountsAccountIdIndexRoute
@@ -150,7 +135,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/courses': typeof CoursesIndexRoute
   '/dummy': typeof DummyIndexRoute
-  '/login': typeof LoginIndexRoute
   '/signin': typeof loginSigninIndexRoute
   '/signup': typeof loginSignupIndexRoute
   '/accounts/$accountId': typeof AccountsAccountIdIndexRoute
@@ -162,7 +146,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/courses/': typeof CoursesIndexRoute
   '/dummy/': typeof DummyIndexRoute
-  '/login/': typeof LoginIndexRoute
   '/(login)/signin/': typeof loginSigninIndexRoute
   '/(login)/signup/': typeof loginSignupIndexRoute
   '/accounts/$accountId/': typeof AccountsAccountIdIndexRoute
@@ -175,7 +158,6 @@ export interface FileRouteTypes {
     | '/'
     | '/courses'
     | '/dummy'
-    | '/login'
     | '/signin'
     | '/signup'
     | '/accounts/$accountId'
@@ -185,7 +167,6 @@ export interface FileRouteTypes {
     | '/'
     | '/courses'
     | '/dummy'
-    | '/login'
     | '/signin'
     | '/signup'
     | '/accounts/$accountId'
@@ -195,7 +176,6 @@ export interface FileRouteTypes {
     | '/'
     | '/courses/'
     | '/dummy/'
-    | '/login/'
     | '/(login)/signin/'
     | '/(login)/signup/'
     | '/accounts/$accountId/'
@@ -207,7 +187,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CoursesIndexRoute: typeof CoursesIndexRoute
   DummyIndexRoute: typeof DummyIndexRoute
-  LoginIndexRoute: typeof LoginIndexRoute
   loginSigninIndexRoute: typeof loginSigninIndexRoute
   loginSignupIndexRoute: typeof loginSignupIndexRoute
   AccountsAccountIdIndexRoute: typeof AccountsAccountIdIndexRoute
@@ -218,7 +197,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CoursesIndexRoute: CoursesIndexRoute,
   DummyIndexRoute: DummyIndexRoute,
-  LoginIndexRoute: LoginIndexRoute,
   loginSigninIndexRoute: loginSigninIndexRoute,
   loginSignupIndexRoute: loginSignupIndexRoute,
   AccountsAccountIdIndexRoute: AccountsAccountIdIndexRoute,
@@ -238,7 +216,6 @@ export const routeTree = rootRoute
         "/",
         "/courses/",
         "/dummy/",
-        "/login/",
         "/(login)/signin/",
         "/(login)/signup/",
         "/accounts/$accountId/",
@@ -253,9 +230,6 @@ export const routeTree = rootRoute
     },
     "/dummy/": {
       "filePath": "dummy/index.tsx"
-    },
-    "/login/": {
-      "filePath": "login/index.tsx"
     },
     "/(login)/signin/": {
       "filePath": "(login)/signin/index.tsx"

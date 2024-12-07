@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { api } from "@/utilities/http-client";
 import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   name: z
@@ -54,19 +55,20 @@ function RouteComponent() {
       name: string;
       surname: string;
       email: string;
-    }) =>
-      api.auth["sign-up"]
-        .post({ name, surname, email })
-        .then((res) => res.data),
-    onSuccess: () => {
+    }) => api.auth["sign-up"].post({ name, surname, email }),
+    onSuccess: async (res) => {
+      if (res?.status !== 200) {
+        toast.error(res.error?.value as string);
+        return;
+      }
       setSuccess(true);
     },
     onError: (error) => {
-      console.error("Error signing up:", error);
+      toast.error(error.message);
     },
   });
 
-  function handleSubmit(values: z.infer<typeof formSchema>) {
+  async function handleSubmit(values: z.infer<typeof formSchema>) {
     console.log("sign-up", values);
     mutation.mutate(values);
   }
