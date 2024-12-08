@@ -9,7 +9,7 @@ import { authRoute } from "./routes/auth";
 const app = new Elysia()
   .use(
     cors({
-      origin: "http://localhost:5173",
+      origin: /.*\.hallkvi.st$/,
       credentials: true,
     }),
   )
