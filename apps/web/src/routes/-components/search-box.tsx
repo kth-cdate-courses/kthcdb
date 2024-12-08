@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import NumberTicker from "@/components/ui/number-ticker";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Toggle } from "@/components/ui/toggle";
 import { Rating } from "@/routes/-components/rating";
@@ -42,7 +43,7 @@ export function SearchBox() {
   const otherCourses = data?.data?.courses.slice(4);
 
   return (
-    <div className="mb-10 flex w-full flex-col bg-zinc-50 p-4 md:rounded-lg">
+    <div className="mb-10 flex w-full flex-col border-[1px] border-zinc-200 bg-zinc-50 p-4 md:rounded-lg">
       <div className="relative">
         <div className="flex items-center justify-between gap-2 rounded-lg pb-2">
           <Toggle
@@ -76,16 +77,22 @@ export function SearchBox() {
             })
           }
         />
+        {data?.data?.courses != null && (
+          <p className="mt-1 text-xs text-primary/70">
+            Found {<NumberTicker delay={0} value={data.data.courses.length} />}{" "}
+            courses
+          </p>
+        )}
         {isLoading && (
           <LoaderCircleIcon
-            className="absolute right-2 top-2 animate-spin"
+            className="absolute right-2 top-12 animate-spin"
             size={18}
           />
         )}
       </div>
       <div
         className={cn(
-          "mt-5 flex flex-1 flex-col gap-2 transition-all duration-700",
+          "mt-1 flex flex-1 flex-col gap-2 transition-all duration-700",
           {
             "mt-0": !listShowing,
           },
