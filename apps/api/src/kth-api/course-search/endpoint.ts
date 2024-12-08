@@ -24,8 +24,6 @@ export async function courseSearchEndpoint({
     params.append("in_english_only", englishOnly.toString());
   if (educationLevel != null) params.append("education_level", educationLevel);
 
-  console.log("QUERY", `${KTH_API_HOST}/api/kopps/v2/courses/search?${params}`);
-
   return (await fetch(
     `${KTH_API_HOST}/api/kopps/v2/courses/search?${params}`,
   ).then((res) => res.json())) as CourseSearchEndpoint;
