@@ -10,11 +10,11 @@ export function RatingSelector() {
     from: "/",
   });
 
-  const onPress = (rating: number) => () =>
+  const onPress = (rating: number) => (pressed: boolean) =>
     navigate({
       search: (prev) => ({
         ...prev,
-        rating: rating,
+        rating: pressed ? rating : undefined,
       }),
     });
 
@@ -27,7 +27,7 @@ export function RatingSelector() {
         className="flex gap-2"
         size={"sm"}
       >
-        <Star filled />
+        <Star viewOnly filled />
         <p>1</p>
       </Toggle>
       <Toggle
@@ -37,7 +37,7 @@ export function RatingSelector() {
         className="flex gap-2"
         size={"sm"}
       >
-        <Star filled />
+        <Star viewOnly filled />
         <p>2</p>
       </Toggle>
       <Toggle
@@ -47,7 +47,7 @@ export function RatingSelector() {
         className="flex gap-2"
         size={"sm"}
       >
-        <Star filled />
+        <Star viewOnly filled />
         <p>3</p>
       </Toggle>
       <Toggle
@@ -57,7 +57,7 @@ export function RatingSelector() {
         className="flex gap-2"
         size={"sm"}
       >
-        <Star filled />
+        <Star viewOnly filled />
         <p>4</p>
       </Toggle>
       <Toggle
@@ -67,7 +67,7 @@ export function RatingSelector() {
         className="flex gap-2"
         size={"sm"}
       >
-        <Star filled />
+        <Star viewOnly filled />
         <p>5</p>
       </Toggle>
     </div>

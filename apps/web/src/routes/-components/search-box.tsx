@@ -29,7 +29,7 @@ export function SearchBox() {
       api.courses.search.get({
         query: {
           search: searchQuery,
-          english,
+          english: english ?? false,
         },
       }),
   });
@@ -37,6 +37,7 @@ export function SearchBox() {
   const listShowing =
     isLoading || (data?.data != null && data.data.courses.length > 0);
 
+  console.log("COURSES", data?.data?.courses);
   const courses = data?.data?.courses.slice(0, 4);
   const otherCourses = data?.data?.courses.slice(4);
 
@@ -52,7 +53,7 @@ export function SearchBox() {
               navigate({
                 search: (prev) => ({
                   ...prev,
-                  english: e,
+                  english: e ? true : undefined,
                 }),
               })
             }
