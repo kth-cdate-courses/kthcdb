@@ -53,7 +53,7 @@ export function SearchBox() {
               navigate({
                 search: (prev) => ({
                   ...prev,
-                  english: e ? true : undefined,
+                  english: e,
                 }),
               })
             }
