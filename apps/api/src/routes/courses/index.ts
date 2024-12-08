@@ -12,10 +12,13 @@ export const courseRoute = new Elysia({
   })
   .get(
     "/search",
-    async ({ query: { search } }) => {
+    async ({ query: { search, english } }) => {
       console.log("Searching for courses", search);
       if (!search) return { courses: [] satisfies CourseDto[] };
-      const searchResults = await KTH.api.courseSearch({ search: search });
+      const searchResults = await KTH.api.courseSearch({
+        search: search,
+        englishOnly: english,
+      });
 
       return {
         courses: searchResults.searchHits.map((course) => ({

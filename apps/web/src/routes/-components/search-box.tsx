@@ -1,27 +1,34 @@
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Star } from "@/components/ui/star";
+import { Toggle } from "@/components/ui/toggle";
+import { Rating } from "@/routes/-components/rating";
 import { api } from "@/utilities/http-client";
 import { cn } from "@/utilities/shadcn-utils";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { GraduationCapIcon, LoaderCircleIcon } from "lucide-react";
+import {
+  GraduationCapIcon,
+  LanguagesIcon,
+  LoaderCircleIcon,
+} from "lucide-react";
 
 export function SearchBox() {
   const navigate = useNavigate({
     from: "/",
   });
-  const { searchQuery } = useSearch({
+  const { searchQuery, english } = useSearch({
     from: "/",
   });
 
   const { data, isLoading } = useQuery({
-    queryKey: ["courses", searchQuery],
+    enabled: searchQuery != null && searchQuery.length > 0,
+    queryKey: ["courses", searchQuery, english],
     queryFn: async () =>
       api.courses.search.get({
         query: {
           search: searchQuery,
+          english,
         },
       }),
   });
@@ -29,9 +36,30 @@ export function SearchBox() {
   const listShowing =
     isLoading || (data?.data != null && data.data.courses.length > 0);
 
+  const courses = data?.data?.courses.slice(0, 4);
+  const otherCourses = data?.data?.courses.slice(4);
+
   return (
-    <div className="flex w-full flex-col bg-zinc-50 p-4 md:rounded-lg">
+    <div className="mb-10 flex w-full flex-col bg-zinc-50 p-4 md:rounded-lg">
       <div className="relative">
+        <div className="flex items-center gap-2 rounded-lg pb-2">
+          <Toggle
+            variant={"outline"}
+            size={"sm"}
+            pressed={english}
+            onPressedChange={(e) =>
+              navigate({
+                search: (prev) => ({
+                  ...prev,
+                  english: e,
+                }),
+              })
+            }
+          >
+            <LanguagesIcon size={15} />
+            <p className="text-xs">Available in english</p>
+          </Toggle>
+        </div>
         <Input
           placeholder="Search for courses"
           autoFocus
@@ -68,8 +96,9 @@ export function SearchBox() {
             <Skeleton className="h-14 w-full" />
           </div>
         )}
-        {data?.data?.courses?.map((course) => (
+        {courses?.map((course) => (
           <Link
+            key={course.code}
             to="/courses/$courseId"
             params={{
               courseId: course.code,
@@ -90,39 +119,28 @@ export function SearchBox() {
                 </p>
               </div>
 
-              <div className="flex items-center">
-                <p className="mr-2 text-center text-muted-foreground">
-                  {course.rating.toFixed(1)}
-                </p>
-                <Star rating={1} filled={course.rating > 0.5} viewOnly />
-                <Star
-                  className="hidden md:block"
-                  rating={2}
-                  filled={course.rating > 1.5}
-                  viewOnly
-                />
-                <Star
-                  className="hidden md:block"
-                  rating={3}
-                  filled={course.rating > 2.5}
-                  viewOnly
-                />
-                <Star
-                  className="hidden md:block"
-                  rating={4}
-                  filled={course.rating > 3.5}
-                  viewOnly
-                />
-                <Star
-                  className="hidden md:block"
-                  rating={5}
-                  filled={course.rating > 4.5}
-                  viewOnly
-                />
-              </div>
+              <Rating rating={course.rating} />
             </div>
           </Link>
         ))}
+        {(otherCourses ?? [])?.length > 0 && (
+          <div className="mt-2 flex flex-wrap">
+            {otherCourses?.map((course) => (
+              <Link
+                key={course.code}
+                to="/courses/$courseId"
+                params={{
+                  courseId: course.code,
+                }}
+              >
+                <div className="flex cursor-pointer gap-2 rounded-lg p-2 hover:bg-zinc-200/60">
+                  <Badge>{course.code}</Badge>
+                  <Rating rating={course.rating} variant="small" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

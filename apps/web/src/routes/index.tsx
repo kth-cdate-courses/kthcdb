@@ -6,6 +6,7 @@ export const Route = createFileRoute("/")({
   component: RouteComponent,
   validateSearch: z.object({
     searchQuery: z.string().optional(),
+    english: z.boolean().optional(),
   }),
 });
 
