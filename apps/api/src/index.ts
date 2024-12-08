@@ -1,3 +1,4 @@
+import { courseRoute } from "@/routes/courses";
 import { jwtMiddleware, JwtSession } from "@/utilities/jwt-middleware";
 import cors from "@elysiajs/cors";
 import swagger from "@elysiajs/swagger";
@@ -15,6 +16,7 @@ const app = new Elysia()
   .use(swagger())
   .use(jwtMiddleware)
   .use(authRoute)
+  .use(courseRoute)
   .get("/", async ({ jwt, cookie: { auth } }) => {
     const result = (await jwt.verify(auth.value)) as JwtSession | false;
     if (result == null || result == false) {

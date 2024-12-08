@@ -2,44 +2,11 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Star } from "@/components/ui/star";
+import { api } from "@/utilities/http-client";
 import { cn } from "@/utilities/shadcn-utils";
 import { useQuery } from "@tanstack/react-query";
-import { useNavigate, useSearch } from "@tanstack/react-router";
+import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { GraduationCapIcon, LoaderCircleIcon } from "lucide-react";
-
-type CourseSearchResult = {
-  id: string;
-  name: string;
-  code: string;
-  rating: number;
-};
-
-const fakeData = [
-  {
-    id: "1",
-    name: "Discrete Mathematics",
-    code: "SF1688",
-    rating: 4.5,
-  },
-  {
-    id: "2",
-    name: "Linear Algebra",
-    code: "SF1624",
-    rating: 4.2,
-  },
-  {
-    id: "3",
-    name: "Calculus",
-    code: "SF1610",
-    rating: 4.0,
-  },
-  {
-    id: "4",
-    name: "Programming",
-    code: "SF1611",
-    rating: 4.8,
-  },
-] satisfies CourseSearchResult[];
 
 export function SearchBox() {
   const navigate = useNavigate({
@@ -51,16 +18,16 @@ export function SearchBox() {
 
   const { data, isLoading } = useQuery({
     queryKey: ["courses", searchQuery],
-    queryFn: async () => {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      if (searchQuery == null || searchQuery.length === 0) {
-        return [];
-      }
-      return fakeData;
-    },
+    queryFn: async () =>
+      api.courses.search.get({
+        query: {
+          search: searchQuery,
+        },
+      }),
   });
 
-  const listShowing = isLoading || (data != null && data.length > 0);
+  const listShowing =
+    isLoading || (data?.data != null && data.data.courses.length > 0);
 
   return (
     <div className="flex w-full flex-col bg-zinc-50 p-4 md:rounded-lg">
@@ -101,45 +68,60 @@ export function SearchBox() {
             <Skeleton className="h-14 w-full" />
           </div>
         )}
-        {data?.map((course) => (
-          <div className="group flex cursor-pointer justify-between gap-4 rounded-lg p-4 hover:bg-zinc-200/60 active:opacity-70">
-            <div className="flex gap-4">
-              <GraduationCapIcon />
-              <Badge className="">{course.code}</Badge>
-              <p className="group-hover:opacity-80">{course.name}</p>
-            </div>
+        {data?.data?.courses?.map((course) => (
+          <Link
+            to="/courses/$courseId"
+            params={{
+              courseId: course.code,
+            }}
+          >
+            <div className="group flex cursor-pointer justify-between gap-4 rounded-lg p-4 hover:bg-zinc-200/60 active:opacity-70">
+              <div className="flex items-center gap-4">
+                <GraduationCapIcon className="shrink-0" />
+                <Badge className="h-min shrink-0 text-nowrap">
+                  {course.code}
+                </Badge>
+                <p
+                  className={cn("shrink group-hover:opacity-80", {
+                    "text-sm": course.title.length > 40,
+                  })}
+                >
+                  {course.title}
+                </p>
+              </div>
 
-            <div className="flex items-center">
-              <p className="mr-2 text-center text-muted-foreground">
-                {course.rating.toFixed(1)}
-              </p>
-              <Star rating={1} filled={course.rating > 0.5} viewOnly />
-              <Star
-                className="hidden md:block"
-                rating={2}
-                filled={course.rating > 1.5}
-                viewOnly
-              />
-              <Star
-                className="hidden md:block"
-                rating={3}
-                filled={course.rating > 2.5}
-                viewOnly
-              />
-              <Star
-                className="hidden md:block"
-                rating={4}
-                filled={course.rating > 3.5}
-                viewOnly
-              />
-              <Star
-                className="hidden md:block"
-                rating={5}
-                filled={course.rating > 4.5}
-                viewOnly
-              />
+              <div className="flex items-center">
+                <p className="mr-2 text-center text-muted-foreground">
+                  {course.rating.toFixed(1)}
+                </p>
+                <Star rating={1} filled={course.rating > 0.5} viewOnly />
+                <Star
+                  className="hidden md:block"
+                  rating={2}
+                  filled={course.rating > 1.5}
+                  viewOnly
+                />
+                <Star
+                  className="hidden md:block"
+                  rating={3}
+                  filled={course.rating > 2.5}
+                  viewOnly
+                />
+                <Star
+                  className="hidden md:block"
+                  rating={4}
+                  filled={course.rating > 3.5}
+                  viewOnly
+                />
+                <Star
+                  className="hidden md:block"
+                  rating={5}
+                  filled={course.rating > 4.5}
+                  viewOnly
+                />
+              </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
