@@ -9,7 +9,16 @@ import { authRoute } from "./routes/auth";
 const app = new Elysia()
   .use(
     cors({
-      origin: /.*\.hallkvi.st$/,
+      origin: (req) => {
+        const origin = req.headers.get("origin");
+        if (origin == null) return false;
+
+        const allowedOrigins = [/.*\.hallkvi.st$/i, /localhost:5173$/];
+
+        return allowedOrigins.some((allowedOrigin) =>
+          allowedOrigin.test(origin),
+        );
+      },
       credentials: true,
     }),
   )

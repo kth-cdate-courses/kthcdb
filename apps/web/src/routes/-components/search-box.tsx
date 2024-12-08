@@ -3,6 +3,11 @@ import { Input } from "@/components/ui/input";
 import NumberTicker from "@/components/ui/number-ticker";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Toggle } from "@/components/ui/toggle";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Rating } from "@/routes/-components/rating";
 import { RatingSelector } from "@/routes/-components/rating-selector";
 import { api } from "@/utilities/http-client";
@@ -38,7 +43,6 @@ export function SearchBox() {
   const listShowing =
     isLoading || (data?.data != null && data.data.courses.length > 0);
 
-  console.log("COURSES", data?.data?.courses);
   const courses = data?.data?.courses.slice(0, 4);
   const otherCourses = data?.data?.courses.slice(4);
 
@@ -99,7 +103,7 @@ export function SearchBox() {
         )}
       >
         {isLoading && (
-          <div className="flex w-full flex-col gap-2">
+          <div className="mt-4 flex w-full flex-col gap-2">
             <Skeleton className="h-14 w-full" />
             <Skeleton className="h-14 w-full" />
             <Skeleton className="h-14 w-full" />
@@ -143,10 +147,17 @@ export function SearchBox() {
                   courseId: course.code,
                 }}
               >
-                <div className="flex cursor-pointer gap-2 rounded-lg p-2 hover:bg-zinc-200/60">
-                  <Badge>{course.code}</Badge>
-                  <Rating rating={course.rating} variant="small" />
-                </div>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <div className="flex cursor-pointer gap-2 rounded-lg p-2 hover:bg-zinc-200/60">
+                      <Badge>{course.code}</Badge>
+                      <Rating rating={course.rating} variant="small" />
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{course.title}</p>
+                  </TooltipContent>
+                </Tooltip>
               </Link>
             ))}
           </div>
