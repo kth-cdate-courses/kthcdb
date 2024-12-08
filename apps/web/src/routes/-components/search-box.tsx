@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Toggle } from "@/components/ui/toggle";
 import { Rating } from "@/routes/-components/rating";
+import { RatingSelector } from "@/routes/-components/rating-selector";
 import { api } from "@/utilities/http-client";
 import { cn } from "@/utilities/shadcn-utils";
 import { useQuery } from "@tanstack/react-query";
@@ -42,7 +43,7 @@ export function SearchBox() {
   return (
     <div className="mb-10 flex w-full flex-col bg-zinc-50 p-4 md:rounded-lg">
       <div className="relative">
-        <div className="flex items-center gap-2 rounded-lg pb-2">
+        <div className="flex items-center justify-between gap-2 rounded-lg pb-2">
           <Toggle
             variant={"outline"}
             size={"sm"}
@@ -59,6 +60,7 @@ export function SearchBox() {
             <LanguagesIcon size={15} />
             <p className="text-xs">Available in english</p>
           </Toggle>
+          <RatingSelector />
         </div>
         <Input
           placeholder="Search for courses"

@@ -7,6 +7,7 @@ export const Route = createFileRoute("/")({
   validateSearch: z.object({
     searchQuery: z.string().optional(),
     english: z.boolean().optional(),
+    rating: z.number().min(1).max(5).optional(),
   }),
 });
 
