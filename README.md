@@ -1,18 +1,13 @@
-# Turborepo Docker starter
+## KTHcdb
 
-This is an official Docker starter Turborepo.
+By: [Hampus Hallkvist](https://github.com/hampfh) and [Isak Einberg](https://github.com/einbergisak)
 
-## Using this example
+KTHcdb is a course database for kth, utilizing kths official api to fetch and search for courses, we run it through our own api where we also provide the service of letting users rate each course. It will then be possible for users get a better understanding of how liked a certain course is.
 
-Run the following command:
+- What we've done up to this point
+  We have built a login page, connected to our api for authorizing users through magic link and jwt. We have also connected the home page to kth's api to allow users to search for courses. Reviews and user ratings have **NOT** been implemented yet.
 
-```sh
-npx create-turbo@latest -e with-docker
-```
-
-## What's inside?
-
-This Turborepo includes the following:
+- File structure: Descriping the purpose of each file is not ergonomic on our case since we're using a code skeleton of greater size, how we have strucutred the project though is through the _/apps_ folder, separating the api and web part of the application. The web uses @tanstack/react-router, thus the folder strucutres mimics the routes of the application. As for the api, similarly have "routes" folder where the different api endpoints are exposed.
 
 ### Apps and Packages
 
@@ -22,44 +17,6 @@ This Turborepo includes the following:
 - `@repo/logger`: Isomorphic logger (a small wrapper around console.log)
 - `@repo/eslint-config`: ESLint presets
 - `@repo/typescript-config`: tsconfig.json's used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Docker
-
-This repo is configured to be built with Docker, and Docker compose. To build all apps in this repo:
-
-```
-# Install dependencies
-yarn install
-
-# Create a network, which allows containers to communicate
-# with each other, by using their container name as a hostname
-docker network create app_network
-
-# Build prod using new BuildKit engine
-COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker-compose.yml build
-
-# Start prod in detached mode
-docker-compose -f docker-compose.yml up -d
-```
-
-Open http://localhost:3000.
-
-To shutdown all running containers:
-
-```
-# Stop all running containers
-docker kill $(docker ps -q) && docker rm $(docker ps -a -q)
-```
-
-### Remote Caching
-
-This example includes optional remote caching. In the Dockerfiles of the apps, uncomment the build arguments for `TURBO_TEAM` and `TURBO_TOKEN`. Then, pass these build arguments to your Docker build.
-
-You can test this behavior using a command like:
-
-`docker build -f apps/web/Dockerfile . --build-arg TURBO_TEAM=“your-team-name” --build-arg TURBO_TOKEN=“your-token“ --no-cache`
 
 ### Utilities
 
