@@ -37,6 +37,9 @@ export function SearchBox() {
           search: searchQuery,
           english: english ?? false,
         },
+        fetch: {
+          credentials: "include",
+        },
       }),
   });
 

@@ -24,7 +24,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  tokens Token[]
+  tokens       Token[]
+  userSearches UserSearch[]
 }
 
 model Token {
@@ -114,6 +115,17 @@ model Examiner {
   kthId String @unique
 
   courseRounds CourseRound[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserSearch {
+  id     String @id @default(cuid())
+  userId String
+  search Json
+
+  user User @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

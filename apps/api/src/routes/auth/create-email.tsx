@@ -12,7 +12,7 @@ export async function createAuthEmail({
   "react"
 >) {
   const createUrl = (token: string) =>
-    `${Bun.env.API_URL}/api/auth/verify?token=${token}`;
+    `${Bun.env.API_URL}/auth/verify?token=${token}`;
 
   const token = await prisma.token.create({
     data: {

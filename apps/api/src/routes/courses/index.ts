@@ -1,6 +1,8 @@
 import { KTH } from "@/kth-api";
+import { authPlugin } from "@/routes/auth/auth-plugin";
 import { CourseDto } from "@/routes/courses/course-dto";
 import { getCourse } from "@/routes/courses/get-course";
+import { prisma } from "@/utilities/db";
 import Elysia, { t } from "elysia";
 
 export const courseRoute = new Elysia({
@@ -10,14 +12,28 @@ export const courseRoute = new Elysia({
     // Get all courses
     console.log("Getting all courses");
   })
+  .use(authPlugin)
   .get(
     "/search",
-    async ({ query: { search, english } }) => {
+    async ({ query: { search, english }, user }) => {
       if (!search) return { courses: [] satisfies CourseDto[] };
       const searchResults = await KTH.api.courseSearch({
         search: search,
         englishOnly: english,
       });
+
+      // Register search if they are logged in
+      if (user != null) {
+        await prisma.userSearch.create({
+          data: {
+            userId: user.id,
+            search: {
+              search,
+              english,
+            },
+          },
+        });
+      }
 
       return {
         courses: searchResults.searchHits.map((course) => ({

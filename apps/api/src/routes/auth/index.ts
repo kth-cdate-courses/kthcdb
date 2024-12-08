@@ -1,13 +1,14 @@
+import { authPlugin } from "@/routes/auth/auth-plugin";
 import { createAuthEmail } from "@/routes/auth/create-email";
 import { prisma } from "@/utilities/db";
-import { jwtMiddleware, JwtSession } from "@/utilities/jwt-middleware";
+import { JwtSession } from "@/utilities/jwt-middleware";
 import Elysia, { t } from "elysia";
 import { DateTime } from "luxon";
 
 export const authRoute = new Elysia({
   prefix: "/auth",
 })
-  .use(jwtMiddleware)
+  .use(authPlugin)
   .post(
     "/sign-up",
     async ({ body }) => {
