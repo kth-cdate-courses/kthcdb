@@ -153,7 +153,7 @@ export function SearchBox() {
                 <Tooltip>
                   <TooltipTrigger>
                     <div className="flex cursor-pointer gap-2 rounded-lg p-2 hover:bg-zinc-200/60">
-                      <Badge>{course.code}</Badge>
+                      <Badge className="font-mono">{course.code}</Badge>
                       <Rating rating={course.rating} variant="small" />
                     </div>
                   </TooltipTrigger>
