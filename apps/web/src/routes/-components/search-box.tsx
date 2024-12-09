@@ -49,6 +49,8 @@ export function SearchBox() {
   const courses = data?.data?.courses.slice(0, 4);
   const otherCourses = data?.data?.courses.slice(4);
 
+  const courseItemRest = 5 - ((otherCourses ?? [])?.length % 5);
+
   return (
     <div className="mb-10 flex w-full flex-col border-[1px] border-zinc-200 bg-zinc-50 p-4 md:rounded-lg">
       <div className="relative">
@@ -140,31 +142,42 @@ export function SearchBox() {
             </div>
           </Link>
         ))}
-        {(otherCourses ?? [])?.length > 0 && (
-          <div className="mt-2 flex flex-wrap">
-            {otherCourses?.map((course) => (
-              <Link
-                key={course.code}
-                to="/courses/$courseId"
-                params={{
-                  courseId: course.code,
-                }}
-              >
-                <Tooltip>
-                  <TooltipTrigger>
-                    <div className="flex cursor-pointer gap-2 rounded-lg p-2 hover:bg-zinc-200/60">
-                      <Badge className="font-mono">{course.code}</Badge>
-                      <Rating rating={course.rating} variant="small" />
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>{course.title}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </Link>
-            ))}
-          </div>
-        )}
+        <div className="flex justify-center">
+          {(otherCourses ?? [])?.length > 0 && (
+            <div className="mt-2 flex flex-wrap justify-between">
+              {otherCourses?.map((course) => (
+                <Link
+                  key={course.code}
+                  to="/courses/$courseId"
+                  params={{
+                    courseId: course.code,
+                  }}
+                >
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <div className="flex cursor-pointer gap-2 rounded-lg p-2 hover:bg-zinc-200/60">
+                        <Badge className="font-mono">{course.code}</Badge>
+                        <Rating rating={course.rating} variant="small" />
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{course.title}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </Link>
+              ))}
+              {/* Filler elements to keep the list adjusted correctly (for justify-between) */}
+              {Array(courseItemRest)
+                .fill(0)
+                .map((_, index) => (
+                  <div className="flex gap-2 p-2 opacity-0" key={index}>
+                    <Badge className="font-mono">SF1688</Badge>
+                    <Rating variant="small" rating={0} />
+                  </div>
+                ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
