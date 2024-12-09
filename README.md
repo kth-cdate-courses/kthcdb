@@ -5,7 +5,7 @@ By: [Hampus Hallkvist](https://github.com/hampfh) and [Isak Einberg](https://git
 KTHcdb is a course database for kth, utilizing kths official api to fetch and search for courses, we run it through our own api where we also provide the service of letting users rate each course. It will then be possible for users get a better understanding of how liked a certain course is.
 
 - What we've done up to this point
-  We have built a login page, connected to our api for authorizing users through magic link and jwt. We have also connected the home page to kth's api to allow users to search for courses. Reviews and user ratings have **NOT** been implemented yet.
+  We have built sign-up/sign-in pages (you can try these out by navigating to /signup and /signin, they are lacking some CSS at the moment), connected to our api for authorizing users through magic link and jwt. We have also connected the home page to kth's api to allow users to search for courses. Reviews and user ratings have **NOT** been implemented yet.
 
 - File structure: Descriping the purpose of each file is not ergonomic on our case since we're using a code skeleton of greater size, how we have strucutred the project though is through the _/apps_ folder, separating the api and web part of the application. The web uses @tanstack/react-router, thus the folder strucutres mimics the routes of the application. As for the api, similarly have "routes" folder where the different api endpoints are exposed.
 
