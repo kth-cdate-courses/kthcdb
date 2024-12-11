@@ -69,7 +69,7 @@ export function SearchBox() {
             }
           >
             <LanguagesIcon size={15} />
-            <p className="text-xs">Available in english</p>
+            <p className="text-nowrap text-xs">Available in english</p>
           </Toggle>
           <RatingSelector />
         </div>
