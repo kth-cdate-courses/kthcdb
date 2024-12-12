@@ -17,6 +17,7 @@ import { useState } from "react";
 import { api } from "@/utilities/http-client";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
+import "../styles.css";
 
 const formSchema = z.object({
   name: z
@@ -76,18 +77,23 @@ function RouteComponent() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex w-full justify-between">
-      <div className="main">
-        <h1>KTHdB</h1>
-      </div>
-      <div className="flex w-1/3 justify-center bg-red-800">
+    <div className="root">
+      <img src="/landing-image.jpg" alt="KTH Logo" className="logo" />
+      <div className="sidebar">
         {success ? (
           <div className="flex flex-col">
             <h2 className="font-bold">Sign-in link has been sent!</h2>
             <p className="mt-2">Please check your email for the magic link.</p>
+            <Button
+              onClick={() => navigate({ to: "/" })}
+              type="button"
+              className="returnButton"
+            >
+              Return
+            </Button>
           </div>
         ) : (
-          <div className="flex w-3/5 flex-col bg-zinc-50 p-4 md:rounded-lg">
+          <div className="logonForm">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(handleSubmit)} className="">
                 <FormField
@@ -132,14 +138,19 @@ function RouteComponent() {
                     </FormItem>
                   )}
                 />
-                <div className="mt-4 flex justify-evenly">
+                <div className="buttonParent">
                   <Button
                     onClick={() => navigate({ to: "/signin" })}
                     type="button"
+                    className="changePageButton"
                   >
-                    Already have an account? Sign in!
+                    Registered? Sign in!
                   </Button>
-                  <Button type="submit" disabled={mutation.isPending}>
+                  <Button
+                    className="submitButton"
+                    type="submit"
+                    disabled={mutation.isPending}
+                  >
                     {mutation.isPending ? "Submitting..." : "Sign-up"}
                   </Button>
                 </div>
