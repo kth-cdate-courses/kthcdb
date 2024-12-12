@@ -58,7 +58,7 @@ function RouteComponent() {
       email: string;
     }) => api.auth["sign-up"].post({ name, surname, email }),
     onSuccess: async (res) => {
-      if (res?.status !== 200) {
+      if (res?.error) {
         toast.error(res.error?.value as string);
         return;
       }
@@ -81,7 +81,7 @@ function RouteComponent() {
       <img src="/landing-image.jpg" alt="KTH Logo" className="logo" />
       <div className="sidebar">
         {success ? (
-          <div className="flex flex-col">
+          <div className="submitted">
             <h2 className="font-bold">Sign-in link has been sent!</h2>
             <p className="mt-2">Please check your email for the magic link.</p>
             <Button

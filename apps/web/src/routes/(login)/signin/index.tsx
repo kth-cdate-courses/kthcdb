@@ -41,7 +41,7 @@ function RouteComponent() {
   const mutation = useMutation({
     mutationFn: async (email: string) => api.auth["sign-in"].post({ email }),
     onSuccess: async (res) => {
-      if (res?.status !== 200) {
+      if (res?.error) {
         toast.error(res.error?.value as string);
         return;
       }
