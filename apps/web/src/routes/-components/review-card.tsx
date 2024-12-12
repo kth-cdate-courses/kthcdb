@@ -26,7 +26,14 @@ export const ReviewCard = ({
         />
         <div className="flex flex-col">
           <figcaption className="text-sm font-medium">{author}</figcaption>
-          <p className="text-xs font-medium">{courseId}</p>
+          <div className="flex gap-2">
+            <p className="text-xs font-medium">{courseId}</p>
+            <p className="text-xs font-medium">
+              {Array.from({ length: 5 }, (_, index) =>
+                index < rating ? "★" : "☆",
+              )}
+            </p>
+          </div>
         </div>
       </div>
       <blockquote className="mt-2 text-xs">{body}</blockquote>
