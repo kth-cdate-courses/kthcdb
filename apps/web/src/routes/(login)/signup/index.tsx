@@ -78,8 +78,9 @@ function RouteComponent() {
 
   return (
     <div className="root">
-      <img src="/landing-image.jpg" alt="KTH Logo" className="logo" />
+      <img src="/landing-image.jpg" alt="KTH Logo" className="bg" />
       <div className="sidebar">
+        <img src="/templogo.png" alt="KTHcdb Logo" className="logo" />
         {success ? (
           <div className="submitted">
             <h2 className="font-bold">Sign-in link has been sent!</h2>

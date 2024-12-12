@@ -2,20 +2,21 @@
   @apply w-full justify-between;
 }
 
-.logo {
+.bg {
   @apply fixed h-dvh w-full object-cover brightness-75;
 }
 
 .sidebar {
-  @apply absolute mt-0 flex h-dvh w-1/4 content-center justify-center bg-zinc-100 bg-opacity-80;
+  @apply absolute mt-0 flex h-dvh w-1/4 flex-col content-center justify-center bg-zinc-100 bg-opacity-80 pb-20;
 }
 
-.logonForm {
-  @apply m-auto flex h-fit w-4/5 flex-col bg-zinc-50 p-6 pb-10 pt-10 md:rounded-lg;
+.logo {
+  @apply mx-auto mb-4 w-2/3;
 }
 
+.logonForm,
 .submitted {
-  @apply m-auto flex w-4/5 flex-col bg-zinc-50 p-6 pb-10 pt-10 md:rounded-lg;
+  @apply mx-auto flex h-fit w-4/5 flex-col bg-zinc-50 p-6 pb-10 pt-10 md:rounded-lg;
 }
 
 .buttonParent {
