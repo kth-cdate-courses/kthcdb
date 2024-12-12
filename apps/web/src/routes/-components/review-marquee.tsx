@@ -50,7 +50,7 @@ export function ReviewMarquee() {
   const firstRow = dummyReviews.slice(0, dummyReviews.length / 2);
   const secondRow = dummyReviews.slice(dummyReviews.length / 2);
   return (
-    <div className="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border">
+    <div className="relative flex h-[380px] w-full flex-col items-center justify-center overflow-hidden bg-indigo-200 bg-opacity-40">
       <Marquee pauseOnHover className="[--duration:20s]">
         {firstRow.map((review) => (
           <ReviewCard key={review.author} {...review} />

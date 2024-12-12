@@ -15,12 +15,7 @@ export const ReviewCard = ({
   body: string;
 }) => {
   return (
-    <figure
-      className={cn(
-        "relative h-40 w-36 cursor-pointer overflow-hidden rounded-xl border p-4",
-        "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
-      )}
-    >
+    <figure className="flex h-36 w-60 cursor-pointer flex-col justify-between overflow-hidden rounded-xl bg-zinc-50 p-4">
       <div className="flex flex-row items-center gap-2">
         <img
           className="rounded-full"
@@ -34,8 +29,14 @@ export const ReviewCard = ({
           <p className="text-xs font-medium">{courseId}</p>
         </div>
       </div>
-      <blockquote className="mt-2 text-sm">{body}</blockquote>
-      <p className="text-xs font-light">{createdAt.toString()}</p>
+      <blockquote className="mt-2 text-xs">{body}</blockquote>
+      <p className="text-xs font-light">
+        {createdAt.toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        })}
+      </p>
     </figure>
   );
 };
