@@ -2,6 +2,7 @@ import Particles from "@/components/ui/particles";
 import { SearchBox } from "@/routes/-components/search-box";
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
+import { ReviewMarquee } from "./-components/review-marquee";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -28,6 +29,7 @@ function RouteComponent() {
           KTH Course Database
         </h1>
         <SearchBox />
+        <ReviewMarquee />
       </div>
       <div className="flex-[2] shrink" />
     </div>
