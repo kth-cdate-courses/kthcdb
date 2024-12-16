@@ -52,7 +52,7 @@ export function SearchBox() {
   const courseItemRest = 5 - ((otherCourses ?? [])?.length % 5);
 
   return (
-    <div className="mb-10 flex w-full flex-col border-[1px] border-zinc-200 bg-zinc-50 p-4 md:rounded-lg">
+    <div className="z-30 mb-10 flex w-full flex-col border-[1px] border-zinc-200 bg-zinc-50 p-4 md:rounded-lg">
       <div className="relative">
         <div className="flex items-center justify-between gap-2 rounded-lg pb-2">
           <Toggle
