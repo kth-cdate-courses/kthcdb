@@ -51,17 +51,25 @@ export const courseRoute = new Elysia({
       }),
     },
   )
-  .get("/:id", async ({ params: { id } }) => {
-    const course = await getCourse(id);
+  .get(
+    "/course",
+    async ({ query: { courseId } }) => {
+      const course = await getCourse(courseId);
 
-    if (course == null) {
-      return new Response("Course not found", {
-        status: 404,
-      });
-    }
+      if (course == null) {
+        return {
+          course: null,
+        };
+      }
 
-    // Get course details
-    return Response.json({
-      course,
-    });
-  });
+      // Get course details
+      return {
+        course,
+      };
+    },
+    {
+      query: t.Object({
+        courseId: t.String(),
+      }),
+    },
+  );

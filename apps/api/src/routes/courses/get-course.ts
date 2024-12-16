@@ -1,30 +1,28 @@
-import { CourseDto } from "@/routes/courses/course-dto";
+import { KTH } from "@/kth-api";
+import { CourseDetailsEndpoint } from "@/kth-api/course-details/type";
+import { cacheCourse } from "@/routes/courses/cache-course";
+import { CourseDto, kthToCourseDto } from "@/routes/courses/course-dto";
 import { prisma } from "@/utilities/db";
 
 /**
  * Get course from db, if it doesn't exist, get it from the database
  */
 export async function getCourse(courseCode: string): Promise<CourseDto | null> {
+  // Check if course exists in db
   const course = await prisma.course.findUnique({
     where: {
       courseCode,
     },
   });
   if (course != null) {
-    return {
-      code: course.courseCode,
-      title: course.title,
-      description: course.description,
-      rating: 0,
-    };
+    return kthToCourseDto(course.cache as unknown as CourseDetailsEndpoint);
   }
 
-  return null;
-  /*   const remoteCourse = await KTH.api.courseDetails(courseCode);
+  const remoteCourse = await KTH.api.courseDetails(courseCode);
   if (remoteCourse == null) {
     return null;
   }
+  await cacheCourse(remoteCourse);
 
-  //await createCourseFromKth(remoteCourse);
-  return kthToCourseDto(remoteCourse); */
+  return kthToCourseDto(remoteCourse);
 }

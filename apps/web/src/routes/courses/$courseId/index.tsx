@@ -1,9 +1,32 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { ExaminationCard } from "./-components/examination-card";
 import { ExaminationRound } from "$api/kth-api/course-details/type";
+import { Button } from "@/components/ui/button";
+import { api } from "@/utilities/http-client";
+import { useQuery } from "@tanstack/react-query";
+import {
+  createFileRoute,
+  Link,
+  notFound,
+  useParams,
+} from "@tanstack/react-router";
+import { ExaminationCard } from "./-components/examination-card";
 
 export const Route = createFileRoute("/courses/$courseId/")({
   component: RouteComponent,
+  notFoundComponent() {
+    return (
+      <div className="flex h-dvh flex-col items-center justify-center">
+        <h1 className="text-6xl">Oups</h1>
+        <h2 className="text-3xl text-opacity-50">
+          Looks like the course you were looking for doesn't exist
+        </h2>
+        <Link to="/">
+          <Button variant="secondary" className="mt-10">
+            Back to home
+          </Button>
+        </Link>
+      </div>
+    );
+  },
 });
 
 const dummyRounds: ExaminationRound[] = [
@@ -46,9 +69,36 @@ const dummyRounds: ExaminationRound[] = [
 ];
 
 function RouteComponent() {
+  const { courseId } = useParams({
+    from: "/courses/$courseId/",
+  });
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["course", courseId],
+    queryFn: async () =>
+      api.courses.course.get({
+        query: {
+          courseId,
+        },
+      }),
+  });
+
+  if (isLoading) return null;
+
+  const course = data?.data?.course;
+  if (course == null) {
+    throw notFound({
+      routeId: "/courses/$courseId/",
+    });
+  }
+
   return (
     <div>
       <p>Courses page</p>
+      <h1 className="text-2xl">
+        {course.title} - {course.code}
+      </h1>
+      <h2>{course.description}</h2>
       <ExaminationCard rounds={dummyRounds} />
     </div>
   );
