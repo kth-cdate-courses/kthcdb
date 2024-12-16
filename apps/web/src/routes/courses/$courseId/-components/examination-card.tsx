@@ -7,6 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  TableFooter,
 } from "@/components/ui/table";
 
 function ExaminationRoundRowCB(round: ExaminationRound) {
@@ -39,6 +40,23 @@ export function ExaminationCard({ rounds }: { rounds: ExaminationRound[] }) {
           <TableBody>
             {rounds.map((round) => ExaminationRoundRowCB(round))}
           </TableBody>
+
+          {
+            // Add total credits in footer if all examinations use the same unit
+            rounds.every(
+              (round) => round.creditUnitAbbr === rounds[0].creditUnitAbbr,
+            ) ? (
+              <TableFooter>
+                <TableRow>
+                  <TableCell colSpan={1}>Total: </TableCell>
+                  <TableCell colSpan={2}>
+                    {rounds.reduce((sum, round) => sum + round.credits, 0)}{" "}
+                    {rounds[0].creditUnitAbbr}
+                  </TableCell>
+                </TableRow>
+              </TableFooter>
+            ) : null
+          }
         </Table>
       </CardContent>
     </Card>
