@@ -130,7 +130,7 @@ export const authRoute = new Elysia({
   )
   .get(
     "/verify",
-    async ({ jwt, query, cookie: { auth } }) => {
+    async ({ jwt, query, cookie: { auth }, redirect }) => {
       const token = await prisma.token.findUnique({
         where: {
           token: query.token,
@@ -186,16 +186,7 @@ export const authRoute = new Elysia({
         httpOnly: true,
       });
 
-      return Response.json(
-        {
-          body: {
-            message: "User verified",
-          },
-        },
-        {
-          status: 200,
-        },
-      );
+      return redirect(`https://kthcdb.hallkvi.st`);
     },
     {
       query: t.Object({
