@@ -9,6 +9,31 @@ export const authRoute = new Elysia({
   prefix: "/auth",
 })
   .use(authPlugin)
+  .get("/session", async ({ jwt, cookie: { auth } }) => {
+    const session = (await jwt.verify(auth.value)) as JwtSession | false;
+
+    if (session === false) {
+      return {
+        authenticated: false,
+      };
+    }
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: session.id,
+      },
+    });
+    if (user == null) {
+      return {
+        authenticated: false,
+      };
+    }
+
+    return {
+      authenticated: true,
+      user,
+    };
+  })
   .post(
     "/sign-up",
     async ({ body }) => {
