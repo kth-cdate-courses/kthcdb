@@ -5,7 +5,6 @@ import {
   Heading,
   Hr,
   Html,
-  Img,
   Link,
   Preview,
   Section,
@@ -28,12 +27,6 @@ export const RaycastMagicLinkEmail = ({
     <Preview>Log in with this magic link.</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Img
-          src={`${baseUrl}/static/raycast-logo.png`}
-          width={48}
-          height={48}
-          alt="Raycast"
-        />
         <Heading style={heading}>🪄 Your magic link</Heading>
         <Section style={body}>
           <Text style={paragraph}>
