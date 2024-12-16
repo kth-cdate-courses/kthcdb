@@ -62,7 +62,7 @@ function LoginAvatar() {
   if (isLoading) return null;
 
   return (
-    <div className="flex w-full justify-end p-4">
+    <div className="absolute flex w-full justify-end p-4">
       {isAuthorized ? (
         <DropdownMenu onOpenChange={onClickAvatar}>
           <DropdownMenuTrigger className="outline-none">
