@@ -1,5 +1,6 @@
 import { ExaminationRound } from "$api/kth-api/course-details/type";
 import { Button } from "@/components/ui/button";
+import { ReviewForm } from "@/routes/courses/$courseId/-components/review-form";
 import { api } from "@/utilities/http-client";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -93,7 +94,7 @@ function RouteComponent() {
   }
 
   const course = data?.data?.course;
-  if (course == null) {
+  if (course == null || data?.data?.rounds == null) {
     throw notFound({
       routeId: "/courses/$courseId/",
     });
@@ -107,6 +108,8 @@ function RouteComponent() {
       </h1>
       <h2>{course.description}</h2>
       <ExaminationCard rounds={dummyRounds} />
+      {}
+      <ReviewForm courseRounds={data.data.rounds} />
     </div>
   );
 }

@@ -26,6 +26,7 @@ model User {
 
   tokens       Token[]
   userSearches UserSearch[]
+  reviews      Review[]
 }
 
 model Token {
@@ -99,15 +100,19 @@ model CourseRound {
 model Review {
   id     String @id @default(cuid())
   rating Int // 1-5 
+  userId String
 
   body String?
 
   courseRoundId String
 
   courseRound CourseRound @relation(fields: [courseRoundId], references: [id])
+  user        User        @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([userId, courseRoundId])
 }
 
 model Examiner {

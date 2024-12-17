@@ -14,6 +14,7 @@ export async function getCourseRounds(courseCode: string) {
   ).map(
     (round) =>
       ({
+        id: round.id,
         term: round.term,
         shortName: round.name,
       }) satisfies CourseRoundDto,

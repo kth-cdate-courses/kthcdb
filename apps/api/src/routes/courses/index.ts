@@ -3,12 +3,14 @@ import { authPlugin } from "@/routes/auth/auth-plugin";
 import { CourseDto } from "@/routes/courses/course-dto";
 import { getCourse } from "@/routes/courses/get-course";
 import { getCourseRounds } from "@/routes/courses/get-course-rounds";
+import { reviewRoute } from "@/routes/courses/review";
 import { prisma } from "@/utilities/db";
 import Elysia, { t } from "elysia";
 
 export const courseRoute = new Elysia({
   prefix: "/courses",
 })
+  .use(reviewRoute)
   .get("/", async () => {
     // Get all courses
     console.log("Getting all courses");
