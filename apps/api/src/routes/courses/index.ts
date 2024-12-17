@@ -2,6 +2,7 @@ import { KTH } from "@/kth-api";
 import { authPlugin } from "@/routes/auth/auth-plugin";
 import { CourseDto } from "@/routes/courses/course-dto";
 import { getCourse } from "@/routes/courses/get-course";
+import { getCourseRounds } from "@/routes/courses/get-course-rounds";
 import { prisma } from "@/utilities/db";
 import Elysia, { t } from "elysia";
 
@@ -53,8 +54,11 @@ export const courseRoute = new Elysia({
   )
   .get(
     "/course",
-    async ({ query: { courseId } }) => {
-      const course = await getCourse(courseId);
+    async ({ query: { courseCode } }) => {
+      const [course, rounds] = await Promise.all([
+        getCourse(courseCode),
+        getCourseRounds(courseCode), // Potential proplem here, if course doesn't exist, this will fail
+      ]);
 
       if (course == null) {
         return {
@@ -65,11 +69,12 @@ export const courseRoute = new Elysia({
       // Get course details
       return {
         course,
+        rounds,
       };
     },
     {
       query: t.Object({
-        courseId: t.String(),
+        courseCode: t.String(),
       }),
     },
   );

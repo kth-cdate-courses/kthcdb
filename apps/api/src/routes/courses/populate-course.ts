@@ -10,7 +10,7 @@ import { Prisma } from "@prisma/client";
  * @param remoteCourse
  * @returns
  */
-export async function cacheCourse(remoteCourse: CourseDetailsEndpoint) {
+export async function populateCourse(remoteCourse: CourseDetailsEndpoint) {
   const course = await prisma.course.findUnique({
     where: {
       courseCode: remoteCourse.course.courseCode,

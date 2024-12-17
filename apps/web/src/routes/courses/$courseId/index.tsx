@@ -79,7 +79,7 @@ function RouteComponent() {
     queryFn: async () =>
       api.courses.course.get({
         query: {
-          courseId,
+          courseCode: courseId,
         },
       }),
   });

@@ -82,6 +82,9 @@ model CourseRound {
   courseId   String
   examinerId String?
   term       String // eg: 20192
+  name       String
+
+  cache Json?
 
   course Course @relation(fields: [courseId], references: [id])
 
@@ -95,7 +98,7 @@ model CourseRound {
 
 model Review {
   id     String @id @default(cuid())
-  rating Int // 1-5 with half-steps. TODO: Null rating? Leave review without providing rating
+  rating Int // 1-5 
 
   body String?
 
