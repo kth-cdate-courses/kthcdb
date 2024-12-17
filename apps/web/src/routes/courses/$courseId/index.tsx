@@ -8,6 +8,7 @@ import {
   notFound,
   useParams,
 } from "@tanstack/react-router";
+import { LoaderCircleIcon } from "lucide-react";
 import { ExaminationCard } from "./-components/examination-card";
 
 export const Route = createFileRoute("/courses/$courseId/")({
@@ -83,7 +84,13 @@ function RouteComponent() {
       }),
   });
 
-  if (isLoading) return null;
+  if (isLoading) {
+    return (
+      <div className="flex h-dvh w-dvw items-center justify-center">
+        <LoaderCircleIcon className="animate-spin" size={40} />
+      </div>
+    );
+  }
 
   const course = data?.data?.course;
   if (course == null) {
