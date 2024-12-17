@@ -25,9 +25,12 @@ export async function populateCourseRounds(
   );
   return await prisma.courseRound.createMany({
     data: rounds.map((round) => ({
-      courseId: courseCode,
+      courseId: course.id,
       term: round.term,
       name: round.round.shortName,
+      programCode: round.round.connectedProgrammes
+        .map((x) => x.programmeCode)
+        .join(", "),
       cache: round.round as unknown as Prisma.JsonObject,
     })),
   });

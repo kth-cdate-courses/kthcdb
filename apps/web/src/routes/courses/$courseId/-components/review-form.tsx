@@ -46,11 +46,18 @@ export function ReviewForm({
 
   const { mutateAsync } = useMutation({
     mutationFn: (values: z.infer<typeof formSchema>) =>
-      api.courses.review.index.post({
-        courseRoundId: values.courseRoundId,
-        rating: values.rating,
-        comment: values.review,
-      }),
+      api.courses.review.index.post(
+        {
+          courseRoundId: values.courseRoundId,
+          rating: values.rating,
+          comment: values.review,
+        },
+        {
+          fetch: {
+            credentials: "include",
+          },
+        },
+      ),
   });
 
   async function handleSubmit(values: z.infer<typeof formSchema>) {
@@ -63,6 +70,8 @@ export function ReviewForm({
         queryKey: ["courses", courseId],
       });
       toast.success("Review submitted");
+    } else if (result.data?.success === false) {
+      toast.error("Error", { description: result.data.message });
     }
   }
 
@@ -83,7 +92,6 @@ export function ReviewForm({
                       onRatingSet={(rating) => field.onChange(rating)}
                     />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -92,12 +100,13 @@ export function ReviewForm({
               name="courseRoundId"
               render={({ field }) => (
                 <FormItem>
+                  <FormMessage />
                   <FormControl>
                     <Combobox
                       value={field.value}
                       setValue={field.onChange}
                       options={courseRounds.map((x) => ({
-                        label: `${parseKthTerm(x.term).year} p${parseKthTerm(x.term).period} ${x.shortName}`,
+                        label: `[${parseKthTerm(x.term).year} p${parseKthTerm(x.term).period}] ${x.shortName || x.programCode?.[0]}`,
                         value: x.id,
                       }))}
                       noResultFoundText="No terms found"
@@ -105,7 +114,6 @@ export function ReviewForm({
                       hideSearch={courseRounds.length < 5}
                     />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -124,8 +132,8 @@ export function ReviewForm({
               </FormItem>
             )}
           />
+          <Button className="mt-2">Submit review</Button>
         </form>
-        <Button className="mt-2">Submit review</Button>
       </Form>
     </div>
   );

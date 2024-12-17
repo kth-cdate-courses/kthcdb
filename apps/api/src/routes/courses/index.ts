@@ -57,10 +57,8 @@ export const courseRoute = new Elysia({
   .get(
     "/course",
     async ({ query: { courseCode } }) => {
-      const [course, rounds] = await Promise.all([
-        getCourse(courseCode),
-        getCourseRounds(courseCode), // Potential proplem here, if course doesn't exist, this will fail
-      ]);
+      const course = await getCourse(courseCode);
+      const rounds = await getCourseRounds(courseCode); // Potential proplem here, if course doesn't exist, this will fail
 
       if (course == null) {
         return {

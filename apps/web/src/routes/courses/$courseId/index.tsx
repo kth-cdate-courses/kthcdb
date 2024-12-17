@@ -2,6 +2,7 @@ import { ExaminationRound } from "$api/kth-api/course-details/type";
 import { Button } from "@/components/ui/button";
 import { ReviewForm } from "@/routes/courses/$courseId/-components/review-form";
 import { api } from "@/utilities/http-client";
+import { useSession } from "@/utilities/useSession";
 import { useQuery } from "@tanstack/react-query";
 import {
   createFileRoute,
@@ -71,6 +72,7 @@ const dummyRounds: ExaminationRound[] = [
 ];
 
 function RouteComponent() {
+  const { data: userSessionData } = useSession();
   const { courseId } = useParams({
     from: "/courses/$courseId/",
   });
@@ -108,8 +110,9 @@ function RouteComponent() {
       </h1>
       <h2>{course.description}</h2>
       <ExaminationCard rounds={dummyRounds} />
-      {}
-      <ReviewForm courseRounds={data.data.rounds} />
+      {userSessionData?.data?.authenticated && (
+        <ReviewForm courseRounds={data.data.rounds} />
+      )}
     </div>
   );
 }

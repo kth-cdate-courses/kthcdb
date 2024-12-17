@@ -17,6 +17,7 @@ export async function getCourseRounds(courseCode: string) {
         id: round.id,
         term: round.term,
         shortName: round.name,
+        programCode: round.programCode?.split(", ") ?? null,
       }) satisfies CourseRoundDto,
   );
 }

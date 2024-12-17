@@ -79,11 +79,12 @@ enum GradingScale {
 }
 
 model CourseRound {
-  id         String  @id @default(cuid())
-  courseId   String
-  examinerId String?
-  term       String // eg: 20192
-  name       String
+  id          String  @id @default(cuid())
+  courseId    String
+  examinerId  String?
+  term        String // eg: 20192
+  name        String
+  programCode String?
 
   cache Json?
 
