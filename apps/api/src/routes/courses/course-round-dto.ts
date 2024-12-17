@@ -5,5 +5,6 @@ export const courseRoundDto = z.object({
   term: z.string(),
   shortName: z.string(),
   programCode: z.string().array().nullable(),
+  rating: z.number().nullable(), // Average rating for this course round
 });
 export type CourseRoundDto = z.infer<typeof courseRoundDto>;

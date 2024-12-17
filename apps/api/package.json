@@ -10,6 +10,7 @@
     "dev:email": "email dev"
   },
   "dependencies": {
+    "@bogeychan/elysia-logger": "^0.1.6",
     "@elysiajs/cors": "^1.1.1",
     "@elysiajs/jwt": "^1.1.1",
     "@elysiajs/swagger": "^1.1.6",

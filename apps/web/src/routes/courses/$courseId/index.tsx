@@ -2,6 +2,7 @@ import { ExaminationRound } from "$api/kth-api/course-details/type";
 import { Button } from "@/components/ui/button";
 import { ReviewForm } from "@/routes/courses/$courseId/-components/review-form";
 import { api } from "@/utilities/http-client";
+import { QueryKey } from "@/utilities/query-key";
 import { useSession } from "@/utilities/useSession";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -78,7 +79,7 @@ function RouteComponent() {
   });
 
   const { data, isLoading } = useQuery({
-    queryKey: ["course", courseId],
+    queryKey: [QueryKey.Course, courseId],
     queryFn: async () =>
       api.courses.course.get({
         query: {
@@ -113,6 +114,16 @@ function RouteComponent() {
       {userSessionData?.data?.authenticated && (
         <ReviewForm courseRounds={data.data.rounds} />
       )}
+      <div>
+        <p>COURSE rating {data.data.course.rating}</p>
+        {data.data.rounds.map((round) => (
+          <div key={round.id}>
+            <p>
+              ROUND {round.term} {round.rating}
+            </p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

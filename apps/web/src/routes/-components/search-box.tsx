@@ -11,6 +11,7 @@ import {
 import { Rating } from "@/routes/-components/rating";
 import { RatingSelector } from "@/routes/-components/rating-selector";
 import { api } from "@/utilities/http-client";
+import { QueryKey } from "@/utilities/query-key";
 import { cn } from "@/utilities/shadcn-utils";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate, useSearch } from "@tanstack/react-router";
@@ -30,7 +31,7 @@ export function SearchBox() {
 
   const { data, isLoading } = useQuery({
     enabled: searchQuery != null && searchQuery.length > 0,
-    queryKey: ["courses", searchQuery, english],
+    queryKey: [QueryKey.Search, searchQuery, english],
     queryFn: async () =>
       api.courses.search.get({
         query: {

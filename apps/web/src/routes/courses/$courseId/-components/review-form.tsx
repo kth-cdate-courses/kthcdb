@@ -13,6 +13,7 @@ import { Star } from "@/components/ui/star";
 import { Textarea } from "@/components/ui/textarea";
 import { parseKthTerm } from "@/routes/courses/$courseId/-utils/parse-kth-term";
 import { api } from "@/utilities/http-client";
+import { QueryKey } from "@/utilities/query-key";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
@@ -67,7 +68,7 @@ export function ReviewForm({
       // Will force the course page to revalidate
       queryClient.invalidateQueries({
         exact: true,
-        queryKey: ["courses", courseId],
+        queryKey: [QueryKey.Course, courseId],
       });
       toast.success("Review submitted");
     } else if (result.data?.success === false) {

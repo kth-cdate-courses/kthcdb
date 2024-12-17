@@ -38,8 +38,25 @@ export const courseRoute = new Elysia({
         });
       }
 
+      const courses = await prisma.course.findMany({
+        where: {
+          courseCode: {
+            in: searchResults.searchHits.map(
+              (course) => course.course.courseCode,
+            ),
+          },
+        },
+        select: {
+          id: true,
+          courseCode: true,
+        },
+      });
+
       return {
         courses: searchResults.searchHits.map((course) => ({
+          id:
+            courses.find((x) => x.courseCode === course.course.courseCode)
+              ?.id ?? null,
           code: course.course.courseCode,
           title: course.course.title,
           description: "",
@@ -51,6 +68,8 @@ export const courseRoute = new Elysia({
       query: t.Object({
         search: t.Optional(t.String()), // An optional search will result in no results
         english: t.Optional(t.Boolean()),
+        minRating: t.Optional(t.Number()),
+        maxRating: t.Optional(t.Number()),
       }),
     },
   )
@@ -58,15 +77,15 @@ export const courseRoute = new Elysia({
     "/course",
     async ({ query: { courseCode } }) => {
       const course = await getCourse(courseCode);
-      const rounds = await getCourseRounds(courseCode); // Potential proplem here, if course doesn't exist, this will fail
-
-      if (course == null) {
+      if (course?.id == null) {
         return {
           course: null,
+          rounds: [],
         };
       }
 
-      // Get course details
+      const rounds = await getCourseRounds(course.id); // Potential proplem here, if course doesn't exist, this will fail
+
       return {
         course,
         rounds,

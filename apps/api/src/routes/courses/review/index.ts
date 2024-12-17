@@ -1,4 +1,5 @@
 import { authPlugin } from "@/routes/auth/auth-plugin";
+import { aggregateCourseRating } from "@/routes/courses/review/course-rating";
 import { prisma } from "@/utilities/db";
 import Elysia, { t } from "elysia";
 
@@ -28,21 +29,25 @@ export const reviewRoute = new Elysia({
       }
 
       // Check that the course exists
-      const course = await prisma.courseRound.findUnique({
+      const courseRound = await prisma.courseRound.findUnique({
         where: { id: body.courseRoundId },
       });
-      if (course == null) {
+      if (courseRound == null) {
         return { success: false, message: "Course does not exist" };
       }
 
       await prisma.review.create({
         data: {
-          courseRoundId: course.id,
+          courseRoundId: courseRound.id,
           userId: user.id,
           rating: body.rating,
           body: body.comment,
         },
       });
+
+      // TODO[optimization] This is a heavy operation, should not be performed on every review submit
+      // It should be sent into a queue and processed in the background
+      await aggregateCourseRating(courseRound.courseId);
 
       return { success: true, message: "Successfully submitted review" };
     },

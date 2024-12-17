@@ -48,7 +48,8 @@ model Course {
   id         String @id @default(cuid())
   courseCode String @unique
 
-  cache Json?
+  cache        Json?
+  cachedRating Float?
 
   rounds       CourseRound[]
   examinations Examination[]
@@ -57,6 +58,27 @@ model Course {
   updatedAt DateTime @updatedAt
 
   @@index([courseCode])
+}
+
+model CourseRound {
+  id          String  @id @default(cuid())
+  courseId    String
+  examinerId  String?
+  term        String // eg: 20192
+  name        String
+  programCode String?
+
+  cache        Json?
+  cachedRating Float?
+
+  course Course @relation(fields: [courseId], references: [id])
+
+  reviews Review[]
+
+  examiner Examiner? @relation(fields: [examinerId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Examination {
@@ -76,26 +98,6 @@ model Examination {
 enum GradingScale {
   AF
   PF
-}
-
-model CourseRound {
-  id          String  @id @default(cuid())
-  courseId    String
-  examinerId  String?
-  term        String // eg: 20192
-  name        String
-  programCode String?
-
-  cache Json?
-
-  course Course @relation(fields: [courseId], references: [id])
-
-  reviews Review[]
-
-  examiner Examiner? @relation(fields: [examinerId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model Review {

@@ -1,5 +1,7 @@
 import { courseRoute } from "@/routes/courses";
 import { jwtMiddleware, JwtSession } from "@/utilities/jwt-middleware";
+// @ts-expect-error Weird import for some reason
+import { logger } from "@bogeychan/elysia-logger";
 import cors from "@elysiajs/cors";
 import swagger from "@elysiajs/swagger";
 import { Elysia } from "elysia";
@@ -7,6 +9,11 @@ import { DateTime } from "luxon";
 import { authRoute } from "./routes/auth";
 
 const app = new Elysia()
+  .use(
+    logger({
+      level: "warn",
+    }),
+  )
   .use(
     cors({
       origin: (req) => {
