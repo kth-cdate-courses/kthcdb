@@ -26,7 +26,8 @@
         "DATABASE_URL",
         "API_URL",
         "JWT_SECRET",
-        "RESEND_SECRET"
+        "RESEND_SECRET",
+        "COURSE_STALE_DAYS"
       ]
     }
   }
