@@ -94,14 +94,7 @@ function RouteComponent() {
                     </FormItem>
                   )}
                 />
-                <div className="buttonParent">
-                  <Button
-                    onClick={() => navigate({ to: "/signup" })}
-                    type="button"
-                    className="changePageButton"
-                  >
-                    No account? Sign up!
-                  </Button>
+                <div className="buttonGroup">
                   <Button
                     className="submitButton"
                     type="submit"
@@ -109,6 +102,22 @@ function RouteComponent() {
                   >
                     {mutation.isPending ? "Submitting..." : "Sign-in"}
                   </Button>
+                  <div className="buttonTwins">
+                    <Button
+                      onClick={() => navigate({ to: "/signup" })}
+                      type="button"
+                      className="changePageButton"
+                    >
+                      Sign up
+                    </Button>
+                    <Button
+                      onClick={() => navigate({ to: "/" })}
+                      type="button"
+                      className="homeButton"
+                    >
+                      Home
+                    </Button>
+                  </div>
                 </div>
               </form>
             </Form>
