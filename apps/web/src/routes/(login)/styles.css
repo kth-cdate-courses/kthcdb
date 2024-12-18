@@ -10,12 +10,16 @@
   @apply absolute mt-0 flex h-dvh w-1/4 flex-col content-center justify-center bg-zinc-100 bg-opacity-80 pb-20;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
   .bg {
-    @apply hidden;
+    @apply object-center;
   }
   .sidebar {
-    @apply w-full;
+    @apply w-full bg-opacity-0;
+  }
+  .logonForm,
+  .submitted {
+    @apply rounded-lg;
   }
 }
 
