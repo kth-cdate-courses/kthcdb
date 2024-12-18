@@ -67,6 +67,7 @@ model CourseRound {
   term        String // eg: 20192
   name        String
   programCode String?
+  ladokUId    String
 
   cache        Json?
   cachedRating Float?
@@ -79,6 +80,8 @@ model CourseRound {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([courseId, term, ladokUId])
 }
 
 model Examination {
