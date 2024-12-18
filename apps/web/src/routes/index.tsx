@@ -40,7 +40,7 @@ function RouteComponent() {
       <div className={"shrink md:h-[15dvh]"} />
       <div className="w-full">
         <div className="z-20 mx-auto flex w-full max-w-[768px] flex-1 grow flex-col">
-          <h1 className="font-League-Spartan px-4 py-4 text-3xl text-black md:text-5xl">
+          <h1 className="font-League-Spartan px-4 py-4 text-lg text-black sm:text-3xl md:text-5xl">
             KTH Course Database
           </h1>
           <SearchBox />
