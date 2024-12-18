@@ -7,7 +7,7 @@
 }
 
 .sidebar {
-  @apply absolute mt-0 flex h-dvh w-1/4 flex-col content-center justify-center bg-zinc-100 bg-opacity-80 pb-20;
+  @apply absolute mt-0 flex h-dvh w-1/4 flex-col content-center bg-zinc-100 bg-opacity-80 pb-20;
 }
 
 @media (max-width: 1000px) {
@@ -17,9 +17,9 @@
   .sidebar {
     @apply w-full bg-opacity-0;
   }
-  .logonForm,
-  .submitted {
-    @apply rounded-lg;
+
+  .logo {
+    @apply mt-[12vh];
   }
 
   @media (orientation: landscape) {
@@ -30,12 +30,12 @@
 }
 
 .logo {
-  @apply mx-auto mb-4 w-2/3 max-w-[300px];
+  @apply relative left-0 right-0 mx-auto mb-4 mt-[20vh] w-2/3 max-w-[300px];
 }
 
 .logonForm,
 .submitted {
-  @apply mx-auto flex h-fit w-4/5 flex-col bg-zinc-50 p-6 pb-10 pt-10 md:rounded-lg;
+  @apply mx-auto mt-[15px] flex h-fit w-4/5 flex-col rounded-lg bg-zinc-50 p-6 pb-10 pt-10;
 }
 
 .buttonParent {
