@@ -17,15 +17,15 @@ export async function populateCourse(remoteCourse: CourseDetailsEndpoint) {
     },
   });
   if (course == null) {
-    await prisma.course.create({
+    const course = await prisma.course.create({
       data: {
         courseCode: remoteCourse.course.courseCode,
         cache: remoteCourse as unknown as Prisma.JsonObject,
       },
     });
-    return;
+    return course.id;
   }
-  await prisma.course.update({
+  const updatedCourse = await prisma.course.update({
     where: {
       courseCode: remoteCourse.course.courseCode,
     },
@@ -33,4 +33,5 @@ export async function populateCourse(remoteCourse: CourseDetailsEndpoint) {
       cache: remoteCourse as unknown as Prisma.JsonObject,
     },
   });
+  return updatedCourse.id;
 }

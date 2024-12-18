@@ -29,6 +29,7 @@ export async function populateCourseRounds(
       term: round.term,
       name: round.round.shortName,
       programCode: round.round.connectedProgrammes
+        .filter((x) => x.programmeCode != null && x.programmeCode.length > 0)
         .map((x) => x.programmeCode)
         .join(", "),
       cache: round.round as unknown as Prisma.JsonObject,

@@ -35,8 +35,10 @@ export async function getCourse(courseCode: string): Promise<CourseDto | null> {
   ]);
   if (remoteCourse == null || remoteRounds == null) return null;
 
-  await populateCourse(remoteCourse);
+  const courseId = await populateCourse(remoteCourse);
   await populateCourseRounds(courseCode, remoteRounds);
 
-  return kthToCourseDto(remoteCourse);
+  return kthToCourseDto(remoteCourse, {
+    id: courseId,
+  });
 }
