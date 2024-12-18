@@ -1,18 +1,16 @@
-import { cn } from "@/utilities/shadcn-utils";
-
 export const ReviewCard = ({
-  courseId,
+  courseCode,
   author,
   // image,
   rating,
-  body,
+  comment,
   createdAt,
 }: {
   author: string;
-  courseId: string;
+  courseCode: string;
   rating: number;
   createdAt: Date;
-  body: string;
+  comment: string | null;
 }) => {
   return (
     <figure className="flex h-36 w-60 cursor-pointer flex-col justify-between overflow-hidden rounded-xl bg-zinc-50 p-4">
@@ -27,7 +25,7 @@ export const ReviewCard = ({
         <div className="flex flex-col">
           <figcaption className="text-sm font-medium">{author}</figcaption>
           <div className="flex gap-2">
-            <p className="text-xs font-medium">{courseId}</p>
+            <p className="text-xs font-medium">{courseCode}</p>
             <p className="text-xs font-medium">
               {Array.from({ length: 5 }, (_, index) =>
                 index < rating ? "★" : "☆",
@@ -36,9 +34,9 @@ export const ReviewCard = ({
           </div>
         </div>
       </div>
-      <blockquote className="mt-2 text-xs">{body}</blockquote>
+      <blockquote className="mt-2 text-xs">{comment}</blockquote>
       <p className="text-xs font-light">
-        {createdAt.toLocaleDateString("en-GB", {
+        {new Date(createdAt).toLocaleDateString("en-GB", {
           day: "numeric",
           month: "long",
           year: "numeric",

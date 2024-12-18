@@ -76,17 +76,38 @@ export const reviewRoute = new Elysia({
             },
           },
         },
+        include: {
+          courseRound: {
+            select: {
+              id: true,
+              course: {
+                select: {
+                  courseCode: true,
+                },
+              },
+            },
+          },
+          user: {
+            select: {
+              name: true,
+              surname: true,
+            },
+          },
+        },
       });
 
       return randomReviews.map(
         (review) =>
           ({
             id: review.id,
+            courseCode: review.courseRound.course.courseCode,
+            courseRoundId: review.courseRound.id,
             rating: review.rating,
             comment: review.body,
             createdAt: review.createdAt,
             updatedAt: review.updatedAt,
             userId: review.userId,
+            author: `${review.user.name} ${review.user.surname}`,
           }) satisfies ReviewDto,
       );
     },
