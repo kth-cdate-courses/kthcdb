@@ -1,5 +1,7 @@
 ## KTHcdb
 
+![](./repo-image.png)
+
 By: [Hampus Hallkvist](https://github.com/hampfh) and [Isak Einberg](https://github.com/einbergisak)
 
 KTHcdb is a course database for kth, utilizing kths official api to fetch and search for courses, we run it through our own api where we also provide the service of letting users rate each course. It will then be possible for users get a better understanding of how liked a certain course is.
