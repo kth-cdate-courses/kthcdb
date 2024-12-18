@@ -44,10 +44,13 @@ export async function getCourse(courseCode: string): Promise<CourseDto | null> {
 }
 
 function courseIsStale(course: Pick<Course, "id" | "cache" | "updatedAt">) {
+  const staleVar = process.env.COURSE_STALE_DAYS;
+  if (staleVar == null)
+    throw new Error("COURSE_STALE_DAYS is not set", staleVar);
   return (
     DateTime.fromJSDate(course.updatedAt) <
     DateTime.now().minus({
-      days: parseInt(process.env.COURSE_STALE_DAYS as string),
+      days: parseInt(staleVar),
     })
   );
 }

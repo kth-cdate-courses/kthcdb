@@ -9,7 +9,7 @@ export const Route = createRootRoute({
         <Outlet />
       </TooltipProvider>
       <Toaster />
-      {process.env.NODE_ENV === "developtment" && <TanStackRouterDevtools />}
+      {process.env.NODE_ENV === "development" && <TanStackRouterDevtools />}
     </>
   ),
 });
