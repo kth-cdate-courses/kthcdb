@@ -18,6 +18,7 @@ import { api } from "@/utilities/http-client";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import "../styles.css";
+import { ArrowLeftRight, House, LogIn } from "lucide-react";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Must be a valid email address." }),
@@ -100,6 +101,7 @@ function RouteComponent() {
                     type="submit"
                     disabled={mutation.isPending}
                   >
+                    <LogIn />
                     {mutation.isPending ? "Submitting..." : "Sign-in"}
                   </Button>
                   <div className="buttonTwins">
@@ -108,13 +110,15 @@ function RouteComponent() {
                       type="button"
                       className="changePageButton"
                     >
-                      Sign up
+                      <ArrowLeftRight />
+                      Sign-up
                     </Button>
                     <Button
                       onClick={() => navigate({ to: "/" })}
                       type="button"
                       className="homeButton"
                     >
+                      <House />
                       Home
                     </Button>
                   </div>
