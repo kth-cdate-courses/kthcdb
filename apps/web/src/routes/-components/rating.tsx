@@ -1,22 +1,34 @@
+import { Badge } from "@/components/ui/badge";
 import { Star } from "@/components/ui/star";
 
 export function Rating({
   rating,
   variant = "default",
 }: {
-  rating: number;
+  rating: number | null;
   variant?: "small" | "default";
 }) {
+  if (rating == null && variant === "default")
+    return <Badge variant="outline">Not rated</Badge>;
+
   if (variant === "small") {
     return (
       <div className="flex items-center">
-        <Star rating={1} filled={rating > 0} viewOnly />
-        <p className="ml-2 text-center text-muted-foreground">
-          {rating.toFixed(1)}
-        </p>
+        <Star rating={1} filled={(rating ?? 0) > 0} viewOnly />
+        {rating == null ? (
+          <Badge variant="outline" className="ml-2">
+            N/A
+          </Badge>
+        ) : (
+          <p className="ml-2 text-center text-muted-foreground">
+            {rating.toFixed(1)}
+          </p>
+        )}
       </div>
     );
   }
+
+  if (rating == null) return null; // This will never be reached (just for type checking)
 
   // Even though the rating is default size it will become small if screen is small enough
   return (

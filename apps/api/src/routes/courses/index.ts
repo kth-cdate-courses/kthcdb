@@ -4,6 +4,7 @@ import { CourseDto } from "@/routes/courses/course-dto";
 import { getCourse } from "@/routes/courses/get-course";
 import { getCourseRounds } from "@/routes/courses/get-course-rounds";
 import { reviewRoute } from "@/routes/courses/review";
+import { sanitizeRating } from "@/routes/courses/review/sanitize-rating";
 import { prisma } from "@/utilities/db";
 import Elysia, { t } from "elysia";
 
@@ -49,19 +50,23 @@ export const courseRoute = new Elysia({
         select: {
           id: true,
           courseCode: true,
+          cachedRating: true,
         },
       });
 
       return {
-        courses: searchResults.searchHits.map((course) => ({
-          id:
-            courses.find((x) => x.courseCode === course.course.courseCode)
-              ?.id ?? null,
-          code: course.course.courseCode,
-          title: course.course.title,
-          description: "",
-          rating: 0,
-        })) satisfies CourseDto[],
+        courses: searchResults.searchHits.map((course) => {
+          const dbCourse = courses.find(
+            (x) => x.courseCode === course.course.courseCode,
+          );
+          return {
+            id: dbCourse?.id ?? null,
+            code: course.course.courseCode,
+            title: course.course.title,
+            description: "",
+            rating: sanitizeRating(dbCourse?.cachedRating ?? null),
+          } satisfies CourseDto;
+        }),
       };
     },
     {
