@@ -20,14 +20,16 @@
 }
 
 .buttonParent {
-  @apply mt-4 flex justify-evenly;
+  @apply mt-4 flex flex-wrap justify-evenly;
 }
 
 .submitButton {
   background-color: rgb(0, 0, 97);
 }
 
-.changePageButton {
+.changePageButton,
+.submitButton {
+  @apply my-1;
 }
 
 .returnButton {
