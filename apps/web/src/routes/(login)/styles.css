@@ -41,11 +41,16 @@
 
 .logonForm,
 .submitted {
-  @apply mx-auto mt-[10px] flex h-fit w-4/5 flex-col rounded-lg bg-zinc-50 p-6 pt-8;
+  @apply mx-auto mt-[10px] flex h-fit w-4/5 flex-col rounded-lg bg-zinc-50 p-7;
+}
+
+.returnButton {
+  @apply mt-3;
+  background-color: rgb(0, 0, 97);
 }
 
 .buttonGroup {
-  @apply m-4 flex flex-col gap-2;
+  @apply mt-4 flex flex-col gap-2;
 }
 
 .buttonTwins {
