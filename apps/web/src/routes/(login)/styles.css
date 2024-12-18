@@ -10,6 +10,15 @@
   @apply absolute mt-0 flex h-dvh w-1/4 flex-col content-center justify-center bg-zinc-100 bg-opacity-80 pb-20;
 }
 
+@media (max-width: 800px) {
+  .bg {
+    @apply hidden;
+  }
+  .sidebar {
+    @apply w-full;
+  }
+}
+
 .logo {
   @apply mx-auto mb-4 w-2/3;
 }
