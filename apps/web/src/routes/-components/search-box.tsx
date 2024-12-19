@@ -141,7 +141,7 @@ export function SearchBox() {
                 </p>
               </div>
 
-              <Rating rating={course.rating} />
+              <Rating rating={course.rating} reviewCount={course.reviewCount} />
             </div>
           </Link>
         ))}
@@ -160,7 +160,11 @@ export function SearchBox() {
                     <TooltipTrigger>
                       <div className="flex cursor-pointer gap-2 rounded-lg p-2 hover:bg-zinc-200/60">
                         <Badge className="font-mono">{course.code}</Badge>
-                        <Rating rating={course.rating} variant="small" />
+                        <Rating
+                          rating={course.rating}
+                          reviewCount={course.reviewCount}
+                          variant="small"
+                        />
                       </div>
                     </TooltipTrigger>
                     <TooltipContent>
@@ -174,8 +178,8 @@ export function SearchBox() {
                 .fill(0)
                 .map((_, index) => (
                   <div className="flex gap-2 p-2 opacity-0" key={index}>
-                    <Badge className="font-mono">SF1688</Badge>
-                    <Rating variant="small" rating={0} />
+                    <Badge className="font-mono">______</Badge>
+                    <Rating variant="small" rating={0} reviewCount={0} />
                   </div>
                 ))}
             </div>

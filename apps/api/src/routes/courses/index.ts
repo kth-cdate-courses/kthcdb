@@ -4,7 +4,7 @@ import { CourseDto } from "@/routes/courses/course-dto";
 import { getCourse } from "@/routes/courses/get-course";
 import { getCourseRounds } from "@/routes/courses/get-course-rounds";
 import { reviewRoute } from "@/routes/courses/review";
-import { sanitizeRating } from "@/routes/courses/review/sanitize-rating";
+import { sanitizeCachedNumericValue } from "@/routes/courses/review/sanitize-rating";
 import { prisma } from "@/utilities/db";
 import Elysia, { t } from "elysia";
 
@@ -51,6 +51,7 @@ export const courseRoute = new Elysia({
           id: true,
           courseCode: true,
           cachedRating: true,
+          cachedReviewCount: true,
         },
       });
 
@@ -64,7 +65,10 @@ export const courseRoute = new Elysia({
             code: course.course.courseCode,
             title: course.course.title,
             description: "",
-            rating: sanitizeRating(dbCourse?.cachedRating ?? null),
+            rating: sanitizeCachedNumericValue(dbCourse?.cachedRating ?? null),
+            reviewCount: sanitizeCachedNumericValue(
+              dbCourse?.cachedReviewCount ?? null,
+            ),
           } satisfies CourseDto;
         }),
       };

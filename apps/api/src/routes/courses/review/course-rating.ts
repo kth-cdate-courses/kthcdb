@@ -20,6 +20,7 @@ export async function getCourseRating(
     },
     select: {
       cachedRating: true,
+      cachedReviewCount: true,
     },
   });
   const courseRoundsPromise = prisma.courseRound.findMany({
@@ -29,6 +30,7 @@ export async function getCourseRating(
     select: {
       id: true,
       cachedRating: true,
+      cachedReviewCount: true,
     },
   });
 
@@ -36,19 +38,23 @@ export async function getCourseRating(
     coursePromise,
     courseRoundsPromise,
   ]);
-  if (
-    (course?.cachedRating == null ||
-      courseRounds.some((x) => x.cachedRating == null)) &&
-    options?.noAggregation !== true
-  ) {
+
+  const courseRatingDataIsStale =
+    course?.cachedRating == null ||
+    courseRounds.some((x) => x.cachedRating == null);
+
+  if (courseRatingDataIsStale && options?.noAggregation !== true) {
     // TODO[optimization]: Instead of re-aggregating all we could optimize this to only calculate the missing
     return await aggregateCourseRating(courseId);
   }
+  // CACHE HIT
   return {
     courseRating: course?.cachedRating ?? null,
+    courseReviewCount: course?.cachedReviewCount ?? null,
     roundRatings: courseRounds.map((x) => ({
       courseRoundId: x.id,
       rating: x.cachedRating,
+      reviewCount: x.cachedReviewCount,
     })),
   };
 }
@@ -110,12 +116,13 @@ export async function aggregateCourseRating(courseId: string) {
     courseRating: calculateRating(
       courseRatings.map((x, i) => ({ rating: i + 1, _count: x })),
     ),
+    courseReviewCount: courseRatings.reduce((acc, current) => acc + current, 0),
     roundRatings: result.map((x) => ({
       courseRoundId: x.courseRound.id,
       rating: x.aggregatedRating,
+      reviewCount: x.ratings.reduce((acc, current) => acc + current._count, 0),
     })),
   };
-  console.log("RETURN DATA", returnData);
   await saveToCache(courseId, returnData);
   return returnData;
 }
@@ -124,27 +131,38 @@ async function saveToCache(
   courseId: string,
   input: Awaited<ReturnType<typeof aggregateCourseRating>>,
 ) {
+  console.log("Saving to cache", courseId, input);
   return await Promise.all([
-    cacheCourseRating(courseId, input.courseRating),
+    cacheCourseRating(courseId, input.courseRating, input.courseReviewCount),
     ...input.roundRatings.map((round) =>
-      cacheCourseRoundRating(round.courseRoundId, round.rating),
+      cacheCourseRoundRating(
+        round.courseRoundId,
+        round.rating,
+        round.reviewCount,
+      ),
     ),
   ]);
 }
 
-async function cacheCourseRating(courseId: string, rating: number | null) {
+async function cacheCourseRating(
+  courseId: string,
+  rating: number | null,
+  reviewCount: number | null,
+) {
   return await prisma.course.update({
     where: {
       id: courseId,
     },
     data: {
       cachedRating: rating ?? -1, // -1 means "processed" but no data, to not aggregate cach again
+      cachedReviewCount: reviewCount ?? -1,
     },
   });
 }
 async function cacheCourseRoundRating(
   courseRoundId: string,
   rating: number | null,
+  reviewCount: number | null,
 ) {
   return await prisma.courseRound.update({
     where: {
@@ -152,6 +170,7 @@ async function cacheCourseRoundRating(
     },
     data: {
       cachedRating: rating ?? -1, // -1 means "processed" but no data, to not aggregate cach again
+      cachedReviewCount: reviewCount ?? -1,
     },
   });
 }

@@ -48,8 +48,9 @@ model Course {
   id         String @id @default(cuid())
   courseCode String @unique
 
-  cache        Json?
-  cachedRating Float?
+  cache             Json?
+  cachedRating      Float?
+  cachedReviewCount Int?
 
   rounds       CourseRound[]
   examinations Examination[]
@@ -69,8 +70,9 @@ model CourseRound {
   programCode String?
   ladokUId    String
 
-  cache        Json?
-  cachedRating Float?
+  cache             Json?
+  cachedRating      Float?
+  cachedReviewCount Int?
 
   course Course @relation(fields: [courseId], references: [id])
 

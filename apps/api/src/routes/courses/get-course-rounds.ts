@@ -1,6 +1,6 @@
 import { CourseRoundDto } from "@/routes/courses/course-round-dto";
 import { getCourseRating } from "@/routes/courses/review/course-rating";
-import { sanitizeRating } from "@/routes/courses/review/sanitize-rating";
+import { sanitizeCachedNumericValue } from "@/routes/courses/review/sanitize-rating";
 import { prisma } from "@/utilities/db";
 
 export async function getCourseRounds(courseId: string) {
@@ -20,7 +20,7 @@ export async function getCourseRounds(courseId: string) {
           term: round.term,
           shortName: round.name,
           programCode: round.programCode?.split(", ") ?? null,
-          rating: sanitizeRating(
+          rating: sanitizeCachedNumericValue(
             roundRatings.find((x) => x.courseRoundId === round.id)?.rating ??
               null,
           ),

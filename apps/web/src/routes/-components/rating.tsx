@@ -4,8 +4,10 @@ import { Star } from "@/components/ui/star";
 export function Rating({
   rating,
   variant = "default",
+  reviewCount,
 }: {
   rating: number | null;
+  reviewCount: number | null;
   variant?: "small" | "default";
 }) {
   if (rating == null && variant === "default")
@@ -30,11 +32,21 @@ export function Rating({
 
   if (rating == null) return null; // This will never be reached (just for type checking)
 
+  const reviewCountShort =
+    reviewCount == null
+      ? null
+      : Intl.NumberFormat("en-US", {
+          notation: "compact",
+        }).format(reviewCount);
+
   // Even though the rating is default size it will become small if screen is small enough
   return (
     <div className="flex items-center">
       <p className="mr-2 text-center text-muted-foreground">
-        {rating.toFixed(1)}
+        {rating.toFixed(1)}{" "}
+        <span className="text-sm">
+          {reviewCount == null ? null : `(${reviewCountShort})`}
+        </span>
       </p>
       <Star rating={1} filled={rating > 0.5} viewOnly />
       <Star

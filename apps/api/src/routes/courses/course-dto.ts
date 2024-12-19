@@ -1,5 +1,5 @@
 import { CourseDetailsEndpoint } from "@/kth-api/course-details/type";
-import { sanitizeRating } from "@/routes/courses/review/sanitize-rating";
+import { sanitizeCachedNumericValue } from "@/routes/courses/review/sanitize-rating";
 import z from "zod";
 
 export const courseDtoSchema = z.object({
@@ -8,6 +8,7 @@ export const courseDtoSchema = z.object({
   title: z.string(),
   description: z.string(),
   rating: z.number().nullable(), // Null means no reviews exists, average course rating
+  reviewCount: z.number().nullable(), // Null means no reviews exists
 });
 export type CourseDto = z.infer<typeof courseDtoSchema>;
 
@@ -21,6 +22,7 @@ export function kthToCourseDto(
     title: kthCourse.course.title,
     description: kthCourse.course.addOn,
     ...courseDto,
-    rating: sanitizeRating(courseDto?.rating ?? null),
+    rating: sanitizeCachedNumericValue(courseDto?.rating ?? null),
+    reviewCount: sanitizeCachedNumericValue(courseDto?.reviewCount ?? null),
   } satisfies CourseDto;
 }
