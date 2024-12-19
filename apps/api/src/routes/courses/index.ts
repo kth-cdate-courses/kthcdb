@@ -12,10 +12,6 @@ export const courseRoute = new Elysia({
   prefix: "/courses",
 })
   .use(reviewRoute)
-  .get("/", async () => {
-    // Get all courses
-    console.log("Getting all courses");
-  })
   .use(authPlugin)
   .get(
     "/search",
@@ -80,6 +76,7 @@ export const courseRoute = new Elysia({
         minRating: t.Optional(t.Number()),
         maxRating: t.Optional(t.Number()),
       }),
+      tags: ["Courses"],
     },
   )
   .get(
@@ -104,5 +101,6 @@ export const courseRoute = new Elysia({
       query: t.Object({
         courseCode: t.String(),
       }),
+      tags: ["Courses"],
     },
   );

@@ -58,6 +58,7 @@ export const reviewRoute = new Elysia({
         rating: t.Number(),
         comment: t.Optional(t.String()),
       }),
+      tags: ["Courses"],
     },
   )
   .get(
@@ -134,5 +135,6 @@ export const reviewRoute = new Elysia({
           }),
         ),
       }),
+      tags: ["Courses"],
     },
   );

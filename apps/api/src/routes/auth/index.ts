@@ -9,31 +9,37 @@ export const authRoute = new Elysia({
   prefix: "/auth",
 })
   .use(authPlugin)
-  .get("/session", async ({ jwt, cookie: { auth } }) => {
-    const session = (await jwt.verify(auth.value)) as JwtSession | false;
+  .get(
+    "/session",
+    async ({ jwt, cookie: { auth } }) => {
+      const session = (await jwt.verify(auth.value)) as JwtSession | false;
 
-    if (session === false) {
+      if (session === false) {
+        return {
+          authenticated: false,
+        };
+      }
+
+      const user = await prisma.user.findUnique({
+        where: {
+          id: session.id,
+        },
+      });
+      if (user == null) {
+        return {
+          authenticated: false,
+        };
+      }
+
       return {
-        authenticated: false,
+        authenticated: true,
+        user,
       };
-    }
-
-    const user = await prisma.user.findUnique({
-      where: {
-        id: session.id,
-      },
-    });
-    if (user == null) {
-      return {
-        authenticated: false,
-      };
-    }
-
-    return {
-      authenticated: true,
-      user,
-    };
-  })
+    },
+    {
+      tags: ["Auth"],
+    },
+  )
   .post(
     "/sign-up",
     async ({ body }) => {
@@ -88,6 +94,7 @@ export const authRoute = new Elysia({
         surname: t.String(),
         email: t.String(),
       }),
+      tags: ["Auth"],
     },
   )
   .post(
@@ -126,6 +133,7 @@ export const authRoute = new Elysia({
       body: t.Object({
         email: t.String(),
       }),
+      tags: ["Auth"],
     },
   )
   .get(
@@ -192,5 +200,6 @@ export const authRoute = new Elysia({
       query: t.Object({
         token: t.String(),
       }),
+      tags: ["Auth"],
     },
   );

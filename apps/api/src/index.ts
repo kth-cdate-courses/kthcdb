@@ -29,7 +29,22 @@ const app = new Elysia()
       credentials: true,
     }),
   )
-  .use(swagger())
+  .use(
+    swagger({
+      documentation: {
+        tags: [
+          {
+            name: "Auth",
+            description: "Endpoints for authentication",
+          },
+          {
+            name: "Courses",
+            description: "Endpoints for courses",
+          },
+        ],
+      },
+    }),
+  )
   .use(jwtMiddleware)
   .use(authRoute)
   .use(courseRoute)
