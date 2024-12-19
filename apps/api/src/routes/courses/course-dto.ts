@@ -6,7 +6,7 @@ export const courseDtoSchema = z.object({
   id: z.string().nullable(),
   code: z.string(),
   title: z.string(),
-  description: z.string(),
+  content: z.string(),
   goals: z.string(),
   rating: z.number().nullable(), // Null means no reviews exists, average course rating
   reviewCount: z.number().nullable(), // Null means no reviews exists
@@ -21,7 +21,7 @@ export function kthToCourseDto(
     id: null,
     code: kthCourse.course.courseCode,
     title: kthCourse.course.title,
-    description: kthCourse.course.addOn,
+    content: kthCourse.publicSyllabusVersions[0].courseSyllabus.content,
     goals: kthCourse.publicSyllabusVersions[0].courseSyllabus.goals,
     ...courseDto,
     rating: sanitizeCachedNumericValue(courseDto?.rating ?? null),

@@ -110,7 +110,6 @@ function RouteComponent() {
       <h1 className="text-2xl">
         {course.title} - {course.code}
       </h1>
-      <h2>{course.description}</h2>
       <ExaminationCard rounds={dummyRounds} />
       <CourseDescriptionCard data={course} />
       {userSessionData?.data?.authenticated && (

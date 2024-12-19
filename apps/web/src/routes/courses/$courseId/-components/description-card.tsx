@@ -2,7 +2,6 @@ import { CourseDto } from "$api/routes/courses/course-dto";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -12,14 +11,10 @@ export function CourseDescriptionCard({ data }: { data: CourseDto }) {
   return (
     <Card className="w-[350px]">
       <CardHeader>
-        <CardTitle>
-          {data.description ? "Course Description" : "Course Goals"}
-        </CardTitle>
+        <CardTitle>Course Content</CardTitle>
       </CardHeader>
       <CardContent>
-        <div
-          dangerouslySetInnerHTML={{ __html: data.description || data.goals }}
-        ></div>
+        <div dangerouslySetInnerHTML={{ __html: data.content }}></div>
       </CardContent>
       <CardFooter className="flex justify-between"></CardFooter>
     </Card>
