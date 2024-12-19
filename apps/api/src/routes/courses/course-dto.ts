@@ -7,6 +7,7 @@ export const courseDtoSchema = z.object({
   code: z.string(),
   title: z.string(),
   description: z.string(),
+  goals: z.string(),
   rating: z.number().nullable(), // Null means no reviews exists, average course rating
   reviewCount: z.number().nullable(), // Null means no reviews exists
 });
@@ -16,14 +17,12 @@ export function kthToCourseDto(
   kthCourse: CourseDetailsEndpoint,
   courseDto?: Partial<CourseDto>,
 ) {
-  console.log("hej ", kthCourse);
   return {
     id: null,
     code: kthCourse.course.courseCode,
     title: kthCourse.course.title,
-    description:
-      kthCourse.course.addOn ||
-      kthCourse.publicSyllabusVersions[0].courseSyllabus.goals,
+    description: kthCourse.course.addOn,
+    goals: kthCourse.publicSyllabusVersions[0].courseSyllabus.goals,
     ...courseDto,
     rating: sanitizeCachedNumericValue(courseDto?.rating ?? null),
     reviewCount: sanitizeCachedNumericValue(courseDto?.reviewCount ?? null),
