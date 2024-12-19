@@ -1,3 +1,8 @@
+/**
+ * Given a list of rating counts for 1,2,3,4,5, calculate the average rating
+ * @param ratings
+ * @returns
+ */
 export function calculateRating(ratings: { rating: number; _count: number }[]) {
   const totalRating = ratings.reduce(
     (acc, { rating, _count }) => acc + rating * _count,

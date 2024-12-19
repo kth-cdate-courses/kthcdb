@@ -1,6 +1,13 @@
 import { calculateRating } from "@/routes/courses/calculate-rating";
 import { prisma } from "@/utilities/db";
 
+/**
+ * Get the rating for a course and all of its course rounds. These values are cached
+ * and revalidated if they are missing.
+ * @param courseId The id of the course (not course code)
+ * @param options Additional options
+ * @returns
+ */
 export async function getCourseRating(
   courseId: string,
   options?: {
