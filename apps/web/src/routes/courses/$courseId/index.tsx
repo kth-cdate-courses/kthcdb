@@ -13,6 +13,7 @@ import {
 } from "@tanstack/react-router";
 import { LoaderCircleIcon } from "lucide-react";
 import { ExaminationCard } from "./-components/examination-card";
+import { CourseDescriptionCard } from "./-components/description-card";
 
 export const Route = createFileRoute("/courses/$courseId/")({
   component: RouteComponent,
@@ -111,6 +112,7 @@ function RouteComponent() {
       </h1>
       <h2>{course.description}</h2>
       <ExaminationCard rounds={dummyRounds} />
+      <CourseDescriptionCard data={course} />
       {userSessionData?.data?.authenticated && (
         <ReviewForm courseRounds={data.data.rounds} />
       )}
