@@ -9,7 +9,7 @@ import {
 
 export function CourseDescriptionCard({ data }: { data: CourseDto }) {
   return (
-    <Card className="w-[350px]">
+    <Card className="w-[480px]">
       <CardHeader>
         <CardTitle>Course Content</CardTitle>
       </CardHeader>

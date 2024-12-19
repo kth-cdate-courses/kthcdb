@@ -14,6 +14,7 @@ import {
 import { LoaderCircleIcon } from "lucide-react";
 import { ExaminationCard } from "./-components/examination-card";
 import { CourseDescriptionCard } from "./-components/description-card";
+import { ReviewsCard } from "./-components/reviews-card";
 
 export const Route = createFileRoute("/courses/$courseId/")({
   component: RouteComponent,
@@ -89,6 +90,17 @@ function RouteComponent() {
       }),
   });
 
+  const { data: reviewData, isLoading: reviewDataIsLoading } = useQuery({
+    queryKey: [QueryKey.Review, courseId],
+    queryFn: async () =>
+      api.courses.review.index.get({
+        query: {
+          count: 5,
+          courses: [courseId],
+        },
+      }),
+  });
+
   if (isLoading) {
     return (
       <div className="flex h-dvh w-dvw items-center justify-center">
@@ -112,6 +124,15 @@ function RouteComponent() {
       </h1>
       <ExaminationCard rounds={dummyRounds} />
       <CourseDescriptionCard data={course} />
+
+      <ReviewsCard
+        data={
+          !reviewData || !(reviewData.data && reviewData.data.length > 0)
+            ? null
+            : reviewData?.data
+        }
+      />
+
       {userSessionData?.data?.authenticated && (
         <ReviewForm courseRounds={data.data.rounds} />
       )}
