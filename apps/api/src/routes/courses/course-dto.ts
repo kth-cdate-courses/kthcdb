@@ -16,11 +16,14 @@ export function kthToCourseDto(
   kthCourse: CourseDetailsEndpoint,
   courseDto?: Partial<CourseDto>,
 ) {
+  console.log("hej ", kthCourse);
   return {
     id: null,
     code: kthCourse.course.courseCode,
     title: kthCourse.course.title,
-    description: kthCourse.course.addOn,
+    description:
+      kthCourse.course.addOn ||
+      kthCourse.publicSyllabusVersions[0].courseSyllabus.goals,
     ...courseDto,
     rating: sanitizeCachedNumericValue(courseDto?.rating ?? null),
     reviewCount: sanitizeCachedNumericValue(courseDto?.reviewCount ?? null),
