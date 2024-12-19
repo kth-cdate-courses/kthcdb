@@ -1,20 +1,9 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import Particles from "@/components/ui/particles";
 import { SearchBox } from "@/routes/-components/search-box";
-import { useSession } from "@/utilities/useSession";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { LogInIcon, LogOutIcon, UserIcon } from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import { ReviewMarquee } from "./-components/review-marquee";
+import { LoginAvatar } from "./-components/login-avatar";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -48,49 +37,6 @@ function RouteComponent() {
         <div className="absolute bottom-10 left-0">{<ReviewMarquee />}</div>
       </div>
       <div className="flex-[2] shrink" />
-    </div>
-  );
-}
-
-function LoginAvatar() {
-  const navigate = useNavigate();
-  const { data, isLoading } = useSession();
-  const isAuthorized = data?.data?.authenticated;
-
-  function onClickAvatar() {}
-
-  if (isLoading) return null;
-
-  return (
-    <div className="absolute flex w-full justify-end p-4">
-      {isAuthorized ? (
-        <DropdownMenu onOpenChange={onClickAvatar}>
-          <DropdownMenuTrigger className="outline-none">
-            <Avatar>
-              <AvatarFallback>
-                <UserIcon />
-              </AvatarFallback>
-            </Avatar>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="mr-5 w-52">
-            <DropdownMenuLabel className="capitalize">
-              {data.data?.user?.name} {data.data?.user?.surname}
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <UserIcon />
-              Profile
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <LogOutIcon /> Logout
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      ) : (
-        <Button onClick={() => navigate({ to: "/signin" })}>
-          <LogInIcon /> Log in
-        </Button>
-      )}
     </div>
   );
 }
