@@ -83,7 +83,7 @@ function RouteComponent() {
     queryFn: async () =>
       api.courses.course.get({
         query: {
-          courseCode: courseId,
+          courseCode: "dd1337", // TODO: fix
         },
       }),
   });
