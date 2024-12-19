@@ -6,6 +6,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { ReviewCard } from "@/routes/-components/review-card";
+
+function reviewCardCB(review: ReviewDto) {
+  return <ReviewCard key={review.id} {...review} />;
+}
 
 export function ReviewsCard({ data }: { data: ReviewDto[] | null }) {
   if (!data) {
@@ -17,13 +22,14 @@ export function ReviewsCard({ data }: { data: ReviewDto[] | null }) {
       </Card>
     );
   }
+  const reviews = data;
   return (
-    <Card className="flex w-[320px] flex-col">
+    <Card className="flex max-h-[480px] w-[320px] flex-col">
       <CardHeader>
         <CardTitle>Reviews</CardTitle>
       </CardHeader>
-      <CardContent className="inline-block">
-        <p className="break-words">{JSON.stringify(data)}</p>
+      <CardContent className="block max-h-full gap-2 overflow-scroll">
+        {reviews.map(reviewCardCB)}
       </CardContent>
       <CardFooter className="flex justify-between"></CardFooter>
     </Card>
