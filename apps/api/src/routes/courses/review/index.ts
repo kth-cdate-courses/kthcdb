@@ -54,11 +54,20 @@ export const reviewRoute = new Elysia({
     },
     {
       body: t.Object({
-        courseRoundId: t.String(),
-        rating: t.Number(),
+        courseRoundId: t.String({
+          description: "The id of the specific course round you want to review",
+        }),
+        rating: t.Number({
+          minimum: 1,
+          maximum: 5,
+          error: "Rating must be between 1 and 5",
+        }),
         comment: t.Optional(t.String()),
       }),
       tags: ["Courses"],
+      detail: {
+        description: "Post a review, requires an authenticated user",
+      },
     },
   )
   .get(

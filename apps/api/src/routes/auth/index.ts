@@ -7,6 +7,9 @@ import { DateTime } from "luxon";
 
 export const authRoute = new Elysia({
   prefix: "/auth",
+  detail: {
+    hide: true,
+  },
 })
   .use(authPlugin)
   .get(
@@ -38,6 +41,24 @@ export const authRoute = new Elysia({
     },
     {
       tags: ["Auth"],
+      detail: {
+        hide: false,
+        description: "Get the current user session",
+      },
+      response: {
+        200: t.Object({
+          authenticated: t.Boolean(),
+          user: t.Optional(
+            t.Object({
+              name: t.String({ examples: ["John"] }),
+              id: t.String({ examples: ["1"] }),
+              email: t.String({ examples: ["john.doe@example.com"] }),
+              surname: t.String({ examples: ["Doe"] }),
+              verified: t.Boolean(),
+            }),
+          ),
+        }),
+      },
     },
   )
   .post(
