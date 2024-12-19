@@ -71,7 +71,6 @@ function RouteComponent() {
   });
 
   async function handleSubmit(values: z.infer<typeof formSchema>) {
-    console.log("sign-up", values);
     mutation.mutate(values);
   }
 

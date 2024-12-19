@@ -54,7 +54,6 @@ function RouteComponent() {
   });
 
   function handleSubmit(values: z.infer<typeof formSchema>) {
-    console.log("signin", values);
     mutation.mutate(values.email);
   }
 
