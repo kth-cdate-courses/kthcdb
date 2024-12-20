@@ -40,6 +40,7 @@ export async function getCourse(courseCode: string): Promise<CourseDto | null> {
   return kthToCourseDto(courseCache, {
     id: courseId,
     rating: rating.courseRating,
+    reviewCount: rating.courseReviewCount,
   });
 }
 
