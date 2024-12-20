@@ -7,21 +7,24 @@ function RatingStars(rating: number) {
   const includeHalfStar = 0.25 < fraction && fraction < 0.75; // Include half star if rating fraction between .25-.75
   const numFilled = Math.floor(rating) + (fraction > 0.75 ? 1 : 0);
   return (
-    <div className="flex self-center">
+    <div className="flex flex-col self-center">
+      <h2 className="relative self-center text-lg">{rating.toFixed(2)}</h2>
       <div className="flex">
-        {Array(5)
-          .fill(0)
-          .map((_, index) => (
-            <Star key={"full" + index} fill="grey" strokeWidth={0} />
-          ))}
-      </div>
-      <div className="absolute flex">
-        {Array(numFilled)
-          .fill(0)
-          .map((_, index) => (
-            <Star key={"empty" + index} fill="gold" strokeWidth={0} />
-          ))}
-        {includeHalfStar && <StarHalf fill="gold" strokeWidth={0} />}
+        <div className="relative flex">
+          {Array(5)
+            .fill(0)
+            .map((_, index) => (
+              <Star key={"full" + index} fill="grey" strokeWidth={0} />
+            ))}
+        </div>
+        <div className="absolute flex">
+          {Array(numFilled)
+            .fill(0)
+            .map((_, index) => (
+              <Star key={"empty" + index} fill="gold" strokeWidth={0} />
+            ))}
+          {includeHalfStar && <StarHalf fill="gold" strokeWidth={0} />}
+        </div>
       </div>
     </div>
   );
