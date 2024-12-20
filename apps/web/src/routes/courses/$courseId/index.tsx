@@ -104,7 +104,7 @@ function RouteComponent() {
 
   const [reviewFilters, setReviewFilters] = useState<ReviewFilters>({
     rating: null,
-    courseRound: null,
+    courseRoundId: null,
   });
 
   if (isLoading) {
@@ -132,7 +132,8 @@ function RouteComponent() {
       <CourseDescriptionCard data={course} />
 
       <ReviewsCard
-        data={
+        data={data.data}
+        reviews={
           !reviewData || !(reviewData.data && reviewData.data.length > 0)
             ? null
             : reviewData?.data

@@ -1,3 +1,5 @@
+import { CourseDto } from "$api/routes/courses/course-dto";
+import { CourseRoundDto } from "$api/routes/courses/course-round-dto";
 import { ReviewDto } from "$api/routes/courses/review/review-dto";
 import {
   Card,
@@ -16,7 +18,7 @@ import {
 import { Star } from "@/components/ui/star";
 import { ReviewCard } from "@/routes/-components/review-card";
 import { Asterisk } from "lucide-react";
-import { useState } from "react";
+import { courseRoundToPrettyString } from "../-utils/parse-kth-term";
 
 function reviewCardCB(review: ReviewDto) {
   return <ReviewCard key={review.id} {...review} />;
@@ -24,19 +26,21 @@ function reviewCardCB(review: ReviewDto) {
 
 export type ReviewFilters = {
   rating: number | null;
-  courseRound: string | null;
+  courseRoundId: string | null;
 };
 
 export function ReviewsCard({
   data,
+  reviews,
   filters,
   onUpdateFilters,
 }: {
-  data: ReviewDto[] | null;
+  data: { course: CourseDto; rounds: CourseRoundDto[] };
+  reviews: ReviewDto[] | null;
   filters: ReviewFilters;
   onUpdateFilters: (newFilters: ReviewFilters) => void;
 }) {
-  if (!data) {
+  if (!reviews) {
     return (
       <Card className="w-[320px]">
         <CardHeader>
@@ -45,13 +49,32 @@ export function ReviewsCard({
       </Card>
     );
   }
-  const reviews = data;
   return (
     <Card className="flex max-h-[480px] w-[320px] flex-col">
       <CardHeader className="flex flex-row justify-between">
         <CardTitle>
           <h1>Reviews</h1>
         </CardTitle>
+        <Select
+          onValueChange={(value) =>
+            onUpdateFilters({ ...filters, courseRoundId: value })
+          }
+        >
+          <SelectTrigger id="courseRound" className="w-[160px]">
+            <SelectValue placeholder="Any round" />
+          </SelectTrigger>
+          <SelectContent position="popper">
+            {data.rounds.map((it) => (
+              <SelectItem
+                key={it.id}
+                value={it.id}
+                className="flex items-center justify-start gap-3"
+              >
+                {courseRoundToPrettyString(it)}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         <Select
           onValueChange={(value) =>
             onUpdateFilters({ ...filters, rating: Number(value) })
