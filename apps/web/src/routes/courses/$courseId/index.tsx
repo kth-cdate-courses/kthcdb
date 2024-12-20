@@ -17,6 +17,7 @@ import { CourseDescriptionCard } from "./-components/description-card";
 import { ReviewFilters, ReviewsCard } from "./-components/reviews-card";
 import { useState } from "react";
 import { TitleCard } from "./-components/title-card";
+import { RatingChart } from "./-components/rating-chart";
 
 export const Route = createFileRoute("/courses/$courseId/")({
   component: RouteComponent,
@@ -126,6 +127,11 @@ function RouteComponent() {
     });
   }
 
+  const reviewDataSanitized =
+    !reviewData || !(reviewData.data && reviewData.data.length > 0)
+      ? null
+      : reviewData?.data;
+
   return (
     <div>
       <TitleCard courseData={course} />
@@ -134,27 +140,14 @@ function RouteComponent() {
 
       <ReviewsCard
         data={data.data}
-        reviews={
-          !reviewData || !(reviewData.data && reviewData.data.length > 0)
-            ? null
-            : reviewData?.data
-        }
+        reviews={reviewDataSanitized}
         filters={reviewFilters}
         onUpdateFilters={(newFilters) => setReviewFilters(newFilters)}
       />
       {userSessionData?.data?.authenticated && (
         <SubmitReviewCard courseRounds={data.data.rounds} />
       )}
-      <div>
-        <p>COURSE rating {data.data.course.rating}</p>
-        {data.data.rounds.map((round) => (
-          <div key={round.id}>
-            <p>
-              ROUND {round.term} {round.rating}
-            </p>
-          </div>
-        ))}
-      </div>
+      <RatingChart reviewData={reviewDataSanitized} />
     </div>
   );
 }
