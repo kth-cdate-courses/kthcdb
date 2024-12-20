@@ -16,6 +16,7 @@ import { ExaminationCard } from "./-components/examination-card";
 import { CourseDescriptionCard } from "./-components/description-card";
 import { ReviewFilters, ReviewsCard } from "./-components/reviews-card";
 import { useState } from "react";
+import { TitleCard } from "./-components/title-card";
 
 export const Route = createFileRoute("/courses/$courseId/")({
   component: RouteComponent,
@@ -127,10 +128,7 @@ function RouteComponent() {
 
   return (
     <div>
-      <p>Courses page</p>
-      <h1 className="text-2xl">
-        {course.title} - {course.code}
-      </h1>
+      <TitleCard courseData={course} />
       <ExaminationCard rounds={dummyRounds} />
       <CourseDescriptionCard data={course} />
 
