@@ -1,6 +1,6 @@
 import { ExaminationRound } from "$api/kth-api/course-details/type";
 import { Button } from "@/components/ui/button";
-import { ReviewForm } from "@/routes/courses/$courseId/-components/review-form";
+import { SubmitReviewCard } from "@/routes/courses/$courseId/-components/submit-review-card";
 import { api } from "@/utilities/http-client";
 import { QueryKey } from "@/utilities/query-key";
 import { useSession } from "@/utilities/useSession";
@@ -143,7 +143,7 @@ function RouteComponent() {
         onUpdateFilters={(newFilters) => setReviewFilters(newFilters)}
       />
       {userSessionData?.data?.authenticated && (
-        <ReviewForm courseRounds={data.data.rounds} />
+        <SubmitReviewCard courseRounds={data.data.rounds} />
       )}
       <div>
         <p>COURSE rating {data.data.course.rating}</p>

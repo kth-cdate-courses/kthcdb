@@ -1,6 +1,7 @@
 import { CourseRoundDto } from "$api/routes/courses/course-round-dto";
 import { Combobox } from "@/components/combo-box";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -11,10 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Star } from "@/components/ui/star";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  courseRoundToPrettyString,
-  parseKthTerm,
-} from "@/routes/courses/$courseId/-utils/parse-kth-term";
+import { courseRoundToPrettyString } from "@/routes/courses/$courseId/-utils/parse-kth-term";
 import { api } from "@/utilities/http-client";
 import { QueryKey } from "@/utilities/query-key";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -34,7 +32,7 @@ const formSchema = z.object({
   review: z.string().optional(),
 });
 
-export function ReviewForm({
+export function SubmitReviewCard({
   courseRounds,
 }: {
   courseRounds: CourseRoundDto[];
@@ -80,66 +78,73 @@ export function ReviewForm({
   }
 
   return (
-    <div className="max-w-96">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="">
-          <div className="flex items-end justify-between gap-5">
-            <FormField
-              control={form.control}
-              name="rating"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Rating</FormLabel>
-                  <FormControl>
-                    <RatingSelector
-                      rating={field.value}
-                      onRatingSet={(rating) => field.onChange(rating)}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="courseRoundId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormMessage />
-                  <FormControl>
-                    <Combobox
-                      value={field.value}
-                      setValue={field.onChange}
-                      options={courseRounds.map((round) => ({
-                        label: courseRoundToPrettyString(round),
-                        value: round.id,
-                      }))}
-                      noResultFoundText="No terms found"
-                      searchText="Select a course term"
-                      hideSearch={courseRounds.length < 5}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-          </div>
+    <Card className="w-[480px]">
+      <CardHeader className="pb-2">
+        <CardTitle className="mb-1">
+          <h1>Submit Review</h1>
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleSubmit)} className="">
+            <div className="flex items-end justify-between gap-5">
+              <FormField
+                control={form.control}
+                name="rating"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Rating</FormLabel>
+                    <FormControl>
+                      <RatingSelector
+                        rating={field.value}
+                        onRatingSet={(rating) => field.onChange(rating)}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="courseRoundId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormMessage />
+                    <FormControl>
+                      <Combobox
+                        value={field.value}
+                        setValue={field.onChange}
+                        options={courseRounds.map((round) => ({
+                          label: courseRoundToPrettyString(round),
+                          value: round.id,
+                        }))}
+                        noResultFoundText="No terms found"
+                        searchText="Select a course term"
+                        hideSearch={courseRounds.length < 5}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
 
-          <FormField
-            control={form.control}
-            name="review"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Review</FormLabel>
-                <FormControl>
-                  <Textarea {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button className="mt-2">Submit review</Button>
-        </form>
-      </Form>
-    </div>
+            <FormField
+              control={form.control}
+              name="review"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Review</FormLabel>
+                  <FormControl>
+                    <Textarea {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button className="mt-2">Submit review</Button>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   );
 }
 
