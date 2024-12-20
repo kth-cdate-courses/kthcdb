@@ -40,15 +40,6 @@ export function ReviewsCard({
   filters: ReviewFilters;
   onUpdateFilters: (newFilters: ReviewFilters) => void;
 }) {
-  if (!reviews) {
-    return (
-      <Card className="w-[320px]">
-        <CardHeader>
-          <CardTitle>No reviews found</CardTitle>
-        </CardHeader>
-      </Card>
-    );
-  }
   return (
     <Card className="flex max-h-[480px] w-[320px] flex-col">
       <CardHeader className="flex flex-row justify-between">
@@ -98,7 +89,8 @@ export function ReviewsCard({
         </Select>
       </CardHeader>
       <CardContent className="block max-h-full gap-2 overflow-scroll">
-        {reviews.map(reviewCardCB)}
+        {reviews?.map(reviewCardCB) ?? "No ratings found."}
+        {}
       </CardContent>
       <CardFooter className="flex justify-between">Hej</CardFooter>
     </Card>
