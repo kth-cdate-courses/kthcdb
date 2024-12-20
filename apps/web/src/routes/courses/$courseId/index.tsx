@@ -17,7 +17,7 @@ import { CourseDescriptionCard } from "./-components/description-card";
 import { ReviewFilters, ReviewsCard } from "./-components/reviews-card";
 import { useState } from "react";
 import { TitleCard } from "./-components/title-card";
-import { RatingChart } from "./-components/rating-chart";
+import { RatingChartCard } from "./-components/rating-chart-card";
 
 export const Route = createFileRoute("/courses/$courseId/")({
   component: RouteComponent,
@@ -147,7 +147,7 @@ function RouteComponent() {
       {userSessionData?.data?.authenticated && (
         <SubmitReviewCard courseRounds={data.data.rounds} />
       )}
-      <RatingChart reviewData={reviewDataSanitized} />
+      <RatingChartCard reviewData={reviewDataSanitized} />
     </div>
   );
 }
