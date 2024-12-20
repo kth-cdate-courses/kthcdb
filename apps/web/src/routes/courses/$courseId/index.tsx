@@ -98,14 +98,16 @@ function RouteComponent() {
 
   const { data: reviewData, isLoading: reviewDataIsLoading } = useQuery({
     queryKey: [QueryKey.Review, courseId, reviewFilters],
-    queryFn: async () =>
-      api.courses.review.index.get({
-        query: {
-          term: reviewFilters.term ?? undefined,
-          count: 5,
-          courses: [courseId],
-        },
-      }),
+    queryFn: async () => {
+      const { term, rating } = reviewFilters;
+      const query = {
+        count: 5,
+        courses: [courseId],
+        ...(term && { term }),
+        ...(rating && { rating }),
+      };
+      return api.courses.review.index.get({ query });
+    },
   });
 
   if (isLoading) {

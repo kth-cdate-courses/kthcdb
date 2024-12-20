@@ -79,7 +79,7 @@ export const reviewRoute = new Elysia({
         where: {
           rating: rating,
           courseRound: {
-            term: term === "undefined" ? undefined : term,
+            term: term,
             course: {
               courseCode: {
                 in: courses,
