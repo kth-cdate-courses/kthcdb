@@ -1,5 +1,6 @@
 import { CourseDto } from "$api/routes/courses/course-dto";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import NumberTicker from "@/components/ui/number-ticker";
 import { Star, StarHalf } from "lucide-react";
 
 function RatingStars(rating: number) {
@@ -8,7 +9,9 @@ function RatingStars(rating: number) {
   const numFilled = Math.floor(rating) + (fraction > 0.75 ? 1 : 0);
   return (
     <div className="flex flex-col self-center">
-      <h2 className="relative self-center text-lg">{rating.toFixed(2)}</h2>
+      <h2 className="relative self-center text-lg">
+        {<NumberTicker value={rating} decimalPlaces={2} />}
+      </h2>
       <div className="flex">
         <div className="relative flex">
           {Array(5)
