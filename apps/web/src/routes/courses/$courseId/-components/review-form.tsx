@@ -11,7 +11,10 @@ import {
 } from "@/components/ui/form";
 import { Star } from "@/components/ui/star";
 import { Textarea } from "@/components/ui/textarea";
-import { parseKthTerm } from "@/routes/courses/$courseId/-utils/parse-kth-term";
+import {
+  courseRoundToPrettyString,
+  parseKthTerm,
+} from "@/routes/courses/$courseId/-utils/parse-kth-term";
 import { api } from "@/utilities/http-client";
 import { QueryKey } from "@/utilities/query-key";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -106,9 +109,9 @@ export function ReviewForm({
                     <Combobox
                       value={field.value}
                       setValue={field.onChange}
-                      options={courseRounds.map((x) => ({
-                        label: `[${parseKthTerm(x.term).year} p${parseKthTerm(x.term).period}] ${x.shortName || x.programCode?.[0]}`,
-                        value: x.id,
+                      options={courseRounds.map((round) => ({
+                        label: courseRoundToPrettyString(round),
+                        value: round.id,
                       }))}
                       noResultFoundText="No terms found"
                       searchText="Select a course term"
