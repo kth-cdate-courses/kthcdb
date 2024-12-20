@@ -72,11 +72,12 @@ export const reviewRoute = new Elysia({
   )
   .get(
     "/",
-    async ({ query: { count, courses, term } }) => {
+    async ({ query: { count, courses, term, rating } }) => {
       const randomReviews = await prisma.review.findMany({
         orderBy: { updatedAt: "desc" },
         take: count ?? 20,
         where: {
+          rating: rating,
           courseRound: {
             term: term === "undefined" ? undefined : term,
             course: {
@@ -141,6 +142,15 @@ export const reviewRoute = new Elysia({
           t.Array(t.String(), {
             title: "Course code",
             description: 'eg: ["SF1320"]',
+          }),
+        ),
+        rating: t.Optional(
+          t.Number({
+            minimum: 1,
+            maximum: 5,
+            title: "Rating",
+            error: "Rating must be between 1 and 5",
+            description: 'The rating of the review, eg "2"',
           }),
         ),
       }),
