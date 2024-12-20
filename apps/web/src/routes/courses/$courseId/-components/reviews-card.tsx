@@ -22,7 +22,20 @@ function reviewCardCB(review: ReviewDto) {
   return <ReviewCard key={review.id} {...review} />;
 }
 
-export function ReviewsCard({ data }: { data: ReviewDto[] | null }) {
+export type ReviewFilters = {
+  rating: number | null;
+  courseRound: string | null;
+};
+
+export function ReviewsCard({
+  data,
+  filters,
+  onUpdateFilters,
+}: {
+  data: ReviewDto[] | null;
+  filters: ReviewFilters;
+  onUpdateFilters: (newFilters: ReviewFilters) => void;
+}) {
   if (!data) {
     return (
       <Card className="w-[320px]">
@@ -39,11 +52,15 @@ export function ReviewsCard({ data }: { data: ReviewDto[] | null }) {
         <CardTitle>
           <h1>Reviews</h1>
         </CardTitle>
-        <Select>
+        <Select
+          onValueChange={(value) =>
+            onUpdateFilters({ ...filters, rating: Number(value) })
+          }
+        >
           <SelectTrigger id="rating" className="w-[80px]">
             <SelectValue placeholder={<Asterisk className="w-4" />} />
           </SelectTrigger>
-          <SelectContent position="popper" align="center">
+          <SelectContent position="popper" className="">
             {[1, 2, 3, 4, 5].map((it) => (
               <SelectItem
                 key={it}
@@ -60,7 +77,7 @@ export function ReviewsCard({ data }: { data: ReviewDto[] | null }) {
       <CardContent className="block max-h-full gap-2 overflow-scroll">
         {reviews.map(reviewCardCB)}
       </CardContent>
-      <CardFooter className="flex justify-between"></CardFooter>
+      <CardFooter className="flex justify-between">Hej</CardFooter>
     </Card>
   );
 }

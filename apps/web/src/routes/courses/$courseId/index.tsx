@@ -14,7 +14,8 @@ import {
 import { LoaderCircleIcon } from "lucide-react";
 import { ExaminationCard } from "./-components/examination-card";
 import { CourseDescriptionCard } from "./-components/description-card";
-import { ReviewsCard } from "./-components/reviews-card";
+import { ReviewFilters, ReviewsCard } from "./-components/reviews-card";
+import { useState } from "react";
 
 export const Route = createFileRoute("/courses/$courseId/")({
   component: RouteComponent,
@@ -101,6 +102,11 @@ function RouteComponent() {
       }),
   });
 
+  const [reviewFilters, setReviewFilters] = useState<ReviewFilters>({
+    rating: null,
+    courseRound: null,
+  });
+
   if (isLoading) {
     return (
       <div className="flex h-dvh w-dvw items-center justify-center">
@@ -131,8 +137,9 @@ function RouteComponent() {
             ? null
             : reviewData?.data
         }
+        filters={reviewFilters}
+        onUpdateFilters={(newFilters) => setReviewFilters(newFilters)}
       />
-
       {userSessionData?.data?.authenticated && (
         <ReviewForm courseRounds={data.data.rounds} />
       )}
