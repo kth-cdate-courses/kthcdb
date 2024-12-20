@@ -26,7 +26,7 @@ function reviewCardCB(review: ReviewDto) {
 
 export type ReviewFilters = {
   rating: number | null;
-  courseRoundId: string | null;
+  term: string | null;
 };
 
 export function ReviewsCard({
@@ -57,7 +57,7 @@ export function ReviewsCard({
         </CardTitle>
         <Select
           onValueChange={(value) =>
-            onUpdateFilters({ ...filters, courseRoundId: value })
+            onUpdateFilters({ ...filters, term: value })
           }
         >
           <SelectTrigger id="courseRound" className="w-[160px]">
@@ -67,7 +67,7 @@ export function ReviewsCard({
             {data.rounds.map((it) => (
               <SelectItem
                 key={it.id}
-                value={it.id}
+                value={it.term}
                 className="flex items-center justify-start gap-3"
               >
                 {courseRoundToPrettyString(it)}

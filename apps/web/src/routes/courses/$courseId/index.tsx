@@ -91,20 +91,21 @@ function RouteComponent() {
       }),
   });
 
+  const [reviewFilters, setReviewFilters] = useState<ReviewFilters>({
+    rating: null,
+    term: null,
+  });
+
   const { data: reviewData, isLoading: reviewDataIsLoading } = useQuery({
-    queryKey: [QueryKey.Review, courseId],
+    queryKey: [QueryKey.Review, courseId, reviewFilters],
     queryFn: async () =>
       api.courses.review.index.get({
         query: {
+          term: reviewFilters.term ?? undefined,
           count: 5,
           courses: [courseId],
         },
       }),
-  });
-
-  const [reviewFilters, setReviewFilters] = useState<ReviewFilters>({
-    rating: null,
-    courseRoundId: null,
   });
 
   if (isLoading) {
