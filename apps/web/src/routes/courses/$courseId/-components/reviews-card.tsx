@@ -48,13 +48,24 @@ export function ReviewsCard({
         </CardTitle>
         <Select
           onValueChange={(value) =>
-            onUpdateFilters({ ...filters, term: value })
+            onUpdateFilters({
+              ...filters,
+              term: value === "default" ? null : value,
+            })
           }
+          defaultValue="default"
         >
           <SelectTrigger id="courseRound" className="w-[160px]">
-            <SelectValue placeholder="Any round" />
+            <SelectValue defaultValue="default" />
           </SelectTrigger>
           <SelectContent position="popper">
+            <SelectItem
+              key={"default"}
+              value={"default"}
+              className="flex items-center justify-start gap-3"
+            >
+              <span>Any term</span>
+            </SelectItem>
             {data.rounds.map((it) => (
               <SelectItem
                 key={it.id}
@@ -67,14 +78,24 @@ export function ReviewsCard({
           </SelectContent>
         </Select>
         <Select
-          onValueChange={(value) =>
-            onUpdateFilters({ ...filters, rating: Number(value) })
+          onValueChange={
+            (value) => onUpdateFilters({ ...filters, rating: Number(value) }) // "default" will be conveniently converted to null
           }
+          defaultValue="default"
         >
           <SelectTrigger id="rating" className="w-[80px]">
-            <SelectValue placeholder={<Asterisk className="w-4" />} />
+            <SelectValue defaultValue="default" />
           </SelectTrigger>
           <SelectContent position="popper" className="">
+            <SelectItem
+              key={"default"}
+              value={"default"}
+              className="flex items-center justify-start gap-3"
+            >
+              <span className="text-center">
+                {<Asterisk className="w-4" />}
+              </span>
+            </SelectItem>
             {[1, 2, 3, 4, 5].map((it) => (
               <SelectItem
                 key={it}
