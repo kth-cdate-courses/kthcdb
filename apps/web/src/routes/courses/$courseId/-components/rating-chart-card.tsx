@@ -1,15 +1,6 @@
 import { ReviewDto } from "$api/routes/courses/review/review-dto";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  BarChart,
-  Bar,
-  Rectangle,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-} from "recharts";
+import { Bar, BarChart, Rectangle, Tooltip, XAxis, YAxis } from "recharts";
 
 export function RatingChartCard({
   reviewData,

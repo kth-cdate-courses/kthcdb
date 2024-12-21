@@ -60,7 +60,6 @@ export const courseRoute = new Elysia({
             id: dbCourse?.id ?? null,
             code: course.course.courseCode,
             title: course.course.title,
-            description: "",
             rating: sanitizeCachedNumericValue(dbCourse?.cachedRating ?? null),
             reviewCount: sanitizeCachedNumericValue(
               dbCourse?.cachedReviewCount ?? null,

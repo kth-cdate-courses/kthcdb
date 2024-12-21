@@ -6,8 +6,8 @@ export const courseDtoSchema = z.object({
   id: z.string().nullable(),
   code: z.string(),
   title: z.string(),
-  content: z.string(),
-  goals: z.string(),
+  content: z.string().optional(),
+  goals: z.string().optional(),
   rating: z.number().nullable(), // Null means no reviews exists, average course rating
   reviewCount: z.number().nullable(), // Null means no reviews exists
 });
