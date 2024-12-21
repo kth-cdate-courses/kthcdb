@@ -51,7 +51,7 @@ export const ReviewCard = ({
         <Separator className="pt-0" />
       </CardHeader>
 
-      <CardContent className="mx-2 h-full overflow-auto hyphens-auto rounded-sm border-[1px] border-zinc-200 bg-zinc-50 px-2 text-[11px] font-light">
+      <CardContent className="mx-2 h-full overflow-auto hyphens-auto rounded-sm border-[1px] border-zinc-200 bg-zinc-50 px-2 py-1 text-[11px] font-light">
         {comment}
       </CardContent>
       <CardFooter className="mb-0 h-4 w-full items-start px-4 pt-0.5 text-xs font-thin">
