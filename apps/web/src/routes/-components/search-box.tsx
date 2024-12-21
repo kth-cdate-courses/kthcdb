@@ -71,7 +71,7 @@ export function SearchBox() {
           >
             <LanguagesIcon size={15} />
             <p className="hidden text-nowrap text-xs sm:block">
-              Available in english
+              Available in English
             </p>
           </Toggle>
           <RatingSelector />
