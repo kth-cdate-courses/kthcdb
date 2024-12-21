@@ -108,6 +108,7 @@ function RouteComponent() {
                       onClick={() => navigate({ to: "/signup" })}
                       type="button"
                       className="changePageButton"
+                      variant="secondary"
                     >
                       <ArrowLeftRight />
                       Sign-up
@@ -116,6 +117,7 @@ function RouteComponent() {
                       onClick={() => navigate({ to: "/" })}
                       type="button"
                       className="homeButton"
+                      variant="secondary"
                     >
                       <House />
                       Home
