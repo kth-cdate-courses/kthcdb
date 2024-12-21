@@ -14,6 +14,7 @@ export const userRoute = new Elysia({
       select: {
         name: true,
         surname: true,
+        createdAt: true,
       },
     });
     if (!userInfo) {
@@ -23,6 +24,7 @@ export const userRoute = new Elysia({
       id: userId,
       name: userInfo.name,
       surname: userInfo.surname,
+      userCreatedDate: userInfo.createdAt,
     } satisfies UserDto;
   },
   {

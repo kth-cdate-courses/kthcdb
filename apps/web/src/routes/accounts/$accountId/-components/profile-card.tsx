@@ -20,6 +20,11 @@ export function ProfileCard() {
       }),
   });
 
+  const userData = data?.data;
+  if (!userData) {
+    return "User not found.";
+  }
+
   return (
     <Card className="mx-4 flex h-[80vh] w-3/12 flex-col justify-between">
       <CardHeader className="flex items-center gap-4">
@@ -28,9 +33,18 @@ export function ProfileCard() {
           alt="User profile picture"
           src="/favicon.ico"
         />
-        <p className="text-xl">
-          {data?.data?.name} {data?.data?.surname}
-        </p>
+        <div className="flex flex-col items-center">
+          <p className="text-xl">
+            {userData.name} {userData.surname}
+          </p>
+          <p className="relative top-0 text-sm">
+            Member since{" "}
+            {new Date(userData.userCreatedDate).toLocaleDateString("en-GB", {
+              month: "long",
+              year: "numeric",
+            })}
+          </p>
+        </div>
         <p className="rounded-sm border-[1px] border-zinc-200 bg-zinc-50 p-2 text-base">
           Autem quia est excepturi rerum quae aut. Omnis voluptatum cum
           voluptatem illo asperiores. Nihil consequatur quas eveniet mollitia ut
