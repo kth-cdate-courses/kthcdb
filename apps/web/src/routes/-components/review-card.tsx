@@ -23,8 +23,9 @@ export const ReviewCard = ({
   createdAt: Date;
   body: string | null;
 }) => {
+  const CUT_OFF = 200;
   return (
-    <Card className="flex h-48 w-64 flex-col justify-between overflow-hidden rounded-xl">
+    <Card className="flex h-48 w-64 flex-col justify-between rounded-xl">
       <CardHeader className="mb-0 flex flex-col px-3 pb-1 pt-2">
         <div className="flex flex-row items-center justify-between">
           <div className="flex w-full flex-row gap-3">
@@ -57,7 +58,8 @@ export const ReviewCard = ({
       </CardHeader>
 
       <CardContent className="mx-2 h-full overflow-auto hyphens-auto rounded-sm px-2 py-1 text-[11px] font-light">
-        {body}
+        {body?.slice(0, CUT_OFF)}
+        {(body?.length ?? 0) > CUT_OFF ? "..." : ""}
       </CardContent>
       <CardFooter className="mb-0 h-4 w-full items-start px-4 pt-0.5 text-xs font-thin">
         {new Date(createdAt).toLocaleDateString("en-GB", {

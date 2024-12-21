@@ -1,22 +1,13 @@
 import { CourseDto } from "$api/routes/courses/course-dto";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 
 export function CourseDescriptionCard({ data }: { data: CourseDto }) {
   return (
-    <Card className="w-[480px]">
-      <CardHeader>
-        <CardTitle>Course Content</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div dangerouslySetInnerHTML={{ __html: data.content }}></div>
-      </CardContent>
-      <CardFooter className="flex justify-between"></CardFooter>
-    </Card>
+    <div>
+      <h3>About</h3>
+      <div
+        className="text-sm italic text-zinc-600"
+        dangerouslySetInnerHTML={{ __html: data.content as string }}
+      />
+    </div>
   );
 }

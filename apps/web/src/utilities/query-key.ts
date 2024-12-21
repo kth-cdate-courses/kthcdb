@@ -3,5 +3,6 @@ export enum QueryKey {
   Course = "COURSE",
   Session = "SESSION",
   Review = "REVIEW",
+  ReviewStatistics = "REVIEWSTATISTICS",
   UserAccount = "USERACCOUNT",
 }

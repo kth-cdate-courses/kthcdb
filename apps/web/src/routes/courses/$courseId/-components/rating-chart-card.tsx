@@ -1,56 +1,79 @@
-import { ReviewDto } from "$api/routes/courses/review/review-dto";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Bar, BarChart, Rectangle, Tooltip, XAxis, YAxis } from "recharts";
+import { stripNullKeys } from "@/routes/courses/$courseId/-utils/strip_null_keys";
+import { api } from "@/utilities/http-client";
+import { QueryKey } from "@/utilities/query-key";
+import { useQuery } from "@tanstack/react-query";
+import {
+  Bar,
+  BarChart,
+  Rectangle,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 export function RatingChartCard({
-  reviewData,
+  courseId,
+  courseRoundId,
 }: {
-  reviewData: ReviewDto[] | null;
+  courseId: string;
+  courseRoundId?: string;
 }) {
-  if (!reviewData) {
-    return "";
+  const { data: statisticsResponse } = useQuery({
+    queryKey: [QueryKey.ReviewStatistics, courseId, courseRoundId],
+    queryFn: async () => {
+      return api.courses.review.statistics.get({
+        query: stripNullKeys({
+          courseRoundId,
+          courseId,
+        }),
+      });
+    },
+  });
+  const statistics = statisticsResponse?.data;
+  console.log(statistics);
+
+  if (!statistics) {
+    return (
+      <div className="w-full text-center">
+        <p className="text-zinc-600">No data found</p>
+      </div>
+    );
   }
-  const ratings = reviewData.map((it) => it.rating);
-  const numOfEachRatingScore = ratings
-    ? Array(5)
-        .fill(0)
-        .map(
-          (_, index) => ratings.filter((rating) => rating === index + 1).length,
-        )
-    : null;
-  const data = numOfEachRatingScore?.map((num, index) => ({
+  const data = statistics?.map((num, index) => ({
     name: (index + 1).toString(),
     ratings: num,
   }));
 
   return (
-    <Card className="w-[600px]">
+    <Card className="">
       <CardHeader>
         <CardTitle>Rating Distribution</CardTitle>
       </CardHeader>
       <CardContent>
-        <BarChart
-          width={500}
-          height={300}
-          data={data}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          {/* <CartesianGrid strokeDasharray="3 3" /> */}
-          <XAxis dataKey="name" />
-          <YAxis domain={["dataMin", "dataMax"]} />
-          <Tooltip />
-          {/* <Legend /> */}
-          <Bar
-            dataKey="ratings"
-            fill="gold"
-            activeBar={<Rectangle fill="gray" />}
-          />
-        </BarChart>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart
+            data={data}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            {/* <CartesianGrid strokeDasharray="3 3" /> */}
+            <XAxis dataKey="name" />
+            <YAxis domain={["dataMin", "dataMax"]} />
+            <Tooltip />
+            {/* <Legend /> */}
+            <Bar
+              dataKey="ratings"
+              fill="gold"
+              activeBar={<Rectangle fill="gray" />}
+            />
+          </BarChart>
+        </ResponsiveContainer>
       </CardContent>
     </Card>
   );

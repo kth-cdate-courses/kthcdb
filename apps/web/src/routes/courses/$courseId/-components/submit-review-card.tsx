@@ -40,6 +40,7 @@ export function SubmitReviewCard({
   const { courseId } = useParams({
     from: "/courses/$courseId/",
   });
+
   const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -71,6 +72,9 @@ export function SubmitReviewCard({
         exact: true,
         queryKey: [QueryKey.Course, courseId],
       });
+      queryClient.invalidateQueries({
+        queryKey: [QueryKey.Review, courseId],
+      });
       toast.success("Review submitted");
     } else if (result.data?.success === false) {
       toast.error("Error", { description: result.data.message });
@@ -78,7 +82,7 @@ export function SubmitReviewCard({
   }
 
   return (
-    <Card className="w-[480px]">
+    <Card>
       <CardHeader className="pb-2">
         <CardTitle className="mb-1">
           <h1>Submit Review</h1>
@@ -87,7 +91,7 @@ export function SubmitReviewCard({
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className="">
-            <div className="flex items-end justify-between gap-5">
+            <div className="flex flex-wrap items-end justify-between gap-3">
               <FormField
                 control={form.control}
                 name="rating"
@@ -107,10 +111,11 @@ export function SubmitReviewCard({
                 control={form.control}
                 name="courseRoundId"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="w-full sm:w-52">
                     <FormMessage />
                     <FormControl>
                       <Combobox
+                        className="w-full sm:w-52"
                         value={field.value}
                         setValue={field.onChange}
                         options={courseRounds.map((round) => ({
@@ -131,7 +136,7 @@ export function SubmitReviewCard({
               control={form.control}
               name="review"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="mt-2">
                   <FormLabel>Review</FormLabel>
                   <FormControl>
                     <Textarea {...field} />
@@ -140,7 +145,7 @@ export function SubmitReviewCard({
                 </FormItem>
               )}
             />
-            <Button className="mt-2">Submit review</Button>
+            <Button className="mt-2 w-full sm:w-min">Submit review</Button>
           </form>
         </Form>
       </CardContent>

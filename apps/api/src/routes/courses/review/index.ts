@@ -72,14 +72,17 @@ export const reviewRoute = new Elysia({
   )
   .get(
     "/",
-    async ({ query: { count, courses, term, rating } }) => {
+    async ({
+      query: { count, page, courses, courseRoundId, rating, userId },
+    }) => {
       const randomReviews = await prisma.review.findMany({
         orderBy: { updatedAt: "desc" },
         take: count ?? 20,
+        skip: (page ?? 0) * (count ?? 20),
         where: {
-          rating: rating,
+          rating,
           courseRound: {
-            term: term,
+            id: courseRoundId,
             course: {
               courseCode: {
                 in: courses,
@@ -126,10 +129,11 @@ export const reviewRoute = new Elysia({
     },
     {
       query: t.Object({
-        term: t.Optional(
+        userId: t.Optional(t.String()),
+        courseRoundId: t.Optional(
           t.String({
-            title: "Search term",
-            description: "eg 20243, year+period",
+            title: "Course round id",
+            description: "Which part of the course to look for",
           }),
         ),
         count: t.Optional(
@@ -140,10 +144,19 @@ export const reviewRoute = new Elysia({
             description: "Number of reviews to get",
           }),
         ),
+        page: t.Optional(
+          t.Number({
+            minimum: 0,
+            title: "Page",
+            description: "Page number",
+            default: 0,
+          }),
+        ),
         courses: t.Optional(
           t.Array(t.String(), {
             title: "Course code",
             description: 'eg: ["SF1320"]',
+            minItems: 1,
           }),
         ),
         rating: t.Optional(
@@ -157,5 +170,36 @@ export const reviewRoute = new Elysia({
         ),
       }),
       tags: ["Courses"],
+    },
+  )
+  .get(
+    "/statistics",
+    async ({ query: { courseId, courseRoundId } }) => {
+      const ratingItems = [1, 2, 3, 4, 5];
+      const results = await Promise.all(
+        ratingItems.map((rating) =>
+          prisma.review.aggregate({
+            where: {
+              rating,
+              courseRoundId,
+              courseRound: {
+                courseId,
+              },
+            },
+            _count: {
+              _all: true,
+            },
+          }),
+        ),
+      );
+      const counts = results.map((result) => result._count._all);
+      if (counts.reduce((a, b) => a + b, 0) === 0) return null;
+      return counts;
+    },
+    {
+      query: t.Object({
+        courseId: t.String(),
+        courseRoundId: t.Optional(t.String()),
+      }),
     },
   );

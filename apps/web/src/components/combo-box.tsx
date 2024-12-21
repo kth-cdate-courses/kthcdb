@@ -17,6 +17,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { cn } from "@/utilities/shadcn-utils";
 
 export function Combobox({
   options,
@@ -25,6 +26,7 @@ export function Combobox({
   value,
   setValue,
   hideSearch,
+  className,
 }: {
   value: string;
   setValue: (value: string) => void;
@@ -32,6 +34,7 @@ export function Combobox({
   noResultFoundText?: string;
   options: { label: string; value: string }[];
   hideSearch?: boolean;
+  className?: string;
 }) {
   const [open, setOpen] = React.useState(false);
 
@@ -42,7 +45,7 @@ export function Combobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className={cn("w-[200px] justify-between", className)}
         >
           {value
             ? options.find((option) => option.value === value)?.label
