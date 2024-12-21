@@ -1,3 +1,12 @@
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Star } from "lucide-react";
+
 export const ReviewCard = ({
   courseCode,
   author,
@@ -13,35 +22,45 @@ export const ReviewCard = ({
   comment: string | null;
 }) => {
   return (
-    <figure className="flex h-36 w-60 cursor-pointer flex-col justify-between overflow-hidden rounded-xl bg-zinc-50 p-4">
-      <div className="flex flex-row items-center gap-2">
-        <img
-          className="rounded-full"
-          width="32"
-          height="32"
-          alt=""
-          src="/favicon.ico"
-        />
-        <div className="flex flex-col">
-          <figcaption className="text-sm font-medium">{author}</figcaption>
-          <div className="flex gap-2">
-            <p className="text-xs font-medium">{courseCode}</p>
-            <p className="text-xs font-medium">
+    <Card className="flex h-48 w-64 flex-col justify-between overflow-hidden rounded-xl">
+      <CardHeader className="mb-0 flex flex-col px-3 pb-1 pt-2">
+        <div className="flex flex-row items-center justify-between">
+          <div className="flex flex-row gap-2">
+            <img
+              className="mt-1 h-[32px] rounded-full"
+              alt="User profile picture"
+              src="/favicon.ico"
+            />
+            <div className="flex flex-col">
+              <p className="text-sm font-medium">{author}</p>
+              <p className="text-xs font-medium">{courseCode}</p>
+            </div>
+          </div>
+          <div className="flex flex-col items-center">
+            <p className="flex w-20 p-0">
               {Array.from({ length: 5 }, (_, index) =>
-                index < rating ? "★" : "☆",
+                index < rating ? (
+                  <Star fill="gold" strokeWidth={0} />
+                ) : (
+                  <Star fill="grey" strokeWidth={0} />
+                ),
               )}
             </p>
           </div>
         </div>
-      </div>
-      <blockquote className="mt-2 text-xs">{comment}</blockquote>
-      <p className="text-xs font-light">
+        <Separator className="pt-0" />
+      </CardHeader>
+
+      <CardContent className="mx-2 h-full overflow-auto hyphens-auto rounded-sm border-[1px] border-zinc-200 bg-zinc-50 px-2 text-[11px] font-light">
+        {comment}
+      </CardContent>
+      <CardFooter className="mb-0 h-4 w-full items-start px-4 pt-0.5 text-xs font-thin">
         {new Date(createdAt).toLocaleDateString("en-GB", {
           day: "numeric",
           month: "long",
           year: "numeric",
         })}
-      </p>
-    </figure>
+      </CardFooter>
+    </Card>
   );
 };
