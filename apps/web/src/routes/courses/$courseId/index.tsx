@@ -190,7 +190,7 @@ function RouteComponent() {
         <div className="flex w-full justify-end">
           <Dialog>
             <DialogTrigger asChild>
-              <Button className="flex gap-2">
+              <Button className="hidden gap-2 md:flex">
                 <MessageSquarePlusIcon /> Add a review
               </Button>
             </DialogTrigger>
@@ -272,13 +272,9 @@ function DesktopLayout({
         <RatingChartCard courseId={course.id!} courseRoundId={courseRoundId} />
       </div>
       <div className="col-span-2 grid w-full grid-cols-2 gap-8">
-        {[
-          ...(reviewData ?? []),
-          ...(reviewData ?? []),
-          ...(reviewData ?? []),
-          ...(reviewData ?? []),
-          ...(reviewData ?? []),
-        ]?.map((review) => <InlineReview className="" review={review} />)}
+        {reviewData?.map((review) => (
+          <InlineReview className="" review={review} />
+        ))}
       </div>
     </div>
   );

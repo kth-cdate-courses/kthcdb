@@ -1,6 +1,7 @@
 import { CourseRoundDto } from "$api/routes/courses/course-round-dto";
 import { Combobox } from "@/components/combo-box";
 import { Button } from "@/components/ui/button";
+import { DialogClose } from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -137,7 +138,9 @@ export function SubmitReviewCard({
             </FormItem>
           )}
         />
-        <Button className="mt-2 w-full sm:w-min">Submit review</Button>
+        <DialogClose asChild>
+          <Button className="mt-2 w-full sm:w-min">Submit review</Button>
+        </DialogClose>
       </form>
     </Form>
   );
