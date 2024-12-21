@@ -7,6 +7,7 @@ import swagger from "@elysiajs/swagger";
 import { Elysia } from "elysia";
 import { DateTime } from "luxon";
 import { authRoute } from "./routes/auth";
+import { userRoute } from "./routes/user";
 
 const app = new Elysia()
   .use(
@@ -59,6 +60,7 @@ const app = new Elysia()
   .use(jwtMiddleware)
   .use(authRoute)
   .use(courseRoute)
+  .use(userRoute)
   .get("/", async ({ redirect }) => redirect("/spec"), {
     detail: {
       hide: true,
