@@ -1,8 +1,10 @@
 import { UserDto } from "$api/routes/user/user-dto";
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
+import { useSession } from "@/utilities/useSession";
 
 export function ProfileCard({ userData }: { userData: UserDto }) {
+  const { logout } = useSession();
   return (
     <Card className="mx-4 flex h-[80vh] w-3/12 flex-col justify-between">
       <CardHeader className="flex items-center gap-4">
@@ -31,7 +33,9 @@ export function ProfileCard({ userData }: { userData: UserDto }) {
         </p>
       </CardHeader>
       <CardFooter>
-        <Button className="w-full bg-[rgb(0,0,97)]">Log out</Button>
+        <Button className="w-full" onClick={logout}>
+          Log out
+        </Button>
       </CardFooter>
     </Card>
   );

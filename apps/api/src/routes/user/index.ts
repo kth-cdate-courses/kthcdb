@@ -1,7 +1,7 @@
 import { prisma } from "@/utilities/db";
 import Elysia, { t } from "elysia";
-import { UserDto } from "./user-dto";
 import { ReviewDto } from "../courses/review/review-dto";
+import { UserDto } from "./user-dto";
 
 export const userRoute = new Elysia({
   prefix: "/user",
@@ -16,7 +16,19 @@ export const userRoute = new Elysia({
         name: true,
         surname: true,
         createdAt: true,
-        reviews: true,
+        reviews: {
+          include: {
+            courseRound: {
+              select: {
+                course: {
+                  select: {
+                    courseCode: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
     if (!userInfo) {
@@ -32,7 +44,7 @@ export const userRoute = new Elysia({
         (review) =>
           ({
             id: review.id,
-            courseCode: "NULL NULL NULL TODO TODO MAYDAY THIS REQUIRES A FIX", // TODO: course code not provided
+            courseCode: review.courseRound.course.courseCode,
             courseRoundId: review.courseRoundId,
             rating: review.rating,
             body: review.body,
