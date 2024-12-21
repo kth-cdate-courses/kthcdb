@@ -10,8 +10,14 @@ function RatingStars(rating: number, numRatings: number) {
   return (
     <div className="relative flex flex-col self-center pt-1">
       <h2 className="relative self-center text-lg">
-        {<NumberTicker value={rating} decimalPlaces={2} />} (
-        <NumberTicker value={numRatings} />)
+        {numRatings > 0 ? (
+          <div>
+            <NumberTicker value={rating} decimalPlaces={2} /> (
+            <NumberTicker value={numRatings} />)
+          </div>
+        ) : (
+          <p className="mt-2 text-sm">No ratings</p>
+        )}
       </h2>
       <div className="flex">
         <div className="relative flex">
