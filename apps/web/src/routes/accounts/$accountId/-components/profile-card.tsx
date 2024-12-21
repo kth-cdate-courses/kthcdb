@@ -1,30 +1,8 @@
+import { UserDto } from "$api/routes/user/user-dto";
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
-import { api } from "@/utilities/http-client";
-import { QueryKey } from "@/utilities/query-key";
-import { useQuery } from "@tanstack/react-query";
-import { useParams } from "@tanstack/react-router";
 
-export function ProfileCard() {
-  const { accountId } = useParams({
-    from: "/accounts/$accountId/",
-  });
-
-  const { data, isLoading } = useQuery({
-    queryKey: [QueryKey.UserAccount, accountId],
-    queryFn: async () =>
-      api.user.index.get({
-        query: {
-          userId: accountId,
-        },
-      }),
-  });
-
-  const userData = data?.data;
-  if (!userData) {
-    return "User not found.";
-  }
-
+export function ProfileCard({ userData }: { userData: UserDto }) {
   return (
     <Card className="mx-4 flex h-[80vh] w-3/12 flex-col justify-between">
       <CardHeader className="flex items-center gap-4">
