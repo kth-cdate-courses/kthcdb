@@ -12,12 +12,12 @@ import {
   useParams,
 } from "@tanstack/react-router";
 import { LoaderCircleIcon } from "lucide-react";
-import { ExaminationCard } from "./-components/examination-card";
-import { CourseDescriptionCard } from "./-components/description-card";
-import { ReviewFilters, ReviewsCard } from "./-components/reviews-card";
 import { useState } from "react";
-import { TitleCard } from "./-components/title-card";
+import { CourseDescriptionCard } from "./-components/description-card";
+import { ExaminationCard } from "./-components/examination-card";
 import { RatingChartCard } from "./-components/rating-chart-card";
+import { ReviewFilters, ReviewsCard } from "./-components/reviews-card";
+import { TitleCard } from "./-components/title-card";
 
 export const Route = createFileRoute("/courses/$courseId/")({
   component: RouteComponent,
@@ -78,7 +78,7 @@ const dummyRounds: ExaminationRound[] = [
 ];
 
 function RouteComponent() {
-  const { data: userSessionData } = useSession();
+  const { isAuthenticated } = useSession();
   const { courseId } = useParams({
     from: "/courses/$courseId/",
   });
@@ -98,7 +98,7 @@ function RouteComponent() {
     term: null,
   });
 
-  const { data: reviewData, isLoading: reviewDataIsLoading } = useQuery({
+  const { data: reviewData } = useQuery({
     queryKey: [QueryKey.Review, courseId, reviewFilters],
     queryFn: async () => {
       const { term, rating } = reviewFilters;
@@ -144,9 +144,7 @@ function RouteComponent() {
         filters={reviewFilters}
         onUpdateFilters={(newFilters) => setReviewFilters(newFilters)}
       />
-      {userSessionData?.data?.authenticated && (
-        <SubmitReviewCard courseRounds={data.data.rounds} />
-      )}
+      {isAuthenticated && <SubmitReviewCard courseRounds={data.data.rounds} />}
       <RatingChartCard reviewData={reviewDataSanitized} />
     </div>
   );

@@ -14,18 +14,17 @@ import { LogInIcon, LogOutIcon, UserIcon } from "lucide-react";
 
 export function LoginAvatar() {
   const navigate = useNavigate();
-  const { data, isLoading } = useSession();
-  const isAuthorized = data?.data?.authenticated;
+  const { user, isAuthenticated, isLoading, logout } = useSession();
 
   function onClickAvatar() {}
 
   if (isLoading) return null;
 
-  const userId = data?.data?.user?.id;
+  const userId = user?.id;
 
   return (
     <div className="absolute flex w-full justify-end p-4">
-      {isAuthorized ? (
+      {isAuthenticated ? (
         <DropdownMenu onOpenChange={onClickAvatar}>
           <DropdownMenuTrigger className="outline-none">
             <Avatar>
@@ -36,7 +35,7 @@ export function LoginAvatar() {
           </DropdownMenuTrigger>
           <DropdownMenuContent className="mr-5 w-52">
             <DropdownMenuLabel className="capitalize">
-              {data.data?.user?.name} {data.data?.user?.surname}
+              {user?.name} {user?.surname}
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             {userId && (
@@ -47,7 +46,7 @@ export function LoginAvatar() {
                 </DropdownMenuItem>
               </Link>
             )}
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => logout()}>
               <LogOutIcon /> Logout
             </DropdownMenuItem>
           </DropdownMenuContent>

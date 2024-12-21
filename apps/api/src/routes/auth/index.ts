@@ -215,7 +215,7 @@ export const authRoute = new Elysia({
         httpOnly: true,
       });
 
-      return redirect(`https://kthcdb.hallkvi.st`);
+      return redirect(`${process.env.APP_URL}`);
     },
     {
       query: t.Object({
@@ -223,4 +223,18 @@ export const authRoute = new Elysia({
       }),
       tags: ["Auth"],
     },
-  );
+  )
+  .post("/logout", async ({ jwt, cookie: { auth }, user }) => {
+    console.log(user, jwt, auth);
+    console.log("REMOVE COOKIE", auth.value);
+    auth.set({
+      value: "",
+      expires: new Date(0),
+      httpOnly: true,
+    });
+    auth.remove();
+
+    return {
+      success: true,
+    };
+  });
