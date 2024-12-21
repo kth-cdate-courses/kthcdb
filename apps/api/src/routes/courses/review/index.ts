@@ -102,6 +102,7 @@ export const reviewRoute = new Elysia({
             select: {
               name: true,
               surname: true,
+              programCode: true,
             },
           },
         },
@@ -119,6 +120,7 @@ export const reviewRoute = new Elysia({
             updatedAt: review.updatedAt,
             userId: review.userId,
             author: `${review.user.name} ${review.user.surname}`,
+            authorProgramCode: review.user.programCode,
           }) satisfies ReviewDto,
       );
     },

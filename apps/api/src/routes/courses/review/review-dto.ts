@@ -8,6 +8,7 @@ export const reviewDtoSchema = z.object({
   body: z.string().nullable(),
   userId: z.string(),
   author: z.string(),
+  authorProgramCode: z.string().nullable(),
   createdAt: z.date(),
   updatedAt: z.date(),
 });

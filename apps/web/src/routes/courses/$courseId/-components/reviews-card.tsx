@@ -15,15 +15,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 import { Star } from "@/components/ui/star";
 import { ReviewCard } from "@/routes/-components/review-card";
 import { Asterisk } from "lucide-react";
 import { courseRoundToPrettyString } from "../-utils/parse-kth-term";
-import { Separator } from "@/components/ui/separator";
-
-function reviewCardCB(review: ReviewDto) {
-  return <ReviewCard key={review.id} {...review} />;
-}
 
 export type ReviewFilters = {
   rating: number | null;
@@ -113,7 +109,13 @@ export function ReviewsCard({
         </div>
       </CardHeader>
       <CardContent className="block max-h-full gap-2 overflow-scroll">
-        {reviews?.map(reviewCardCB) ?? "No reviews found."}
+        {reviews?.map((review) => (
+          <ReviewCard
+            key={review.id}
+            {...review}
+            programCode={review.authorProgramCode}
+          />
+        )) ?? "No reviews found."}
       </CardContent>
       {reviews && reviews.length > 0 && (
         <CardFooter className="flex flex-col">

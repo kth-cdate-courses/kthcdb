@@ -16,6 +16,7 @@ export const userRoute = new Elysia({
         name: true,
         surname: true,
         createdAt: true,
+        programCode: true,
         reviews: {
           include: {
             courseRound: {
@@ -52,6 +53,7 @@ export const userRoute = new Elysia({
             updatedAt: review.updatedAt,
             userId: review.userId,
             author: `${userInfo.name} ${userInfo.surname}`,
+            authorProgramCode: userInfo.programCode,
           }) satisfies ReviewDto,
       ),
     } satisfies UserDto;

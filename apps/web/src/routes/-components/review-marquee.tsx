@@ -30,7 +30,11 @@ export function ReviewMarquee() {
             to="/courses/$courseId"
             params={{ courseId: review.courseCode }}
           >
-            <ReviewCard key={review.id} {...review} />
+            <ReviewCard
+              key={review.id}
+              {...review}
+              programCode={review.authorProgramCode}
+            />
           </Link>
         ))}
       </Marquee>
@@ -40,7 +44,11 @@ export function ReviewMarquee() {
             to="/courses/$courseId"
             params={{ courseId: review.courseCode }}
           >
-            <ReviewCard key={review.id} {...review} />
+            <ReviewCard
+              key={review.id}
+              {...review}
+              programCode={review.authorProgramCode}
+            />
           </Link>
         ))}
       </Marquee>
