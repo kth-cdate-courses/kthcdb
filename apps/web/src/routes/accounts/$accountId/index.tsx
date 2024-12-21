@@ -5,6 +5,7 @@ import { QueryKey } from "@/utilities/query-key";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import { LoaderCircleIcon } from "lucide-react";
+import { ReviewsCard } from "./-components/reviews-card";
 
 export const Route = createFileRoute("/accounts/$accountId/")({
   component: RouteComponent,
@@ -41,6 +42,7 @@ function RouteComponent() {
   return (
     <div className="my-auto flex h-dvh flex-row items-center">
       <ProfileCard userData={userData}></ProfileCard>
+      <ReviewsCard userData={userData}></ReviewsCard>
     </div>
   );
 }
