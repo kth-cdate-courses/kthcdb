@@ -114,7 +114,7 @@ export const reviewRoute = new Elysia({
             courseCode: review.courseRound.course.courseCode,
             courseRoundId: review.courseRound.id,
             rating: review.rating,
-            comment: review.body,
+            body: review.body,
             createdAt: review.createdAt,
             updatedAt: review.updatedAt,
             userId: review.userId,

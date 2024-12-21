@@ -5,7 +5,7 @@ export const reviewDtoSchema = z.object({
   courseCode: z.string(),
   courseRoundId: z.string(),
   rating: z.number().min(1).max(5),
-  comment: z.string().nullable(),
+  body: z.string().nullable(),
   userId: z.string(),
   author: z.string(),
   createdAt: z.date(),
