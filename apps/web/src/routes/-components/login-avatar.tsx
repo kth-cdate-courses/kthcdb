@@ -8,9 +8,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogInIcon, LogOutIcon, UserIcon } from "lucide-react";
 import { useSession } from "@/utilities/useSession";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { LogInIcon, LogOutIcon, UserIcon } from "lucide-react";
 
 export function LoginAvatar() {
   const navigate = useNavigate();
@@ -20,6 +20,8 @@ export function LoginAvatar() {
   function onClickAvatar() {}
 
   if (isLoading) return null;
+
+  const userId = data?.data?.user?.id;
 
   return (
     <div className="absolute flex w-full justify-end p-4">
@@ -37,10 +39,14 @@ export function LoginAvatar() {
               {data.data?.user?.name} {data.data?.user?.surname}
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <UserIcon />
-              Profile
-            </DropdownMenuItem>
+            {userId && (
+              <Link to="/accounts/$accountId" params={{ accountId: userId }}>
+                <DropdownMenuItem>
+                  <UserIcon />
+                  Profile
+                </DropdownMenuItem>
+              </Link>
+            )}
             <DropdownMenuItem>
               <LogOutIcon /> Logout
             </DropdownMenuItem>
