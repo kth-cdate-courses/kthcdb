@@ -1,3 +1,6 @@
+import { CourseDto } from "$api/routes/courses/course-dto";
+import { CourseRoundDto } from "$api/routes/courses/course-round-dto";
+import { ReviewDto } from "$api/routes/courses/review/review-dto";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { InlineReview } from "@/routes/courses/$courseId/-components/inline-review";
@@ -97,10 +100,9 @@ function RouteComponent() {
   const navigate = useNavigate({
     from: "/courses/$courseId",
   });
-  const { tab, rating, courseRoundId, page } = useSearch({
+  const { rating, courseRoundId, page } = useSearch({
     from: "/courses/$courseId/",
   });
-  const { isAuthenticated } = useSession();
   const { courseId } = useParams({
     from: "/courses/$courseId/",
   });
@@ -180,56 +182,13 @@ function RouteComponent() {
       {/* <ExaminationCard rounds={dummyRounds} /> */}
       <ReviewFiltering rounds={data.data.rounds} />
       <CourseDescriptionCard data={course} />
-      <Tabs
-        value={tab}
-        onValueChange={(value) =>
-          navigate({
-            search: (prev) => ({
-              ...prev,
-              tab: value,
-            }),
-          })
-        }
-      >
-        <TabsList className="flex w-full justify-between">
-          <TabsTrigger value="reviews">Reviews</TabsTrigger>
-          <TabsTrigger value="statistics">Statistics</TabsTrigger>
-          {isAuthenticated && (
-            <TabsTrigger value="your-review">Your review</TabsTrigger>
-          )}
-        </TabsList>
-        <TabsContent value="reviews">
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
-            {reviewData?.data?.map((review) => (
-              <InlineReview review={review} />
-            ))}
-          </div>
-        </TabsContent>
-        <TabsContent value="statistics" hidden={course?.id == null}>
-          <RatingChartCard
-            courseId={course.id!}
-            courseRoundId={courseRoundId}
-          />
-        </TabsContent>
-        {isAuthenticated && (
-          <TabsContent value="your-review">
-            <SubmitReviewCard
-              courseRounds={data.data.rounds.filter(
-                (round) =>
-                  !ownReviews?.data?.some(
-                    (review) => review.courseRoundId === round.id,
-                  ),
-              )}
-            />
-            <div className="flex flex-col gap-2 py-5">
-              {ownReviews &&
-                ownReviews.data?.map((review) => (
-                  <InlineReview review={review} />
-                ))}
-            </div>
-          </TabsContent>
-        )}
-      </Tabs>
+      <TabLayout
+        reviewData={reviewData?.data ?? null}
+        course={course}
+        ownReviews={ownReviews?.data ?? null}
+        rounds={data.data.rounds ?? null}
+      />
+
       {(reviewData?.data?.length ?? 0) >= 20 && (
         <div className="flex w-full items-center justify-between">
           <Button
@@ -257,5 +216,73 @@ function RouteComponent() {
         </Link>
       </div>
     </div>
+  );
+}
+
+function TabLayout({
+  reviewData,
+  course,
+  ownReviews,
+  rounds,
+}: {
+  reviewData: ReviewDto[] | null;
+  course: CourseDto;
+  ownReviews: ReviewDto[] | null;
+  rounds: CourseRoundDto[] | null;
+}) {
+  const { isAuthenticated } = useSession();
+  const { tab, courseRoundId } = useSearch({
+    from: "/courses/$courseId/",
+  });
+  const navigate = useNavigate({
+    from: "/courses/$courseId",
+  });
+  return (
+    <Tabs
+      className="md:hidden"
+      value={tab}
+      onValueChange={(value) =>
+        navigate({
+          search: (prev) => ({
+            ...prev,
+            tab: value,
+          }),
+        })
+      }
+    >
+      <TabsList className="flex w-full justify-between">
+        <TabsTrigger value="reviews">Reviews</TabsTrigger>
+        <TabsTrigger value="statistics">Statistics</TabsTrigger>
+        {isAuthenticated && (
+          <TabsTrigger value="your-review">Your review</TabsTrigger>
+        )}
+      </TabsList>
+      <TabsContent value="reviews">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
+          {reviewData?.map((review) => <InlineReview review={review} />)}
+        </div>
+      </TabsContent>
+      <TabsContent value="statistics" hidden={course?.id == null}>
+        <RatingChartCard courseId={course.id!} courseRoundId={courseRoundId} />
+      </TabsContent>
+      {isAuthenticated && (
+        <TabsContent value="your-review">
+          <SubmitReviewCard
+            courseRounds={
+              rounds?.filter(
+                (round) =>
+                  !ownReviews?.some(
+                    (review) => review.courseRoundId === round.id,
+                  ),
+              ) ?? []
+            }
+          />
+          <div className="flex flex-col gap-2 py-5">
+            {ownReviews &&
+              ownReviews.map((review) => <InlineReview review={review} />)}
+          </div>
+        </TabsContent>
+      )}
+    </Tabs>
   );
 }
