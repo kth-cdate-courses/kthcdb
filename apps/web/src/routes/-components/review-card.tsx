@@ -12,14 +12,14 @@ export const ReviewCard = ({
   author,
   // image,
   rating,
-  comment,
+  body,
   createdAt,
 }: {
   author: string;
   courseCode: string;
   rating: number;
   createdAt: Date;
-  comment: string | null;
+  body: string | null;
 }) => {
   return (
     <Card className="flex h-48 w-64 flex-col justify-between overflow-hidden rounded-xl">
@@ -52,7 +52,7 @@ export const ReviewCard = ({
       </CardHeader>
 
       <CardContent className="mx-2 h-full overflow-auto hyphens-auto rounded-sm border-[1px] border-zinc-200 bg-zinc-50 px-2 py-1 text-[11px] font-light">
-        {comment}
+        {body}
       </CardContent>
       <CardFooter className="mb-0 h-4 w-full items-start px-4 pt-0.5 text-xs font-thin">
         {new Date(createdAt).toLocaleDateString("en-GB", {
