@@ -2,6 +2,8 @@ import { CourseDto } from "$api/routes/courses/course-dto";
 import { CourseRoundDto } from "$api/routes/courses/course-round-dto";
 import { ReviewDto } from "$api/routes/courses/review/review-dto";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { InlineReview } from "@/routes/courses/$courseId/-components/inline-review";
 import { ReviewFiltering } from "@/routes/courses/$courseId/-components/review-filtering";
@@ -25,6 +27,7 @@ import {
   ArrowRightIcon,
   HomeIcon,
   LoaderCircleIcon,
+  MessageSquarePlusIcon,
 } from "lucide-react";
 import { z } from "zod";
 import { CourseDescriptionCard } from "./-components/description-card";
@@ -177,11 +180,45 @@ function RouteComponent() {
   }
 
   return (
-    <div className="grid w-full grid-cols-1 gap-8 px-4 py-10">
-      <TitleCard courseData={course} />
+    <div className="mx-auto grid w-full max-w-[1000px] grid-cols-1 gap-8 px-4 py-10 md:grid-cols-2">
+      <div className="flex flex-col gap-4">
+        <TitleCard courseData={course} />
+        <CourseDescriptionCard data={course} />
+      </div>
       {/* <ExaminationCard rounds={dummyRounds} /> */}
-      <ReviewFiltering rounds={data.data.rounds} />
-      <CourseDescriptionCard data={course} />
+      <div className="flex flex-col justify-between">
+        <div className="flex w-full justify-end">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="flex gap-2">
+                <MessageSquarePlusIcon /> Add a review
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <SubmitReviewCard
+                courseRounds={
+                  data.data.rounds?.filter(
+                    (round) =>
+                      !ownReviews?.data?.some(
+                        (review) => review.courseRoundId === round.id,
+                      ),
+                  ) ?? []
+                }
+              />
+            </DialogContent>
+          </Dialog>
+        </div>
+        <div className="flex-1 shrink" />
+        <div className="flex w-full flex-1 justify-end">
+          <div className="flex w-full flex-col gap-2">
+            <p className="text-lg">Apply filtering</p>
+            <ReviewFiltering rounds={data.data.rounds} />
+          </div>
+        </div>
+      </div>
+      <div className="col-span-2 hidden md:block">
+        <DesktopLayout reviewData={reviewData?.data ?? null} course={course} />
+      </div>
       <TabLayout
         reviewData={reviewData?.data ?? null}
         course={course}
@@ -214,6 +251,34 @@ function RouteComponent() {
             <HomeIcon /> Back to search
           </Button>
         </Link>
+      </div>
+    </div>
+  );
+}
+
+function DesktopLayout({
+  reviewData,
+  course,
+}: {
+  reviewData: ReviewDto[] | null;
+  course: CourseDto;
+}) {
+  const { courseRoundId } = useSearch({
+    from: "/courses/$courseId/",
+  });
+  return (
+    <div className="grid flex-1 grid-cols-2 gap-8 pb-20">
+      <div className="col-span-2">
+        <RatingChartCard courseId={course.id!} courseRoundId={courseRoundId} />
+      </div>
+      <div className="col-span-2 grid w-full grid-cols-2 gap-8">
+        {[
+          ...(reviewData ?? []),
+          ...(reviewData ?? []),
+          ...(reviewData ?? []),
+          ...(reviewData ?? []),
+          ...(reviewData ?? []),
+        ]?.map((review) => <InlineReview className="" review={review} />)}
       </div>
     </div>
   );
@@ -267,16 +332,23 @@ function TabLayout({
       </TabsContent>
       {isAuthenticated && (
         <TabsContent value="your-review">
-          <SubmitReviewCard
-            courseRounds={
-              rounds?.filter(
-                (round) =>
-                  !ownReviews?.some(
-                    (review) => review.courseRoundId === round.id,
-                  ),
-              ) ?? []
-            }
-          />
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="mb-1">Submit Review</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <SubmitReviewCard
+                courseRounds={
+                  rounds?.filter(
+                    (round) =>
+                      !ownReviews?.some(
+                        (review) => review.courseRoundId === round.id,
+                      ),
+                  ) ?? []
+                }
+              />
+            </CardContent>
+          </Card>
           <div className="flex flex-col gap-2 py-5">
             {ownReviews &&
               ownReviews.map((review) => <InlineReview review={review} />)}

@@ -1,7 +1,6 @@
 import { CourseRoundDto } from "$api/routes/courses/course-round-dto";
 import { Combobox } from "@/components/combo-box";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -82,74 +81,65 @@ export function SubmitReviewCard({
   }
 
   return (
-    <Card>
-      <CardHeader className="pb-2">
-        <CardTitle className="mb-1">
-          <h1>Submit Review</h1>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="">
-            <div className="flex flex-wrap items-end justify-between gap-3">
-              <FormField
-                control={form.control}
-                name="rating"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Rating</FormLabel>
-                    <FormControl>
-                      <RatingSelector
-                        rating={field.value}
-                        onRatingSet={(rating) => field.onChange(rating)}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="courseRoundId"
-                render={({ field }) => (
-                  <FormItem className="w-full sm:w-52">
-                    <FormMessage />
-                    <FormControl>
-                      <Combobox
-                        className="w-full sm:w-52"
-                        value={field.value}
-                        setValue={field.onChange}
-                        options={courseRounds.map((round) => ({
-                          label: courseRoundToPrettyString(round),
-                          value: round.id,
-                        }))}
-                        noResultFoundText="No terms found"
-                        searchText="Select a course term"
-                        hideSearch={courseRounds.length < 5}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <FormField
+            control={form.control}
+            name="rating"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Rating</FormLabel>
+                <FormControl>
+                  <RatingSelector
+                    rating={field.value}
+                    onRatingSet={(rating) => field.onChange(rating)}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="courseRoundId"
+            render={({ field }) => (
+              <FormItem className="w-full sm:w-52">
+                <FormMessage />
+                <FormControl>
+                  <Combobox
+                    className="w-full sm:w-52"
+                    value={field.value}
+                    setValue={field.onChange}
+                    options={courseRounds.map((round) => ({
+                      label: courseRoundToPrettyString(round),
+                      value: round.id,
+                    }))}
+                    noResultFoundText="No terms found"
+                    searchText="Select a course term"
+                    hideSearch={courseRounds.length < 5}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        </div>
 
-            <FormField
-              control={form.control}
-              name="review"
-              render={({ field }) => (
-                <FormItem className="mt-2">
-                  <FormLabel>Review</FormLabel>
-                  <FormControl>
-                    <Textarea {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button className="mt-2 w-full sm:w-min">Submit review</Button>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+        <FormField
+          control={form.control}
+          name="review"
+          render={({ field }) => (
+            <FormItem className="mt-2">
+              <FormLabel>Review</FormLabel>
+              <FormControl>
+                <Textarea {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button className="mt-2 w-full sm:w-min">Submit review</Button>
+      </form>
+    </Form>
   );
 }
 
