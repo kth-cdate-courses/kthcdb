@@ -38,8 +38,6 @@ export function RatingChartCard({
     },
   });
   const statistics = statisticsResponse?.data;
-  console.log(statistics);
-
   if (!statistics) {
     return (
       <div className="w-full text-center">
@@ -74,11 +72,9 @@ export function RatingChartCard({
               bottom: 5,
             }}
           >
-            {/* <CartesianGrid strokeDasharray="3 3" /> */}
             <XAxis dataKey="name" />
             <YAxis domain={[0, "dataMax"]} />
             <Tooltip />
-            {/* <Legend /> */}
             <Bar
               dataKey="ratings"
               fill="gold"
