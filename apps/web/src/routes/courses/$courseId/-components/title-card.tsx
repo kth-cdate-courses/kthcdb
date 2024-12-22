@@ -10,7 +10,7 @@ function RatingStars({
   numRatings: number;
 }) {
   const fraction = rating % 1;
-  const includeHalfStar = 0.25 < fraction && fraction < 0.75; // Include half star if rating fraction between .25-.75
+  const includeHalfStar = 0.25 <= fraction && fraction < 0.75; // Include half star if rating fraction between .25-.75
   const numFilled = Math.floor(rating) + (fraction > 0.75 ? 1 : 0);
   return (
     <div className="relative flex flex-col justify-end">
@@ -44,7 +44,7 @@ function RatingStars({
     </div>
   );
 }
-export function TitleCard({ courseData }: { courseData: CourseDto }) {
+export function CourseTitleSection({ courseData }: { courseData: CourseDto }) {
   return (
     <div className="flex w-full items-center justify-between">
       <div>

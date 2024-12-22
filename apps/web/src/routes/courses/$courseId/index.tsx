@@ -32,7 +32,7 @@ import {
 import { z } from "zod";
 import { CourseDescriptionCard } from "./-components/description-card";
 import { RatingChartCard } from "./-components/rating-chart-card";
-import { TitleCard } from "./-components/title-card";
+import { CourseTitleSection } from "./-components/title-card";
 
 export const Route = createFileRoute("/courses/$courseId/")({
   component: RouteComponent,
@@ -182,7 +182,7 @@ function RouteComponent() {
   return (
     <div className="mx-auto grid w-full max-w-[1000px] grid-cols-1 gap-8 px-4 py-10 md:grid-cols-2">
       <div className="flex flex-col gap-4">
-        <TitleCard courseData={course} />
+        <CourseTitleSection courseData={course} />
         <CourseDescriptionCard data={course} />
       </div>
       {/* <ExaminationCard rounds={dummyRounds} /> */}
