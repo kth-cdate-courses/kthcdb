@@ -89,8 +89,15 @@ export function SearchBox() {
         />
         {data?.data?.courses != null && (
           <p className="mt-1 text-xs text-primary/70">
-            Found {<NumberTicker delay={0} value={data.data.courses.length} />}{" "}
-            courses
+            {data.data.courses.length > 0 ? (
+              <p>
+                Found{" "}
+                <NumberTicker delay={0} value={data.data.courses.length} />{" "}
+                courses
+              </p>
+            ) : (
+              "Could not find any courses matching the search query"
+            )}
           </p>
         )}
         {isLoading && (
