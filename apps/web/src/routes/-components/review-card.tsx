@@ -1,4 +1,5 @@
 import { ReviewDto } from "$api/routes/courses/review/review-dto";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -6,6 +7,8 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/utilities/shadcn-utils";
+import { useSession } from "@/utilities/useSession";
 import { Link } from "@tanstack/react-router";
 import { StarIcon } from "lucide-react";
 
@@ -22,9 +25,15 @@ export const ReviewCard = ({
 }: {
   review: ReviewDto;
 }) => {
+  const { user } = useSession();
   const CUT_OFF = 200;
+  const authorIsCurrentUser = user?.id === userId;
   return (
-    <Card className="flex h-48 w-64 flex-col justify-between rounded-xl">
+    <Card
+      className={cn("flex h-48 w-64 flex-col justify-between rounded-xl", {
+        "shadow-yellow-500": authorIsCurrentUser,
+      })}
+    >
       <CardHeader className="mb-0 flex flex-col px-3 pb-1 pt-2">
         <div className="flex flex-row items-center justify-between">
           <div className="flex w-full flex-row gap-3">
@@ -36,9 +45,13 @@ export const ReviewCard = ({
                     accountId: userId,
                   }}
                 >
-                  <p className="text-nowrap text-sm font-medium hover:underline">
-                    {author}
-                  </p>
+                  {authorIsCurrentUser ? (
+                    <Badge variant="outline">Your review</Badge>
+                  ) : (
+                    <p className="text-nowrap text-sm font-medium hover:underline">
+                      {author}
+                    </p>
+                  )}
                 </Link>
                 {programCode && (
                   <p className="text-nowrap text-xs font-medium">
