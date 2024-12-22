@@ -25,7 +25,7 @@ function RouteComponent() {
         color={"red"}
         refresh
       />
-      <LoginAvatar />
+      <LoginAvatar className="absolute flex w-full justify-end p-4" />
       <div className={"shrink md:h-[15dvh]"} />
       <div className="w-full">
         <div className="z-20 mx-auto flex w-full max-w-[768px] flex-1 grow flex-col">

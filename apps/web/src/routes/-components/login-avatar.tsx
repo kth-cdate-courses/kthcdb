@@ -12,7 +12,7 @@ import { useSession } from "@/utilities/useSession";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { LogInIcon, LogOutIcon, UserIcon } from "lucide-react";
 
-export function LoginAvatar() {
+export function LoginAvatar({ className = "" }) {
   const navigate = useNavigate();
   const { user, isAuthenticated, isLoading, logout } = useSession();
 
@@ -23,39 +23,41 @@ export function LoginAvatar() {
   const userId = user?.id;
 
   return (
-    <div className="absolute flex w-full justify-end p-4">
-      {isAuthenticated ? (
-        <DropdownMenu onOpenChange={onClickAvatar}>
-          <DropdownMenuTrigger className="outline-none">
-            <Avatar>
-              <AvatarFallback>
-                <UserIcon />
-              </AvatarFallback>
-            </Avatar>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="mr-5 w-52">
-            <DropdownMenuLabel className="capitalize">
-              {user?.name} {user?.surname}
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {userId && (
-              <Link to="/accounts/$accountId" params={{ accountId: userId }}>
-                <DropdownMenuItem>
+    <div className={className}>
+      <div className="flex w-full justify-end p-4">
+        {isAuthenticated ? (
+          <DropdownMenu onOpenChange={onClickAvatar}>
+            <DropdownMenuTrigger className="outline-none">
+              <Avatar>
+                <AvatarFallback>
                   <UserIcon />
-                  Profile
-                </DropdownMenuItem>
-              </Link>
-            )}
-            <DropdownMenuItem onClick={() => logout()}>
-              <LogOutIcon /> Logout
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      ) : (
-        <Button onClick={() => navigate({ to: "/signin" })}>
-          <LogInIcon /> Log in
-        </Button>
-      )}
+                </AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="mr-5 w-52">
+              <DropdownMenuLabel className="capitalize">
+                {user?.name} {user?.surname}
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {userId && (
+                <Link to="/accounts/$accountId" params={{ accountId: userId }}>
+                  <DropdownMenuItem>
+                    <UserIcon />
+                    Profile
+                  </DropdownMenuItem>
+                </Link>
+              )}
+              <DropdownMenuItem onClick={() => logout()}>
+                <LogOutIcon /> Logout
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <Button onClick={() => navigate({ to: "/signin" })}>
+            <LogInIcon /> Log in
+          </Button>
+        )}
+      </div>
     </div>
   );
 }
