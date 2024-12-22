@@ -55,7 +55,7 @@ export function Combobox({
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          {!hideSearch && <CommandInput placeholder="Search framework..." />}
+          {!hideSearch && <CommandInput placeholder="Search..." />}
           <CommandList>
             <CommandEmpty>
               {noResultFoundText ?? "No result found."}
