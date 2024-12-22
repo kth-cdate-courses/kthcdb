@@ -23,11 +23,9 @@ export function InlineReview({
       </div>
       <div>
         <p className="text-sm italic text-zinc-600">
-          "
           {showViewMoreOption && !viewMore
             ? review.body?.slice(0, CUT_OFF)
             : review.body}
-          "
         </p>
       </div>
       {showViewMoreOption && (
