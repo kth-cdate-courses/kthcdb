@@ -4,7 +4,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 export function ProfileCard({ userData }: { userData: UserDto }) {
   return (
     <Card className="w-full">
-      <CardContent className="flex flex-col items-center pt-12">
+      <CardContent className="flex flex-col items-center p-10">
         <p className="mx-auto text-3xl">
           {userData.name} {userData.surname}
         </p>
