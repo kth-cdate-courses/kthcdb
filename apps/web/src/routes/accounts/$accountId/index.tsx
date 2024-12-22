@@ -42,7 +42,7 @@ function RouteComponent() {
 
   return (
     <div>
-      <LoginAvatar className="absolute right-0 flex justify-end py-4 md:px-4" />
+      <LoginAvatar className="absolute right-0 flex justify-end p-4" />
       <div className="mx-auto mt-4 flex w-[60dvw] flex-col items-center gap-4">
         <ProfileCard userData={userData}></ProfileCard>
         <ReviewsCard userData={userData}></ReviewsCard>

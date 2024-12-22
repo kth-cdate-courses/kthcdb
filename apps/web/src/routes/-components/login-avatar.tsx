@@ -24,7 +24,7 @@ export function LoginAvatar({ className = "" }) {
 
   return (
     <div className={className}>
-      <div className="flex w-full justify-end p-4">
+      <div className="flex w-full">
         {isAuthenticated ? (
           <DropdownMenu onOpenChange={onClickAvatar}>
             <DropdownMenuTrigger className="outline-none">
