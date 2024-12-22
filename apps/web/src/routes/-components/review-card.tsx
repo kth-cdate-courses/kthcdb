@@ -46,7 +46,9 @@ export const ReviewCard = ({
                   }}
                 >
                   {authorIsCurrentUser ? (
-                    <Badge variant="outline">Your review</Badge>
+                    <Badge variant="outline" className="text-nowrap">
+                      Your review
+                    </Badge>
                   ) : (
                     <p className="text-nowrap text-sm font-medium hover:underline">
                       {author}
