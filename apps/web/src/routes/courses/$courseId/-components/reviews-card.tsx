@@ -24,11 +24,7 @@ export function ReviewsCard({ reviews }: { reviews: ReviewDto[] | null }) {
       </CardHeader>
       <CardContent className="block max-h-full gap-2 overflow-scroll">
         {reviews?.map((review) => (
-          <ReviewCard
-            key={review.id}
-            {...review}
-            programCode={review.authorProgramCode}
-          />
+          <ReviewCard key={review.id} review={review} />
         )) ?? "No reviews found."}
       </CardContent>
       {reviews && reviews.length > 0 && (
