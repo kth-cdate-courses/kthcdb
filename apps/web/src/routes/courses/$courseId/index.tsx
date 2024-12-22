@@ -143,7 +143,6 @@ function RouteComponent() {
 
   return (
     <div>
-      <LoginAvatar className="absolute right-0 flex p-4" />
       <div className="mx-auto grid w-full max-w-[1000px] grid-cols-1 gap-8 px-4 py-10 md:grid-cols-2">
         <div className="flex flex-col gap-4">
           <CourseTitleSection courseData={course} />
@@ -151,7 +150,8 @@ function RouteComponent() {
         </div>
         {/* <ExaminationCard rounds={dummyRounds} /> */}
         <div className="flex flex-col justify-between">
-          <div className="flex w-full justify-end">
+          <div className="flex w-max flex-col items-end justify-end gap-1 self-end">
+            <LoginAvatar className="" />
             <Dialog>
               <DialogTrigger asChild>
                 <Button className="hidden gap-2 md:flex">
