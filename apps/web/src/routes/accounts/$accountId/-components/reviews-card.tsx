@@ -15,9 +15,9 @@ export function ReviewsCard({ userData }: { userData: UserDto }) {
   return (
     <Card className="flex w-full flex-col justify-between">
       <CardHeader className="flex items-center p-12">
-        <CardTitle className="text-2xl">Recent reviews</CardTitle>
+        <CardTitle className="text-center text-2xl">User Reviews</CardTitle>
       </CardHeader>
-      <CardContent className="col-span-2 grid w-[80%] grid-cols-2 gap-8 self-center">
+      <CardContent className="col-span-2 grid w-[80%] grid-cols-1 gap-8 self-center md:grid-cols-2">
         {reviews.map((review) => (
           <InlineReview
             key={review.id}
