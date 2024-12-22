@@ -28,11 +28,14 @@ export function LoginAvatar({ className = "" }) {
         {isAuthenticated ? (
           <DropdownMenu onOpenChange={onClickAvatar}>
             <DropdownMenuTrigger className="outline-none">
-              <Avatar>
-                <AvatarFallback>
-                  <UserIcon />
-                </AvatarFallback>
-              </Avatar>
+              <div className="flex items-center justify-evenly md:gap-4 md:rounded-md md:border-[1px] md:bg-white md:p-2 md:px-4">
+                <p className="hidden md:block">{user?.name}</p>
+                <Avatar>
+                  <AvatarFallback>
+                    <UserIcon />
+                  </AvatarFallback>
+                </Avatar>
+              </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="mr-5 w-52">
               <DropdownMenuLabel className="capitalize">
