@@ -143,7 +143,7 @@ function RouteComponent() {
 
   return (
     <div>
-      <LoginAvatar className="absolute flex w-full justify-end p-4" />
+      <LoginAvatar className="absolute right-0 flex p-4" />
       <div className="mx-auto grid w-full max-w-[1000px] grid-cols-1 gap-8 px-4 py-10 md:grid-cols-2">
         <div className="flex flex-col gap-4">
           <CourseTitleSection courseData={course} />
