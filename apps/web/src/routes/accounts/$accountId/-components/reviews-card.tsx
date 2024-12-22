@@ -9,13 +9,16 @@ import {
 import { InlineReview } from "@/routes/courses/$courseId/-components/inline-review";
 
 export function ReviewsCard({ userData }: { userData: UserDto }) {
+  const reviews = userData.reviews.sort((a, b) =>
+    a.createdAt < b.createdAt ? 1 : -1,
+  );
   return (
     <Card className="flex w-full flex-col justify-between">
       <CardHeader className="flex items-center p-12">
         <CardTitle className="text-2xl">Recent reviews</CardTitle>
       </CardHeader>
       <CardContent className="col-span-2 grid w-[80%] grid-cols-2 gap-8 self-center">
-        {userData.reviews.map((review) => (
+        {reviews.map((review) => (
           <InlineReview
             key={review.id}
             review={review}
