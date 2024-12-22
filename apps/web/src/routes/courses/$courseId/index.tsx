@@ -33,6 +33,7 @@ import { z } from "zod";
 import { CourseDescriptionCard } from "./-components/description-card";
 import { RatingChartCard } from "./-components/rating-chart-card";
 import { CourseTitleSection } from "./-components/title-card";
+import { LoginAvatar } from "@/routes/-components/login-avatar";
 
 export const Route = createFileRoute("/courses/$courseId/")({
   component: RouteComponent,
@@ -141,77 +142,83 @@ function RouteComponent() {
   }
 
   return (
-    <div className="mx-auto grid w-full max-w-[1000px] grid-cols-1 gap-8 px-4 py-10 md:grid-cols-2">
-      <div className="flex flex-col gap-4">
-        <CourseTitleSection courseData={course} />
-        <CourseDescriptionCard data={course} />
-      </div>
-      {/* <ExaminationCard rounds={dummyRounds} /> */}
-      <div className="flex flex-col justify-between">
-        <div className="flex w-full justify-end">
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className="hidden gap-2 md:flex">
-                <MessageSquarePlusIcon /> Add a review
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <SubmitReviewCard
-                courseRounds={
-                  data.data.rounds?.filter(
-                    (round) =>
-                      !ownReviews?.data?.some(
-                        (review) => review.courseRoundId === round.id,
-                      ),
-                  ) ?? []
-                }
-              />
-            </DialogContent>
-          </Dialog>
+    <div>
+      <LoginAvatar className="absolute flex w-full justify-end p-4" />
+      <div className="mx-auto grid w-full max-w-[1000px] grid-cols-1 gap-8 px-4 py-10 md:grid-cols-2">
+        <div className="flex flex-col gap-4">
+          <CourseTitleSection courseData={course} />
+          <CourseDescriptionCard data={course} />
         </div>
-        <div className="flex-1 shrink" />
-        <div className="flex w-full flex-1 items-end justify-end">
-          <div className="flex w-full flex-col gap-2">
-            <p className="text-lg">Apply review filters</p>
-            <ReviewFiltering rounds={data.data.rounds} />
+        {/* <ExaminationCard rounds={dummyRounds} /> */}
+        <div className="flex flex-col justify-between">
+          <div className="flex w-full justify-end">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="hidden gap-2 md:flex">
+                  <MessageSquarePlusIcon /> Add a review
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <SubmitReviewCard
+                  courseRounds={
+                    data.data.rounds?.filter(
+                      (round) =>
+                        !ownReviews?.data?.some(
+                          (review) => review.courseRoundId === round.id,
+                        ),
+                    ) ?? []
+                  }
+                />
+              </DialogContent>
+            </Dialog>
+          </div>
+          <div className="flex-1 shrink" />
+          <div className="flex w-full flex-1 items-end justify-end">
+            <div className="flex w-full flex-col gap-2">
+              <p className="text-lg">Apply review filters</p>
+              <ReviewFiltering rounds={data.data.rounds} />
+            </div>
           </div>
         </div>
-      </div>
-      <div className="col-span-2 hidden md:block">
-        <DesktopLayout reviewData={reviewData?.data ?? null} course={course} />
-      </div>
-      <TabLayout
-        reviewData={reviewData?.data ?? null}
-        course={course}
-        ownReviews={ownReviews?.data ?? null}
-        rounds={data.data.rounds ?? null}
-      />
+        <div className="col-span-2 hidden md:block">
+          <DesktopLayout
+            reviewData={reviewData?.data ?? null}
+            course={course}
+          />
+        </div>
+        <TabLayout
+          reviewData={reviewData?.data ?? null}
+          course={course}
+          ownReviews={ownReviews?.data ?? null}
+          rounds={data.data.rounds ?? null}
+        />
 
-      {(reviewData?.data?.length ?? 0) >= 20 && (
-        <div className="flex w-full items-center justify-between">
-          <Button
-            disabled={page <= 0}
-            className={cn({
-              "!opacity-0": page <= 0,
-            })}
-            onClick={() => navigate({ search: { page: page - 1 } })}
-          >
-            <ArrowLeftIcon />
-          </Button>
-          <div className="flex size-8 items-center justify-center rounded-full bg-zinc-100">
-            {page + 1}
+        {(reviewData?.data?.length ?? 0) >= 20 && (
+          <div className="flex w-full items-center justify-between">
+            <Button
+              disabled={page <= 0}
+              className={cn({
+                "!opacity-0": page <= 0,
+              })}
+              onClick={() => navigate({ search: { page: page - 1 } })}
+            >
+              <ArrowLeftIcon />
+            </Button>
+            <div className="flex size-8 items-center justify-center rounded-full bg-zinc-100">
+              {page + 1}
+            </div>
+            <Button onClick={() => navigate({ search: { page: page + 1 } })}>
+              <ArrowRightIcon />
+            </Button>
           </div>
-          <Button onClick={() => navigate({ search: { page: page + 1 } })}>
-            <ArrowRightIcon />
-          </Button>
+        )}
+        <div className="fixed bottom-0 left-0 flex h-14 w-dvw max-w-[1000px] items-center justify-center border-0 border-t-[1px] border-zinc-300 bg-zinc-100 px-2 transition-all duration-200 lg:bottom-10 lg:left-1/2 lg:-translate-x-1/2 lg:rounded-lg lg:border-[1px]">
+          <Link to="/" className="w-full">
+            <Button className="flex w-full gap-2" variant="outline">
+              <HomeIcon /> Back to search
+            </Button>
+          </Link>
         </div>
-      )}
-      <div className="fixed bottom-0 left-0 flex h-14 w-dvw max-w-[1000px] items-center justify-center border-0 border-t-[1px] border-zinc-300 bg-zinc-100 px-2 transition-all duration-200 lg:bottom-10 lg:left-1/2 lg:-translate-x-1/2 lg:rounded-lg lg:border-[1px]">
-        <Link to="/" className="w-full">
-          <Button className="flex w-full gap-2" variant="outline">
-            <HomeIcon /> Back to search
-          </Button>
-        </Link>
       </div>
     </div>
   );
