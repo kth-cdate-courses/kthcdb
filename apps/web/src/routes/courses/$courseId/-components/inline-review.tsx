@@ -17,9 +17,9 @@ export function InlineReview({
     <div {...rest}>
       <div className="">
         <h3>{review.author}</h3>
-        <div className="flex items-center gap-2">
-          <RatingDisplay rating={review.rating} />-
-          <p className="text-sm">{review.courseCode}</p>
+        <div className="wrap flex flex-wrap items-center gap-2">
+          <RatingDisplay rating={review.rating} />
+          <p className="text-sm font-medium">{review.courseCode}</p>
         </div>
       </div>
       <div>
