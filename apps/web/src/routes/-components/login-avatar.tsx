@@ -38,7 +38,7 @@ export function LoginAvatar({ className = "" }) {
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="mr-5 w-52">
-              <DropdownMenuLabel className="capitalize">
+              <DropdownMenuLabel>
                 {user?.name} {user?.surname}
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
