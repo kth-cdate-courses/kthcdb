@@ -154,8 +154,12 @@ function RouteComponent() {
             <LoginAvatar className="" />
             <Dialog>
               <DialogTrigger asChild>
-                <Button className="hidden gap-2 md:flex">
-                  <MessageSquarePlusIcon /> Add a review
+                <Button
+                  className="hidden gap-2 md:flex"
+                  disabled={user ? false : true}
+                >
+                  <MessageSquarePlusIcon />{" "}
+                  {user ? "Add a review" : "Log in to add a review"}
                 </Button>
               </DialogTrigger>
               <DialogContent>
