@@ -13,7 +13,17 @@ function RatingStars({
   const includeHalfStar = 0.25 <= fraction && fraction < 0.75; // Include half star if rating fraction between .25-.75
   const numFilled = Math.floor(rating) + (fraction > 0.75 ? 1 : 0);
   return (
-    <div className="relative flex flex-col justify-end">
+    <div className="relative flex flex-col justify-center">
+      <div className="relative flex justify-center text-lg">
+        {numRatings > 0 ? (
+          <div>
+            <NumberTicker value={rating} decimalPlaces={2} /> (
+            <NumberTicker value={numRatings} />)
+          </div>
+        ) : (
+          <p className="mt-2 text-sm">No ratings</p>
+        )}
+      </div>
       <div className="flex">
         <div className="relative flex">
           {Array(5)
@@ -30,16 +40,6 @@ function RatingStars({
             ))}
           {includeHalfStar && <StarHalf fill="gold" strokeWidth={0} />}
         </div>
-      </div>
-      <div className="relative flex justify-end text-lg">
-        {numRatings > 0 ? (
-          <div>
-            <NumberTicker value={rating} decimalPlaces={2} /> (
-            <NumberTicker value={numRatings} />)
-          </div>
-        ) : (
-          <p className="mt-2 text-sm">No ratings</p>
-        )}
       </div>
     </div>
   );
