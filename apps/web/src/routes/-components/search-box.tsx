@@ -9,7 +9,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Rating } from "@/routes/-components/rating";
-import { RatingSelector } from "@/routes/-components/rating-selector";
 import { api } from "@/utilities/http-client";
 import { QueryKey } from "@/utilities/query-key";
 import { cn } from "@/utilities/shadcn-utils";
@@ -74,7 +73,6 @@ export function SearchBox() {
               Available in English
             </p>
           </Toggle>
-          <RatingSelector />
         </div>
         <Input
           placeholder="Search for courses"
