@@ -209,7 +209,7 @@ function RouteComponent() {
           </Dialog>
         </div>
         <div className="flex-1 shrink" />
-        <div className="flex w-full flex-1 justify-end">
+        <div className="flex w-full flex-1 items-end justify-end">
           <div className="flex w-full flex-col gap-2">
             <p className="text-lg">Apply filtering</p>
             <ReviewFiltering rounds={data.data.rounds} />
