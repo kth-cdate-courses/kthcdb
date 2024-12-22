@@ -1,3 +1,4 @@
+import { ReviewDto } from "$api/routes/courses/review/review-dto";
 import {
   Card,
   CardContent,
@@ -5,23 +6,21 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Link } from "@tanstack/react-router";
 import { StarIcon } from "lucide-react";
 
 export const ReviewCard = ({
-  courseCode,
-  author,
-  programCode,
-  // image,
-  rating,
-  body,
-  createdAt,
+  review: {
+    userId,
+    author,
+    body,
+    courseCode,
+    authorProgramCode: programCode,
+    rating,
+    createdAt,
+  },
 }: {
-  author: string;
-  programCode: string | null;
-  courseCode: string;
-  rating: number;
-  createdAt: Date;
-  body: string | null;
+  review: ReviewDto;
 }) => {
   const CUT_OFF = 200;
   return (
@@ -31,7 +30,16 @@ export const ReviewCard = ({
           <div className="flex w-full flex-row gap-3">
             <div className="flex flex-1">
               <div>
-                <p className="text-nowrap text-sm font-medium">{author}</p>
+                <Link
+                  to="/accounts/$accountId"
+                  params={{
+                    accountId: userId,
+                  }}
+                >
+                  <p className="text-nowrap text-sm font-medium hover:underline">
+                    {author}
+                  </p>
+                </Link>
                 {programCode && (
                   <p className="text-nowrap text-xs font-medium">
                     Studying {programCode}

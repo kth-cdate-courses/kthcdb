@@ -16,11 +16,7 @@ export function ReviewsCard({ userData }: { userData: UserDto }) {
       </CardHeader>
       <CardContent className="mx-auto grid grid-cols-2 gap-4 overflow-auto">
         {userData.reviews.map((review) => (
-          <ReviewCard
-            key={review.id}
-            {...review}
-            programCode={review.authorProgramCode}
-          />
+          <ReviewCard key={review.id} review={review} />
         ))}
       </CardContent>
       <CardFooter></CardFooter>

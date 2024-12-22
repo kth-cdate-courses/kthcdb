@@ -27,13 +27,11 @@ export function useSession() {
   });
 
   async function logout() {
-    const { status } = await mutateAsync();
-    if (status === 200) {
-      queryClient.invalidateQueries({
-        exact: true,
-        queryKey: [QueryKey.Session],
-      });
-    }
+    await mutateAsync();
+    await queryClient.invalidateQueries({
+      exact: true,
+      queryKey: [QueryKey.Session],
+    });
   }
 
   return {
