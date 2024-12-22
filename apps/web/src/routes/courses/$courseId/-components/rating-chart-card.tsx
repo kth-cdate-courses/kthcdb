@@ -76,7 +76,7 @@ export function RatingChartCard({
           >
             {/* <CartesianGrid strokeDasharray="3 3" /> */}
             <XAxis dataKey="name" />
-            <YAxis domain={["dataMin", "dataMax"]} />
+            <YAxis domain={[0, "dataMax"]} />
             <Tooltip />
             {/* <Legend /> */}
             <Bar
