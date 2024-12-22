@@ -1,4 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { stripNullKeys } from "@/routes/courses/$courseId/-utils/strip_null_keys";
 import { api } from "@/utilities/http-client";
 import { QueryKey } from "@/utilities/query-key";
@@ -46,10 +52,16 @@ export function RatingChartCard({
     ratings: num,
   }));
 
+  const numRatings = data.reduce((acc, it) => acc + it.ratings, 0);
+
   return (
     <Card className="">
       <CardHeader>
-        <CardTitle>Rating Distribution</CardTitle>
+        <CardTitle>
+          {!courseRoundId
+            ? "Overall rating distribution"
+            : "Rating distribution for the selected round"}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>
@@ -75,6 +87,10 @@ export function RatingChartCard({
           </BarChart>
         </ResponsiveContainer>
       </CardContent>
+      <CardFooter className="text-xs font-light italic">
+        Showing {numRatings} rating{numRatings != 1 && "s"}{" "}
+        {courseRoundId && "for the selected course round"}
+      </CardFooter>
     </Card>
   );
 }
