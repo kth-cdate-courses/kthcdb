@@ -10,7 +10,7 @@ import { ReviewCard } from "@/routes/-components/review-card";
 
 export function ReviewsCard({ userData }: { userData: UserDto }) {
   return (
-    <Card className="mx-4 flex h-[80vh] w-5/12 flex-col justify-between">
+    <Card className="flex w-full flex-col justify-between">
       <CardHeader className="flex items-center gap-4">
         <CardTitle className="text-xl">Recent reviews</CardTitle>
       </CardHeader>

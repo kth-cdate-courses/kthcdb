@@ -40,7 +40,7 @@ function RouteComponent() {
   }
 
   return (
-    <div className="my-auto flex h-dvh flex-row items-center">
+    <div className="mx-auto mt-4 flex w-[60dvw] flex-col items-center gap-4">
       <ProfileCard userData={userData}></ProfileCard>
       <ReviewsCard userData={userData}></ReviewsCard>
     </div>
