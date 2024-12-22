@@ -27,14 +27,14 @@ function RouteComponent() {
       />
       <LoginAvatar className="absolute right-0 m-2 flex md:p-4" />
       <div className={"shrink md:h-[15dvh]"} />
-      <div className="w-full">
+      <div className="flex w-full flex-col gap-14">
         <div className="z-20 mx-auto flex w-full max-w-[768px] flex-1 grow flex-col">
           <h1 className="font-League-Spartan px-4 py-4 text-lg text-black sm:text-3xl md:text-5xl">
             KTH Course Database
           </h1>
           <SearchBox />
         </div>
-        <div className="absolute bottom-10 left-0">{<ReviewMarquee />}</div>
+        <div className="left-0 mb-10 flex">{<ReviewMarquee />}</div>
       </div>
       <div className="flex-[2] shrink" />
     </div>
