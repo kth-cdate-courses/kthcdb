@@ -146,7 +146,7 @@ function RouteComponent() {
                     disabled={mutation.isPending}
                   >
                     <UserRoundPlus />
-                    {mutation.isPending ? "Submitting..." : "Sign-up"}
+                    {mutation.isPending ? "Pending..." : "Sign-up"}
                   </Button>
                   <div className="buttonTwins">
                     <Button
