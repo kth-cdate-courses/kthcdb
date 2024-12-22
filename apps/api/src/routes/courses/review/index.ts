@@ -73,7 +73,15 @@ export const reviewRoute = new Elysia({
   .get(
     "/",
     async ({
-      query: { count, page, courses, courseRoundId, rating, userId },
+      query: {
+        count,
+        page,
+        courses,
+        courseRoundId,
+        rating,
+        userId,
+        requireBody,
+      },
     }) => {
       const randomReviews = await prisma.review.findMany({
         orderBy: { updatedAt: "desc" },
@@ -81,6 +89,11 @@ export const reviewRoute = new Elysia({
         skip: (page ?? 0) * (count ?? 20),
         where: {
           rating,
+          NOT: requireBody
+            ? {
+                body: null,
+              }
+            : undefined,
           courseRound: {
             id: courseRoundId,
             course: {
@@ -166,6 +179,11 @@ export const reviewRoute = new Elysia({
             title: "Rating",
             error: "Rating must be between 1 and 5",
             description: 'The rating of the review, eg "2"',
+          }),
+        ),
+        requireBody: t.Optional(
+          t.Boolean({
+            description: "The review contains a body",
           }),
         ),
       }),

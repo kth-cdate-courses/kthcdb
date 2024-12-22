@@ -12,6 +12,7 @@ export function ReviewMarquee() {
       await api.courses.review.index.get({
         query: {
           count: 20,
+          requireBody: true,
         },
       }),
   });
