@@ -1,6 +1,7 @@
 import { ReviewDto } from "$api/routes/courses/review/review-dto";
 import { Button } from "@/components/ui/button";
 import { RatingDisplay } from "@/routes/courses/$courseId/-components/rating-display";
+import { treaty } from "@elysiajs/eden";
 import { useState } from "react";
 
 export function InlineReview({
@@ -37,6 +38,15 @@ export function InlineReview({
           {viewMore ? "view less..." : "view more..."}
         </Button>
       )}
+      <p className="-mb-1 mt-2 text-xs font-light">
+        {new Date(review.createdAt).toLocaleDateString("en-UK", {
+          month: "long",
+          day: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        })}
+      </p>
     </div>
   );
 }
