@@ -152,7 +152,7 @@ function RouteComponent() {
         {/* <ExaminationCard rounds={dummyRounds} /> */}
         <div className="flex flex-col justify-between">
           <div className="flex w-max flex-col items-end justify-end gap-1 self-end">
-            <LoginAvatar className="" />
+            <LoginAvatar className="hidden md:block" />
             <Dialog>
               <DialogTrigger asChild>
                 <Button

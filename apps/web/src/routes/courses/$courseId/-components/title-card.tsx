@@ -1,5 +1,6 @@
 import { CourseDto } from "$api/routes/courses/course-dto";
 import NumberTicker from "@/components/ui/number-ticker";
+import { LoginAvatar } from "@/routes/-components/login-avatar";
 import { Star, StarHalf } from "lucide-react";
 
 function RatingStars({
@@ -46,10 +47,14 @@ function RatingStars({
 }
 export function CourseTitleSection({ courseData }: { courseData: CourseDto }) {
   return (
-    <div className="flex w-full items-center justify-between gap-4">
-      <div>
-        <h1 className="font-mono text-4xl">{courseData.code}</h1>
-        <h2 className="text-lg">{courseData.title}</h2>
+    <div className="flex flex-col items-start justify-between md:w-full md:flex-row md:items-center">
+      <div className="w-full">
+        <div className="flex justify-between">
+          <h1 className="font-mono text-4xl">{courseData.code}</h1>
+          <LoginAvatar className="mr-4 block md:hidden" />
+        </div>
+
+        <h2 className="mr-12 text-lg">{courseData.title}</h2>
       </div>
       {courseData.rating && courseData.reviewCount && (
         <RatingStars
