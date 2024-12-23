@@ -1,7 +1,7 @@
 import { ReviewDto } from "$api/routes/courses/review/review-dto";
 import { Button } from "@/components/ui/button";
 import { RatingDisplay } from "@/routes/courses/$courseId/-components/rating-display";
-import { treaty } from "@elysiajs/eden";
+import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 
 export function InlineReview({
@@ -16,7 +16,12 @@ export function InlineReview({
   return (
     <div {...rest}>
       <div className="">
-        <h3>{review.author}</h3>
+        <Link
+          to={"/accounts/" + review.userId}
+          params={{ courseId: review.courseCode }}
+        >
+          <h3>{review.author}</h3>
+        </Link>
         <div className="wrap flex flex-wrap items-center gap-2">
           <RatingDisplay rating={review.rating} />
           <p className="text-sm font-medium">{review.courseCode}</p>
