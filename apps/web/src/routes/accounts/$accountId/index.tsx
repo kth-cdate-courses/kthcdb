@@ -8,6 +8,7 @@ import { LoaderCircleIcon } from "lucide-react";
 import { ReviewsCard } from "./-components/reviews-card";
 import { LoginAvatar } from "@/routes/-components/login-avatar";
 import { BackToSearchBar } from "@/routes/-components/back-to-search-bar";
+import Particles from "@/components/ui/particles";
 
 export const Route = createFileRoute("/accounts/$accountId/")({
   component: RouteComponent,
@@ -43,6 +44,14 @@ function RouteComponent() {
 
   return (
     <div>
+      <Particles
+        className="absolute left-0 top-0 -z-50 h-dvh w-dvw opacity-50"
+        quantity={500}
+        size={0.5}
+        ease={10}
+        color={"red"}
+        refresh
+      />
       <LoginAvatar className="absolute right-0 flex justify-end p-4" />
       <div className="mx-auto mt-4 flex w-[60dvw] flex-col items-center gap-4">
         <ProfileCard userData={userData}></ProfileCard>
