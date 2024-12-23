@@ -24,7 +24,12 @@ export function InlineReview({
         </Link>
         <div className="wrap flex flex-wrap items-center gap-2">
           <RatingDisplay rating={review.rating} />
-          <p className="text-sm font-medium">{review.courseCode}</p>
+          <Link
+            to={"/courses/" + review.courseCode}
+            params={{ courseId: review.courseCode }}
+          >
+            <p className="text-sm font-medium">{review.courseCode}</p>
+          </Link>
         </div>
       </div>
       <div>
