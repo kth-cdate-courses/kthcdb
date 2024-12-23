@@ -46,7 +46,7 @@ function RatingStars({
 }
 export function CourseTitleSection({ courseData }: { courseData: CourseDto }) {
   return (
-    <div className="flex w-full items-center justify-between">
+    <div className="flex w-full items-center justify-between gap-4">
       <div>
         <h1 className="font-mono text-4xl">{courseData.code}</h1>
         <h2 className="text-lg">{courseData.title}</h2>
