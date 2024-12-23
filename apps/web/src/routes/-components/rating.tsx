@@ -11,7 +11,11 @@ export function Rating({
   variant?: "small" | "default";
 }) {
   if (rating == null && variant === "default")
-    return <Badge variant="outline">Not rated</Badge>;
+    return (
+      <Badge variant="outline" className="text-nowrap">
+        Not rated
+      </Badge>
+    );
 
   if (variant === "small") {
     return (

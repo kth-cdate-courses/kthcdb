@@ -112,4 +112,55 @@ export const courseRoute = new Elysia({
       }),
       tags: ["Courses"],
     },
+  )
+  .get(
+    "/",
+    async ({ query: { ordering, count, page } }) => {
+      const courses = await prisma.course.findMany({
+        take: count ?? 20,
+        skip: (page ?? 0) * (count ?? 20),
+        orderBy: {
+          cachedRating: ordering === "ascending" ? "asc" : "desc",
+        },
+        where: {
+          cachedReviewCount: {
+            gt: 0,
+          },
+        },
+        select: {
+          courseCode: true,
+        },
+      });
+
+      return (
+        await Promise.all(courses.map((course) => getCourse(course.courseCode)))
+      ).filter((x) => x != null);
+    },
+    {
+      query: t.Object({
+        page: t.Optional(
+          t.Number({
+            minimum: 0,
+          }),
+        ),
+        count: t.Optional(
+          t.Number({
+            minimum: 1,
+            maximum: 100,
+          }),
+        ),
+        ordering: t.Enum(
+          {
+            ascending: "ascending",
+            descending: "descending",
+          },
+          {
+            default: "descending",
+            title: "Ordering",
+            description:
+              "Descending will pick the best-rated courses, ascending the worst rated",
+          },
+        ),
+      }),
+    },
   );

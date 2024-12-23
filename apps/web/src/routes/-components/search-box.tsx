@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import NumberTicker from "@/components/ui/number-ticker";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -8,17 +9,14 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { CourseLargeResult } from "@/routes/-components/course-large-result";
 import { Rating } from "@/routes/-components/rating";
 import { api } from "@/utilities/http-client";
 import { QueryKey } from "@/utilities/query-key";
 import { cn } from "@/utilities/shadcn-utils";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate, useSearch } from "@tanstack/react-router";
-import {
-  GraduationCapIcon,
-  LanguagesIcon,
-  LoaderCircleIcon,
-} from "lucide-react";
+import { ArrowRightIcon, LanguagesIcon, LoaderCircleIcon } from "lucide-react";
 
 export function SearchBox() {
   const navigate = useNavigate({
@@ -73,6 +71,11 @@ export function SearchBox() {
               Available in English
             </p>
           </Toggle>
+          <Link to="/courses">
+            <Button className="flex gap-2" variant="outline" size="sm">
+              Most loved courses <ArrowRightIcon />
+            </Button>
+          </Link>
         </div>
         <Input
           placeholder="Search for courses"
@@ -131,23 +134,7 @@ export function SearchBox() {
               courseId: course.code,
             }}
           >
-            <div className="group flex cursor-pointer justify-between gap-4 rounded-lg p-4 hover:bg-zinc-200/60 active:opacity-70">
-              <div className="flex items-center gap-4">
-                <GraduationCapIcon className="shrink-0" />
-                <Badge className="h-min shrink-0 text-nowrap">
-                  {course.code}
-                </Badge>
-                <p
-                  className={cn("shrink group-hover:opacity-80", {
-                    "text-sm": course.title.length > 40,
-                  })}
-                >
-                  {course.title}
-                </p>
-              </div>
-
-              <Rating rating={course.rating} reviewCount={course.reviewCount} />
-            </div>
+            <CourseLargeResult course={course} />
           </Link>
         ))}
         <div className="flex justify-center">
