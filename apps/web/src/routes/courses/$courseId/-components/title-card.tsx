@@ -14,8 +14,8 @@ function RatingStars({
   const includeHalfStar = 0.25 <= fraction && fraction < 0.75; // Include half star if rating fraction between .25-.75
   const numFilled = Math.floor(rating) + (fraction > 0.75 ? 1 : 0);
   return (
-    <div className="relative flex flex-col justify-center">
-      <div className="relative flex justify-center text-lg">
+    <div className="relative mt-2 flex flex-row items-center justify-center gap-x-2 md:flex-col">
+      <div className="relative flex text-lg md:justify-center">
         {numRatings > 0 ? (
           <div>
             <NumberTicker value={rating} decimalPlaces={2} /> (
