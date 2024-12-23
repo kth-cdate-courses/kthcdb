@@ -1,6 +1,9 @@
 import { authPlugin } from "@/routes/auth/auth-plugin";
 import { aggregateCourseRating } from "@/routes/courses/review/course-rating";
-import { ReviewDto } from "@/routes/courses/review/review-dto";
+import {
+  prismaToReviewDto,
+  reviewDtoPrismaInclude,
+} from "@/routes/courses/review/review-dto";
 import { prisma } from "@/utilities/db";
 import Elysia, { t } from "elysia";
 
@@ -71,6 +74,42 @@ export const reviewRoute = new Elysia({
     },
   )
   .get(
+    "/single",
+    async ({ query: { id } }) => {
+      if (id == null)
+        return {
+          success: false,
+          message: "No review id provided",
+          review: null,
+        };
+      const review = await prisma.review.findUnique({
+        where: {
+          id,
+        },
+        include: reviewDtoPrismaInclude,
+      });
+
+      if (review == null) {
+        return {
+          success: false,
+          message: "Review not found",
+          review: null,
+        };
+      }
+
+      return {
+        success: true,
+        review: prismaToReviewDto(review),
+      };
+    },
+    {
+      id: t.String({
+        title: "Review id",
+        description: "The id of the review to get",
+      }),
+    },
+  )
+  .get(
     "/",
     async ({
       query: {
@@ -103,46 +142,10 @@ export const reviewRoute = new Elysia({
             },
           },
         },
-        include: {
-          courseRound: {
-            select: {
-              id: true,
-              name: true,
-              term: true,
-              course: {
-                select: {
-                  courseCode: true,
-                },
-              },
-            },
-          },
-          user: {
-            select: {
-              name: true,
-              surname: true,
-              programCode: true,
-            },
-          },
-        },
+        include: reviewDtoPrismaInclude,
       });
 
-      return randomReviews.map(
-        (review) =>
-          ({
-            id: review.id,
-            courseCode: review.courseRound.course.courseCode,
-            courseRoundId: review.courseRound.id,
-            courseRoundName: review.courseRound.name,
-            courseRoundTerm: review.courseRound.term,
-            rating: review.rating,
-            body: review.body,
-            createdAt: review.createdAt,
-            updatedAt: review.updatedAt,
-            userId: review.userId,
-            author: `${review.user.name} ${review.user.surname}`,
-            authorProgramCode: review.user.programCode,
-          }) satisfies ReviewDto,
-      );
+      return randomReviews.map(prismaToReviewDto);
     },
     {
       query: t.Object({

@@ -3,8 +3,16 @@ import { CourseRoundDto } from "$api/routes/courses/course-round-dto";
 import { ReviewDto } from "$api/routes/courses/review/review-dto";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { BackToSearchBar } from "@/routes/-components/back-to-search-bar";
+import { LoginAvatar } from "@/routes/-components/login-avatar";
 import { InlineReview } from "@/routes/courses/$courseId/-components/inline-review";
 import { ReviewFiltering } from "@/routes/courses/$courseId/-components/review-filtering";
 import { SubmitReviewCard } from "@/routes/courses/$courseId/-components/submit-review-card";
@@ -32,8 +40,6 @@ import { z } from "zod";
 import { CourseDescriptionCard } from "./-components/description-card";
 import { RatingChartCard } from "./-components/rating-chart-card";
 import { CourseTitleSection } from "./-components/title-card";
-import { LoginAvatar } from "@/routes/-components/login-avatar";
-import { BackToSearchBar } from "@/routes/-components/back-to-search-bar";
 
 export const Route = createFileRoute("/courses/$courseId/")({
   component: RouteComponent,
@@ -57,6 +63,7 @@ export const Route = createFileRoute("/courses/$courseId/")({
     courseRoundId: z.string().optional(),
     rating: z.number().optional(),
     page: z.number().default(0),
+    highlightReviewId: z.string().optional(),
   }),
 });
 
@@ -65,7 +72,7 @@ function RouteComponent() {
   const navigate = useNavigate({
     from: "/courses/$courseId",
   });
-  const { rating, courseRoundId, page } = useSearch({
+  const { rating, courseRoundId, page, highlightReviewId } = useSearch({
     from: "/courses/$courseId/",
   });
   const { courseId } = useParams({
@@ -101,6 +108,20 @@ function RouteComponent() {
           rating,
         }),
       });
+    },
+  });
+  const { data: highlightedReview } = useQuery({
+    queryKey: [QueryKey.ReviewSingle, highlightReviewId],
+    queryFn: async () => {
+      const response = await api.courses.review.single.get({
+        query: {
+          id: highlightReviewId,
+        },
+      });
+      if (response.data?.success) {
+        return response.data.review;
+      }
+      return null;
     },
   });
   const { data: ownReviews } = useQuery({
@@ -143,6 +164,16 @@ function RouteComponent() {
 
   return (
     <div>
+      {highlightedReview != null && (
+        <Dialog defaultOpen>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>User review</DialogTitle>
+            </DialogHeader>
+            <InlineReview review={highlightedReview} />
+          </DialogContent>
+        </Dialog>
+      )}
       <div className="mx-auto grid w-full max-w-[1000px] grid-cols-1 gap-8 px-4 py-10 md:grid-cols-2">
         <div className="flex flex-col gap-4">
           <CourseTitleSection courseData={course} />

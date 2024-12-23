@@ -28,20 +28,25 @@ export function ReviewMarquee() {
       <Marquee pauseOnHover className="hidden [--duration:20s] md:flex">
         {firstRow.map((review) => (
           <Link
+            key={review.id}
             to="/courses/$courseId"
             params={{ courseId: review.courseCode }}
+            search={{
+              highlightReviewId: review.id,
+            }}
           >
-            <ReviewCard key={review.id} review={review} />
+            <ReviewCard review={review} />
           </Link>
         ))}
       </Marquee>
       <Marquee reverse pauseOnHover className="[--duration:20s]">
         {secondRow.map((review) => (
           <Link
+            key={review.id}
             to="/courses/$courseId"
             params={{ courseId: review.courseCode }}
           >
-            <ReviewCard key={review.id} review={review} />
+            <ReviewCard review={review} />
           </Link>
         ))}
       </Marquee>
