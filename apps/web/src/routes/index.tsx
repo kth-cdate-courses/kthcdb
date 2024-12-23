@@ -1,4 +1,5 @@
 import Particles from "@/components/ui/particles";
+import ShinyButton from "@/components/ui/shiny-button";
 import { SearchBox } from "@/routes/-components/search-box";
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
@@ -25,6 +26,13 @@ function RouteComponent() {
         color={"red"}
         refresh
       />
+      <a href="https://kthcdb-api.hallkvi.st" className="hidden md:block">
+        <ShinyButton className="absolute left-0 z-50 flex md:m-4">
+          <p>
+            <span className="mr-1 text-xs">🎉 </span>Visit our api
+          </p>
+        </ShinyButton>
+      </a>
       <LoginAvatar className="absolute right-0 z-50 m-2 flex md:p-4" />
       <div className={"shrink md:h-[15dvh]"} />
       <div className="flex w-full flex-col gap-14">
@@ -35,7 +43,7 @@ function RouteComponent() {
           <SearchBox />
         </div>
         <div className="absolute bottom-0 left-0 mb-10 flex">
-          {<ReviewMarquee />}
+          <ReviewMarquee />
         </div>
       </div>
       <div className="flex-[2] shrink" />
