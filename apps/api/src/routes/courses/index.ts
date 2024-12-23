@@ -70,11 +70,13 @@ export const courseRoute = new Elysia({
       });
 
       // Courses that have a non-null rating should come first
-      return result.toSorted((a, b) => {
-        if (a.rating != null && b.rating == null) return -1;
-        if (a.rating == null && b.rating != null) return 1;
-        return 0;
-      });
+      return {
+        courses: result.toSorted((a, b) => {
+          if (a.rating != null && b.rating == null) return -1;
+          if (a.rating == null && b.rating != null) return 1;
+          return 0;
+        }),
+      };
     },
     {
       query: t.Object({
