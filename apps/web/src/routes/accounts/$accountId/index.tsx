@@ -1,14 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { ProfileCard } from "./-components/profile-card";
+import Particles from "@/components/ui/particles";
+import { BackToSearchBar } from "@/routes/-components/back-to-search-bar";
+import { LoginAvatar } from "@/routes/-components/login-avatar";
 import { api } from "@/utilities/http-client";
 import { QueryKey } from "@/utilities/query-key";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "@tanstack/react-router";
+import { createFileRoute, useParams } from "@tanstack/react-router";
 import { LoaderCircleIcon } from "lucide-react";
+import { ProfileCard } from "./-components/profile-card";
 import { ReviewsCard } from "./-components/reviews-card";
-import { LoginAvatar } from "@/routes/-components/login-avatar";
-import { BackToSearchBar } from "@/routes/-components/back-to-search-bar";
-import Particles from "@/components/ui/particles";
 
 export const Route = createFileRoute("/accounts/$accountId/")({
   component: RouteComponent,
@@ -43,7 +42,7 @@ function RouteComponent() {
   }
 
   return (
-    <div>
+    <div className="pb-36">
       <Particles
         className="absolute left-0 top-0 -z-50 h-dvh w-dvw opacity-50"
         quantity={500}
