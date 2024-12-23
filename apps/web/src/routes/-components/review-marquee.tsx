@@ -25,7 +25,7 @@ export function ReviewMarquee() {
   const secondRow = reviews.slice(reviews.length / 2);
   return (
     <div className="relative flex w-screen flex-col items-center justify-center overflow-hidden bg-opacity-40">
-      <Marquee pauseOnHover className="[--duration:20s]">
+      <Marquee pauseOnHover className="hidden [--duration:20s] md:flex">
         {firstRow.map((review) => (
           <Link
             to="/courses/$courseId"

@@ -2,8 +2,8 @@ import Particles from "@/components/ui/particles";
 import { SearchBox } from "@/routes/-components/search-box";
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
-import { ReviewMarquee } from "./-components/review-marquee";
 import { LoginAvatar } from "./-components/login-avatar";
+import { ReviewMarquee } from "./-components/review-marquee";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -34,7 +34,9 @@ function RouteComponent() {
           </h1>
           <SearchBox />
         </div>
-        <div className="left-0 mb-10 flex">{<ReviewMarquee />}</div>
+        <div className="absolute bottom-0 left-0 mb-10 flex">
+          {<ReviewMarquee />}
+        </div>
       </div>
       <div className="flex-[2] shrink" />
     </div>
