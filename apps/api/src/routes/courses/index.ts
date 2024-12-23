@@ -43,6 +43,9 @@ export const courseRoute = new Elysia({
             ),
           },
         },
+        orderBy: {
+          cachedRating: "desc",
+        },
         select: {
           id: true,
           courseCode: true,
@@ -51,22 +54,27 @@ export const courseRoute = new Elysia({
         },
       });
 
-      return {
-        courses: searchResults.searchHits.map((course) => {
-          const dbCourse = courses.find(
-            (x) => x.courseCode === course.course.courseCode,
-          );
-          return {
-            id: dbCourse?.id ?? null,
-            code: course.course.courseCode,
-            title: course.course.title,
-            rating: sanitizeCachedNumericValue(dbCourse?.cachedRating ?? null),
-            reviewCount: sanitizeCachedNumericValue(
-              dbCourse?.cachedReviewCount ?? null,
-            ),
-          } satisfies CourseDto;
-        }),
-      };
+      const result = searchResults.searchHits.map((course) => {
+        const dbCourse = courses.find(
+          (x) => x.courseCode === course.course.courseCode,
+        );
+        return {
+          id: dbCourse?.id ?? null,
+          code: course.course.courseCode,
+          title: course.course.title,
+          rating: sanitizeCachedNumericValue(dbCourse?.cachedRating ?? null),
+          reviewCount: sanitizeCachedNumericValue(
+            dbCourse?.cachedReviewCount ?? null,
+          ),
+        } satisfies CourseDto;
+      });
+
+      // Courses that have a non-null rating should come first
+      return result.toSorted((a, b) => {
+        if (a.rating != null && b.rating == null) return -1;
+        if (a.rating == null && b.rating != null) return 1;
+        return 0;
+      });
     },
     {
       query: t.Object({
