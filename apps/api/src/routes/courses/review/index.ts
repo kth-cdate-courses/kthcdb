@@ -107,6 +107,8 @@ export const reviewRoute = new Elysia({
           courseRound: {
             select: {
               id: true,
+              name: true,
+              term: true,
               course: {
                 select: {
                   courseCode: true,
@@ -130,6 +132,8 @@ export const reviewRoute = new Elysia({
             id: review.id,
             courseCode: review.courseRound.course.courseCode,
             courseRoundId: review.courseRound.id,
+            courseRoundName: review.courseRound.name,
+            courseRoundTerm: review.courseRound.term,
             rating: review.rating,
             body: review.body,
             createdAt: review.createdAt,

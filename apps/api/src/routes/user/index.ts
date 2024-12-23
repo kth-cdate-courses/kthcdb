@@ -21,6 +21,8 @@ export const userRoute = new Elysia({
           include: {
             courseRound: {
               select: {
+                name: true,
+                term: true,
                 course: {
                   select: {
                     courseCode: true,
@@ -47,6 +49,8 @@ export const userRoute = new Elysia({
             id: review.id,
             courseCode: review.courseRound.course.courseCode,
             courseRoundId: review.courseRoundId,
+            courseRoundName: review.courseRound.name,
+            courseRoundTerm: review.courseRound.term,
             rating: review.rating,
             body: review.body,
             createdAt: review.createdAt,

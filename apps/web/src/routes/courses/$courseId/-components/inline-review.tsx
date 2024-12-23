@@ -28,9 +28,15 @@ export function InlineReview({
             to={"/courses/" + review.courseCode}
             params={{ courseId: review.courseCode }}
           >
-            <p className="text-sm font-medium">{review.courseCode}</p>
+            <p className="text-sm font-medium">
+              {review.courseCode} - {review.courseRoundName}
+            </p>
           </Link>
         </div>
+        <p className="text-sm">
+          Term: {review.courseRoundTerm?.slice(0, 4)} P
+          {review.courseRoundTerm?.slice(4)}
+        </p>
       </div>
       <div>
         <p className="text-sm italic text-zinc-600">

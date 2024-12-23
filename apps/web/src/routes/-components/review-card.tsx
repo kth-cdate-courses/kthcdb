@@ -18,7 +18,8 @@ export const ReviewCard = ({
     author,
     body,
     courseCode,
-    authorProgramCode: programCode,
+    courseRoundName,
+    courseRoundTerm,
     rating,
     createdAt,
   },
@@ -55,9 +56,10 @@ export const ReviewCard = ({
                     </p>
                   )}
                 </Link>
-                {programCode && (
-                  <p className="text-nowrap text-xs font-medium">
-                    Studying {programCode}
+                {courseRoundName && (
+                  <p className="ml-1/2 text-nowrap text-xs font-medium">
+                    {courseRoundName} - {courseRoundTerm?.slice(0, 4)}P
+                    {courseRoundTerm?.slice(4)}
                   </p>
                 )}
               </div>
