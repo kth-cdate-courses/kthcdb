@@ -27,11 +27,10 @@ export const ReviewCard = ({
   review: ReviewDto;
 }) => {
   const { user } = useSession();
-  const CUT_OFF = 200;
   const authorIsCurrentUser = user?.id === userId;
   return (
     <Card
-      className={cn("flex h-48 w-64 flex-col justify-between rounded-xl", {
+      className={cn("flex h-32 w-64 flex-col justify-between rounded-xl", {
         "shadow-yellow-500": authorIsCurrentUser,
       })}
     >
@@ -82,9 +81,8 @@ export const ReviewCard = ({
         <Separator className="pt-0" />
       </CardHeader>
 
-      <CardContent className="mx-2 h-full overflow-auto hyphens-auto rounded-sm px-2 py-1 text-[11px] font-light">
-        {body?.slice(0, CUT_OFF)}
-        {(body?.length ?? 0) > CUT_OFF ? "..." : ""}
+      <CardContent className="mx-2 h-full overflow-hidden text-ellipsis hyphens-auto whitespace-nowrap rounded-sm px-2 py-1 text-[11px] font-light">
+        {body}
       </CardContent>
       <CardFooter className="mb-0 h-4 w-full items-start px-4 pt-0.5 text-xs font-thin">
         {new Date(createdAt).toLocaleDateString("en-GB", {
