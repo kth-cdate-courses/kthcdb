@@ -267,7 +267,7 @@ function TabLayout({
   });
   return (
     <Tabs
-      className="md:hidden"
+      className="pb-5 md:hidden"
       value={tab}
       onValueChange={(value) =>
         navigate({
