@@ -61,17 +61,9 @@ export function RatingChartCard({
             : "Rating distribution for the selected round"}
         </CardTitle>
       </CardHeader>
-      <CardContent>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart
-            data={data}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
-          >
+      <CardContent className="!pb-0">
+        <ResponsiveContainer width="100%" height={200}>
+          <BarChart data={data}>
             <XAxis dataKey="name" />
             <YAxis domain={[0, "dataMax"]} />
             <Tooltip />
