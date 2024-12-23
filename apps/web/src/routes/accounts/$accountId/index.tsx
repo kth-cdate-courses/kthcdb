@@ -7,6 +7,7 @@ import { useParams } from "@tanstack/react-router";
 import { LoaderCircleIcon } from "lucide-react";
 import { ReviewsCard } from "./-components/reviews-card";
 import { LoginAvatar } from "@/routes/-components/login-avatar";
+import { BackToSearchBar } from "@/routes/-components/back-to-search-bar";
 
 export const Route = createFileRoute("/accounts/$accountId/")({
   component: RouteComponent,
@@ -46,6 +47,7 @@ function RouteComponent() {
       <div className="mx-auto mt-4 flex w-[60dvw] flex-col items-center gap-4">
         <ProfileCard userData={userData}></ProfileCard>
         <ReviewsCard userData={userData}></ReviewsCard>
+        <BackToSearchBar />
       </div>
     </div>
   );
