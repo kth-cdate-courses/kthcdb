@@ -25,7 +25,6 @@ import {
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
-  HomeIcon,
   LoaderCircleIcon,
   MessageSquarePlusIcon,
 } from "lucide-react";

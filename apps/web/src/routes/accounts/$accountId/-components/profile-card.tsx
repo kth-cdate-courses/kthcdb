@@ -1,5 +1,5 @@
 import { UserDto } from "$api/routes/user/user-dto";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 
 export function ProfileCard({ userData }: { userData: UserDto }) {
   return (
