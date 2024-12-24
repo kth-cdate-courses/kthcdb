@@ -85,6 +85,31 @@ export const courseRoute = new Elysia({
         minRating: t.Optional(t.Number()),
         maxRating: t.Optional(t.Number()),
       }),
+      detail: {
+        description: "Search for courses by course code",
+      },
+      response: {
+        200: t.Object({
+          courses: t.Array(
+            t.Object({
+              id: t.Nullable(t.String()),
+              code: t.String({
+                examples: ["SF1688"],
+              }),
+              title: t.String({ examples: ["Discrete Mathematics"] }),
+              rating: t.Nullable(
+                t.Number({ examples: [2.23], minimum: 1, maximum: 5 }),
+              ),
+              reviewCount: t.Nullable(
+                t.Number({
+                  examples: [123],
+                  minimum: 0,
+                }),
+              ),
+            }),
+          ),
+        }),
+      },
       tags: ["Courses"],
     },
   )
@@ -137,6 +162,7 @@ export const courseRoute = new Elysia({
       ).filter((x) => x != null);
     },
     {
+      tags: ["Courses"],
       query: t.Object({
         page: t.Optional(
           t.Number({

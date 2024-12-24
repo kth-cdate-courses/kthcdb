@@ -69,6 +69,7 @@ export const reviewRoute = new Elysia({
       }),
       tags: ["Courses"],
       detail: {
+        hide: true,
         description: "Post a review, requires an authenticated user",
       },
     },
@@ -103,6 +104,7 @@ export const reviewRoute = new Elysia({
       };
     },
     {
+      tags: ["Reviews"],
       id: t.String({
         title: "Review id",
         description: "The id of the review to get",
@@ -194,7 +196,7 @@ export const reviewRoute = new Elysia({
           }),
         ),
       }),
-      tags: ["Courses"],
+      tags: ["Reviews"],
     },
   )
   .get(
@@ -222,6 +224,7 @@ export const reviewRoute = new Elysia({
       return counts;
     },
     {
+      tags: ["Reviews"],
       query: t.Object({
         courseId: t.String(),
         courseRoundId: t.Optional(t.String()),
